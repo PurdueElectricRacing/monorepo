@@ -14,18 +14,6 @@
 #include "common/phal_G4/adc/adc.h"
 #include "common/phal_G4/gpio/gpio.h"
 
-typedef volatile struct {
-    uint16_t throttle1;
-    uint16_t throttle2;
-    uint16_t regen1;
-    uint16_t regen2;
-    uint16_t brake1_pressure;
-    uint16_t brake2_pressure;
-} raw_adc_values_t;
-extern volatile raw_adc_values_t raw_adc_values;
-
-extern PHAL_ADC_Handle_t adc_handle;
-
 // On-board Status LEDs
 #define CONNECTION_LED_PORT (GPIOB)
 #define CONNECTION_LED_PIN  (7)
@@ -75,25 +63,19 @@ extern PHAL_ADC_Handle_t adc_handle;
 // Throttle
 #define THROTTLE1_PORT        (GPIOC) // THROTTLE
 #define THROTTLE1_PIN         (2)
-#define THROTTLE1_ADC_CHANNEL (8)
 #define THROTTLE2_PORT        (GPIOC) // THROTTLE_INV
 #define THROTTLE2_PIN         (1)
-#define THROTTLE2_ADC_CHANNEL (7)
 
 // Brake
 #define REGEN1_PORT        (GPIOC)
 #define REGEN1_PIN         (3)
-#define REGEN1_ADC_CHANNEL (9)
 #define REGEN2_PORT        (GPIOA)
 #define REGEN2_PIN         (0)
-#define REGEN2_ADC_CHANNEL (1)
 
 // Brake Pressure
 #define BRAKE1_PRESSURE_PORT        (GPIOA)
 #define BRAKE1_PRESSURE_PIN         (1)
-#define BRAKE1_PRESSURE_ADC_CHANNEL (2)
 #define BRAKE2_PRESSURE_PORT        (GPIOA)
 #define BRAKE2_PRESSURE_PIN         (2)
-#define BRAKE2_PRESSURE_ADC_CHANNEL (3)
 
 #endif // MAIN_H

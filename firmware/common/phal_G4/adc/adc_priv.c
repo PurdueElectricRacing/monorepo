@@ -1,28 +1,21 @@
 /**
  * @file adc_priv.c
- * @brief Register-level implementation of the STM32G4 ADC PHAL.
- *
- * All direct ADC register manipulation lives here so the public layer only
- * coordinates the ADC with its DMA channel. Covers clocking, calibration,
- * sequence and sampling-time programming, and bounded busy-wait start/stop
- * helpers.
+ * @brief G4 ADC register-level helpers.
  * @author Ronak Jain (jain717@purdue.edu)
  */
 
 #include "common/phal_G4/adc/adc_priv.h"
 
-/// HSI16 rate, used only as a fallback when SystemCoreClock is unset
+/// Fallback when SystemCoreClock is unset
 static constexpr uint32_t ADC_PRIV_HSI_CLOCK_RATE_HZ = 16'000'000U;
 
 static constexpr uint32_t ADC_PRIV_WAIT_ITERATIONS = 100'000U;
 static constexpr uint32_t ADC_PRIV_SAMPLE_TIME_MAX = 7U;
 
-/// Return the common register bank containing an ADC instance.
 static ADC_Common_TypeDef *adc_common_registers(const ADC_TypeDef *instance) {
     return (instance == ADC1 || instance == ADC2) ? ADC12_COMMON : ADC345_COMMON;
 }
 
-/// Enable and synchronize the peripheral clock for an ADC instance.
 static void adc_enable_clock(const ADC_TypeDef *instance) {
     if (instance == ADC1 || instance == ADC2) {
         RCC->AHB2ENR |= RCC_AHB2ENR_ADC12EN;
@@ -32,11 +25,8 @@ static void adc_enable_clock(const ADC_TypeDef *instance) {
     (void)RCC->AHB2ENR;
 }
 
-/// Select the synchronous HCLK/4 ADC clock if it is not already configured.
+/// CKMODE = HCLK/4; skipped if set, since a sibling ADC may already be enabled
 static void adc_configure_clock(const ADC_TypeDef *instance) {
-    // CKMODE = 0b11 selects HCLK / 4. In synchronous mode PRESC is unused.
-    // Avoid rewriting the shared ADC12/ADC345 common clock while a sibling ADC
-    // may already be enabled.
     ADC_Common_TypeDef *common = adc_common_registers(instance);
     uint32_t clock_bits = common->CCR & (ADC_CCR_CKMODE_Msk | ADC_CCR_PRESC_Msk);
     if (clock_bits == ADC_CCR_CKMODE_Msk) {
@@ -49,7 +39,6 @@ static void adc_configure_clock(const ADC_TypeDef *instance) {
     common->CCR = ccr;
 }
 
-/// Wait for masked register bits to reach the requested state.
 static bool adc_wait_for_register(
     const volatile uint32_t *reg,
     uint32_t mask,
@@ -65,7 +54,7 @@ static bool adc_wait_for_register(
     return false;
 }
 
-/// Wait at least the ADC regulator startup interval.
+/// >= 20 us regulator startup (t_ADCVREG_STUP)
 static void adc_regulator_delay(void) {
     uint32_t clock_hz = SystemCoreClock;
     if (clock_hz == 0U) {
@@ -82,7 +71,6 @@ static void adc_regulator_delay(void) {
     }
 }
 
-/// Program one channel into a regular conversion sequence rank.
 static void adc_set_sequence_slot(ADC_TypeDef *instance, uint8_t rank, uint8_t channel) {
     volatile uint32_t *sequence_register;
     uint32_t shift;
@@ -105,7 +93,6 @@ static void adc_set_sequence_slot(ADC_TypeDef *instance, uint8_t rank, uint8_t c
         | ((uint32_t)channel << shift);
 }
 
-/// Set one channel to the driver's fixed maximum sampling time.
 static void adc_set_sample_time(ADC_TypeDef *instance, uint8_t channel) {
     volatile uint32_t *sample_register =
         channel <= 9U ? &instance->SMPR1 : &instance->SMPR2;
@@ -116,10 +103,9 @@ static void adc_set_sample_time(ADC_TypeDef *instance, uint8_t channel) {
         | (ADC_PRIV_SAMPLE_TIME_MAX << shift);
 }
 
-/// Program the configured channel order and sampling times.
 static void adc_configure_sequence(
     ADC_TypeDef *instance,
-    const PHAL_ADC_ChannelConfig_t *channels,
+    const uint8_t *channels,
     size_t channel_count
 ) {
     instance->SQR1 =
@@ -131,12 +117,12 @@ static void adc_configure_sequence(
     instance->SMPR2 = 0U;
 
     for (size_t i = 0U; i < channel_count; i++) {
-        adc_set_sequence_slot(instance, (uint8_t)(i + 1U), channels[i].channel);
-        adc_set_sample_time(instance, channels[i].channel);
+        adc_set_sequence_slot(instance, (uint8_t)(i + 1U), channels[i]);
+        adc_set_sample_time(instance, channels[i]);
     }
 }
 
-/// Apply the driver's fixed resolution, trigger, and DMA conversion settings.
+/// 12-bit, right-aligned, software trigger, continuous, circular DMA, no oversampling
 static void adc_configure_conversion(ADC_TypeDef *instance) {
     uint32_t cfgr = instance->CFGR;
     cfgr &= ~(ADC_CFGR_CONT | ADC_CFGR_DISCEN | ADC_CFGR_DMAEN
@@ -148,20 +134,15 @@ static void adc_configure_conversion(ADC_TypeDef *instance) {
     instance->CFGR2 &= ~(ADC_CFGR2_ROVSE | ADC_CFGR2_OVSR_Msk | ADC_CFGR2_OVSS_Msk);
 }
 
-/// Run single-ended ADC calibration and wait for completion.
 static bool adc_calibrate(ADC_TypeDef *instance) {
     instance->CR &= ~ADC_CR_ADCALDIF;
     instance->CR |= ADC_CR_ADCAL;
     return adc_wait_for_register(&instance->CR, ADC_CR_ADCAL, false);
 }
 
-bool ADC_PRIV_instance_is_supported(const ADC_TypeDef *instance) {
-    return instance == ADC1 || instance == ADC2 || instance == ADC3 || instance == ADC4;
-}
-
 bool ADC_PRIV_configure(
     ADC_TypeDef *instance,
-    const PHAL_ADC_ChannelConfig_t *channels,
+    const uint8_t *channels,
     size_t channel_count
 ) {
     adc_enable_clock(instance);
@@ -200,11 +181,6 @@ bool ADC_PRIV_disable(ADC_TypeDef *instance) {
 
     instance->CR |= ADC_CR_ADDIS;
     return adc_wait_for_register(&instance->CR, ADC_CR_ADEN, false);
-}
-
-bool ADC_PRIV_is_ready(const ADC_TypeDef *instance) {
-    return (instance->CR & ADC_CR_ADEN) != 0U
-        && (instance->ISR & ADC_ISR_ADRDY) != 0U;
 }
 
 void ADC_PRIV_prepare_transfer(ADC_TypeDef *instance, bool continuous) {

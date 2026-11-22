@@ -61,18 +61,10 @@ SPI_InitConfig_t bms_spi_config = {
     .data_rate     = 500'000, // 500 kHz SPI clock for ADBMS6380
 };
 
-volatile adc1_dma_buffer_t adc1_dma_buffer;
-
-static const PHAL_ADC_ChannelConfig_t adc_channels[] = {
-    {.channel = ISENSE_ADC_CHANNEL},
-    {.channel = VBATT_ADC_CHANNEL},
+static const PHAL_ADC_InitConfig_t adc_config[] = {
+    PHAL_ADC_INIT(ISENSE_GPIO_PORT, ISENSE_GPIO_PIN),
+    PHAL_ADC_INIT(VBATT_GPIO_PORT, VBATT_GPIO_PIN),
 };
-static const PHAL_ADC_Config_t adc_config = {
-    .instance      = ADC1,
-    .channels      = adc_channels,
-    .channel_count = sizeof(adc_channels) / sizeof(adc_channels[0]),
-};
-PHAL_ADC_Handle_t adc_handle;
 
 
 
@@ -101,10 +93,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_OUTPUT(BMS_STATUS_IND_3_PORT, BMS_STATUS_IND_3_PIN, GPIO_OUTPUT_LOW_SPEED),
     PHAL_GPIO_INIT_OUTPUT(BMS_STATUS_IND_4_PORT, BMS_STATUS_IND_4_PIN, GPIO_OUTPUT_LOW_SPEED),
     PHAL_GPIO_INIT_OUTPUT(BMS_STATUS_IND_5_PORT, BMS_STATUS_IND_5_PIN, GPIO_OUTPUT_LOW_SPEED),
-
-    // Analog current and voltage sense
-    PHAL_GPIO_INIT_ANALOG(ISENSE_GPIO_PORT, ISENSE_GPIO_PIN),
-    PHAL_GPIO_INIT_ANALOG(VBATT_GPIO_PORT, VBATT_GPIO_PIN),
 
     // Input status pins
     PHAL_GPIO_INIT_INPUT(CHARGER_CONNECTED_PORT, CHARGER_CONNECTED_PIN, GPIO_INPUT_OPEN_DRAIN),
@@ -167,11 +155,7 @@ int main(void) {
         HardFault_Handler();
     }
 
-    if (false == PHAL_ADC_init(&adc_handle, &adc_config)) {
-        HardFault_Handler();
-    }
-    if (!PHAL_ADC_readDMA(&adc_handle, (uint16_t *)&adc1_dma_buffer,
-                          sizeof(adc1_dma_buffer) / sizeof(uint16_t))) {
+    if (!PHAL_ADC_init(adc_config, countof(adc_config))) {
         HardFault_Handler();
     }
 

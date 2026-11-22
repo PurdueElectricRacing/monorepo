@@ -41,10 +41,10 @@ void calibration_telemetry_update() {
         NXT_setFontColor(CALIBRATION_STATUS, GREEN);
     }
 
-    NXT_setTextFormatted(CALIBRATION_THROTTLE1, "%d", raw_adc_values.throttle1);
-    NXT_setTextFormatted(CALIBRATION_THROTTLE2, "%d", 4095 - raw_adc_values.throttle2);
-    NXT_setTextFormatted(CALIBRATION_BRAKE1, "%d", raw_adc_values.regen1);
-    NXT_setTextFormatted(CALIBRATION_BRAKE2, "%d", raw_adc_values.regen2);
-    NXT_setTextFormatted(CALIBRATION_BRAKE_PRS1, "%d", raw_adc_values.brake1_pressure);
-    NXT_setTextFormatted(CALIBRATION_BRAKE_PRS2, "%d", raw_adc_values.brake2_pressure);
+    NXT_setTextFormatted(CALIBRATION_THROTTLE1, "%d", PHAL_ADC_read(THROTTLE1_PORT, THROTTLE1_PIN));
+    NXT_setTextFormatted(CALIBRATION_THROTTLE2, "%d", 4095 - PHAL_ADC_read(THROTTLE2_PORT, THROTTLE2_PIN));
+    NXT_setTextFormatted(CALIBRATION_BRAKE1, "%d", PHAL_ADC_read(REGEN1_PORT, REGEN1_PIN));
+    NXT_setTextFormatted(CALIBRATION_BRAKE2, "%d", PHAL_ADC_read(REGEN2_PORT, REGEN2_PIN));
+    NXT_setTextFormatted(CALIBRATION_BRAKE_PRS1, "%d", PHAL_ADC_read(BRAKE1_PRESSURE_PORT, BRAKE1_PRESSURE_PIN));
+    NXT_setTextFormatted(CALIBRATION_BRAKE_PRS2, "%d", PHAL_ADC_read(BRAKE2_PRESSURE_PORT, BRAKE2_PRESSURE_PIN));
 }

@@ -10,6 +10,7 @@
 #include "can_library/generated/MAIN_MODULE.h"
 #include "can_library/generated/can_version.h"
 #include "common/bootloader/bootloader_common.h"
+#include "common/phal_G4/adc/adc.h"
 #include "main.h"
 #include "powertrain.h"
 
@@ -41,8 +42,8 @@ void report_telemetry_50hz(void) {
         g_powertrain.rear_right.crit->AMK_ActualSpeed
     );
 
-    uint16_t vbatt = (uint16_t)(hv_adc_to_voltage(raw_adc2_values.vbatt) * PACK_COEFF_VBATT_VMC_VBATT);
-    uint16_t vmc   = (uint16_t)(hv_adc_to_voltage(raw_adc1_values.vmc) * PACK_COEFF_VBATT_VMC_VMC);
+    uint16_t vbatt = (uint16_t)(hv_adc_to_voltage(PHAL_ADC_read(VBATT_PORT, VBATT_PIN)) * PACK_COEFF_VBATT_VMC_VBATT);
+    uint16_t vmc   = (uint16_t)(hv_adc_to_voltage(PHAL_ADC_read(VMC_PORT, VMC_PIN)) * PACK_COEFF_VBATT_VMC_VMC);
     CAN_SEND_vbatt_vmc(vbatt, vmc);
 }
 
