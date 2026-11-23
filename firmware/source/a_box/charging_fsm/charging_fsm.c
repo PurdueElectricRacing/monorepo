@@ -29,7 +29,7 @@ static inline bool is_daqapp_requesting_charge() {
 }
 
 static inline bool is_elcon_ready() {
-    return !can_data.elcon_status.is_stale() && !can_data.elcon_status.startup_fail;
+    return !can_data.elcon_status.is_stale() && !can_data.elcon_status.is_startup_fail;
 }
 
 static inline void report_internal_state() {
