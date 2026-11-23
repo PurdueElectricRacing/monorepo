@@ -107,13 +107,13 @@ $(function(){initNavTree('md_docs_2daqapp_2bootloader__updates.html',''); initRe
 Prepare the firmware package</h1>
 <p>From the repository root, build the firmware and package:</p>
 <div class="fragment"><div class="line">python3 firmware/build_firmware.py</div>
-</div><!-- fragment --><p>The command writes <code>firmware/output/manifest.json</code>, <code>firmware/output/firmware_&lt;git-ref&gt;.tar.gz</code>, and resident images under <code>firmware/output/bootloader_&lt;node&gt;/</code>. Flash the matching <code>bootloader_&lt;node&gt;.bin</code> before the first application update. The archive contains application payloads; it does not replace resident bootloaders.</p>
+</div><!-- fragment --><p>The command writes <code>artifacts/firmware/manifest.json</code>, <code>artifacts/firmware/firmware_&lt;git-ref&gt;.tar.gz</code>, and resident images under <code>artifacts/firmware/bootloader_&lt;node&gt;/</code>. Flash the matching <code>bootloader_&lt;node&gt;.bin</code> before the first application update. The archive contains application payloads; it does not replace resident bootloaders.</p>
 <h1><a class="anchor" id="autotoc_md103"></a>
 Update an application</h1>
 <ol type="1">
 <li>Connect DaqApp to VCAN and confirm target telemetry is visible.</li>
 <li>Open <b>Bootloader</b> from the sidebar or command palette.</li>
-<li>Select <code>firmware/output/manifest.json</code> or <code>firmware_*.tar.gz</code>.</li>
+<li>Select <code>artifacts/firmware/manifest.json</code> or <code>firmware_*.tar.gz</code>.</li>
 <li>Select targets with recent bootloader telemetry for normal updates, or choose <b>Select available</b>. A nonresponding target can also be selected for single-target armed recovery.</li>
 <li>Choose <b>Review update</b> and verify the target list. Choose <b>Start update</b> for the normal automatic reset-and-update flow. For manual recovery, choose <b>Arm and wait for READY</b>; DaqApp sends no reset/start frame while armed.</li>
 <li>Keep power and CAN connected until DaqApp reports <b>Update complete</b>; verify telemetry.</li>
