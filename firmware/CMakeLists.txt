@@ -6,7 +6,7 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain.cmake)
 # Setup project
 project(PER_FIRMWARE VERSION 26.0 LANGUAGES C ASM)
 
-set(PROJECT_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/output)
+set(PROJECT_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../artifacts/firmware)
 set(SUPPORT_DIR ${CMAKE_SOURCE_DIR}/support)
 
 # Add Libraries

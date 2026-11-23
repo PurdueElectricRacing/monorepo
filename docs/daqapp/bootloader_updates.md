@@ -16,9 +16,9 @@ From the repository root, build the firmware and package:
 python3 firmware/build_firmware.py
 ```
 
-The command writes `firmware/output/manifest.json`,
-`firmware/output/firmware_<git-ref>.tar.gz`, and resident images under
-`firmware/output/bootloader_<node>/`. Flash the matching
+The command writes `artifacts/firmware/manifest.json`,
+`artifacts/firmware/firmware_<git-ref>.tar.gz`, and resident images under
+`artifacts/firmware/bootloader_<node>/`. Flash the matching
 `bootloader_<node>.bin` before the first application update. The archive contains
 application payloads; it does not replace resident bootloaders.
 
@@ -26,7 +26,7 @@ application payloads; it does not replace resident bootloaders.
 
 1. Connect DaqApp to VCAN and confirm target telemetry is visible.
 2. Open **Bootloader** from the sidebar or command palette.
-3. Select `firmware/output/manifest.json` or `firmware_*.tar.gz`.
+3. Select `artifacts/firmware/manifest.json` or `firmware_*.tar.gz`.
 4. Select targets with recent bootloader telemetry for normal updates, or choose
 **Select available**. A nonresponding target can also be selected for single-target
 armed recovery.

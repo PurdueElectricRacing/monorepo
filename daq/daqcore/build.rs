@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     );
 
     // CANpiler writes its schema into the repository's ignored superdbc directory
-    let schema = manifest.join("../../superdbc/superdbc.schema.json");
+    let schema = manifest.join("../../artifacts/superdbc/superdbc.schema.json");
 
     // The checked-in fallback is used when the schema is missing
     // The fallback is also always refreshed when the schema is present

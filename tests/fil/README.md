@@ -9,7 +9,7 @@ git submodule update --init --recursive tests/external/fil
 These tests execute the six real vehicle boards without attached hardware
 (`g4_testing` is deliberately excluded). Board and network configs use paths
 relative to their JSON files, so they work regardless of the current directory.
-The MCU model comes from FIL; standalone ELF files come from `firmware/output`
+The MCU model comes from FIL; standalone ELF files come from `artifacts/firmware`
 and start at `0x08000000`.
 
 ## Scenarios and generated stimuli

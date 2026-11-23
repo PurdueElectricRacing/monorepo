@@ -15,7 +15,7 @@ CONFIG_DIR         = GENERATOR_DIR / "configs"
 CAN_TEMPLATE_DIR   = GENERATOR_DIR / "canpiler" / "codegen" / "templates"
 FAULT_TEMPLATE_DIR = GENERATOR_DIR / "faultgen" / "templates"
 GENERATED_DIR      = CAN_LIBRARY_DIR / "generated"
-SUPERDBC_DIR       = REPOSITORY_DIR / "superdbc"
+SUPERDBC_DIR       = REPOSITORY_DIR / "artifacts" / "superdbc"
 CAN_GRAPHS_DIR     = REPOSITORY_DIR / "docs" / "can_graphs"
 
 SYSTEM_CONFIG_DIR        = CONFIG_DIR / "system"

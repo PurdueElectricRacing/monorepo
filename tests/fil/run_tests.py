@@ -72,7 +72,7 @@ def main() -> None:
     parser.add_argument("--fil", type=Path, default=BUILD / "build-pgo/fil")
     args = parser.parse_args()
     for board in BOARDS:
-        elf = ROOT / f"firmware/output/{board}/{board}.elf"
+        elf = ROOT / f"artifacts/firmware/{board}/{board}.elf"
         if not elf.is_file():
             raise FileNotFoundError(f"{elf}: run python3 firmware/build_firmware.py first")
     if args.build:

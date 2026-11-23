@@ -65,11 +65,11 @@ jobs:
         with:
           name: firmware-${{ steps.git_info.outputs.branch }}-${{ steps.git_info.outputs.short_hash }}
           path: |
-            firmware/output/**/*.elf
-            firmware/output/**/*.hex
-            firmware/output/**/*.tar.gz
-            superdbc/superdbc_*.json
-            superdbc/superdbc.schema.json
+            artifacts/firmware/**/*.elf
+            artifacts/firmware/**/*.hex
+            artifacts/firmware/**/*.tar.gz
+            artifacts/superdbc/superdbc_*.json
+            artifacts/superdbc/superdbc.schema.json
           retention-days: ${{ github.ref == 'refs/heads/master' && 90 || 7 }}
 
   cppcheck:
