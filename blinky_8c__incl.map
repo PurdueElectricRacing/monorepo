@@ -1,40 +1,40 @@
 <map id="firmware/source/g4_testing/blinky.c" name="firmware/source/g4_testing/blinky.c">
-<area shape="rect" id="Node000001" title=" " alt="" coords="497,5,628,46"/>
-<area shape="rect" id="Node000002" href="$g4__testing_8h.html" title=" " alt="" coords="194,102,286,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="497,45,298,97,290,99,289,94,297,91,496,40"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="555,183,618,208"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="568,46,585,167,580,168,563,47"/>
-<area shape="rect" id="Node000004" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="309,102,443,127"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="521,49,417,97,415,92,519,44"/>
-<area shape="rect" id="Node000011" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="600,94,752,135"/>
-<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="590,44,640,82,637,87,587,49"/>
-<area shape="rect" id="Node000014" href="$phal__G4_2rcc_2rcc_8h.html" title="G4 RCC public API implementation." alt="" coords="775,94,921,135"/>
-<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="629,44,769,87,768,92,627,49"/>
-<area shape="rect" id="Node000016" href="$countof_8h.html" title="macro&#45;based countof implementation" alt="" coords="944,102,1101,127"/>
-<area shape="poly" id="edge19_Node000001_Node000016" title=" " alt="" coords="629,36,934,91,953,95,952,100,933,97,628,41"/>
-<area shape="rect" id="Node000017" href="$g4__testing_2main_8h.html" title=" " alt="" coords="466,102,526,127"/>
-<area shape="poly" id="edge20_Node000001_Node000017" title=" " alt="" coords="550,48,517,91,512,87,545,45"/>
-<area shape="poly" id="edge10_Node000004_Node000003" title=" " alt="" coords="409,125,542,175,540,180,408,130"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="5,183,99,208"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="327,130,114,182,113,177,325,125"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="122,183,171,208"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="342,130,186,183,184,178,340,125"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="195,183,261,208"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="355,130,265,177,263,173,352,125"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="286,183,360,208"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="370,129,342,171,337,168,366,126"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="384,183,440,208"/>
-<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="384,126,403,167,398,170,379,129"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="464,183,531,208"/>
-<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="396,125,468,172,465,176,393,130"/>
-<area shape="poly" id="edge13_Node000011_Node000003" title=" " alt="" coords="656,137,613,174,610,170,652,133"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="642,183,710,208"/>
-<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="679,135,679,167,673,167,673,135"/>
-<area shape="rect" id="Node000013" title=" " alt="" coords="734,183,842,208"/>
-<area shape="poly" id="edge14_Node000011_Node000013" title=" " alt="" coords="705,133,760,171,757,175,702,137"/>
-<area shape="poly" id="edge17_Node000014_Node000003" title=" " alt="" coords="783,138,634,183,633,178,782,133"/>
-<area shape="poly" id="edge18_Node000014_Node000013" title=" " alt="" coords="835,137,809,172,804,168,831,133"/>
-<area shape="rect" id="Node000015" title=" " alt="" coords="866,183,939,208"/>
-<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="864,134,888,168,883,171,859,137"/>
-<area shape="poly" id="edge21_Node000017_Node000003" title=" " alt="" coords="512,126,563,170,560,174,508,130"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="505,5,636,46"/>
+<area shape="rect" id="Node000002" href="$g4__testing_8h.html" title=" " alt="" coords="256,94,347,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="505,49,358,92,357,87,504,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="555,168,618,193"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="575,46,586,152,581,152,570,47"/>
+<area shape="rect" id="Node000004" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="371,94,450,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="532,49,450,89,448,84,530,44"/>
+<area shape="rect" id="Node000011" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="608,94,744,120"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="598,44,649,82,646,86,595,49"/>
+<area shape="rect" id="Node000014" href="$phal__G4_2rcc_2rcc_8h.html" title="G4 RCC public API implementation." alt="" coords="768,94,891,120"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="636,44,776,86,774,92,634,49"/>
+<area shape="rect" id="Node000016" href="$countof_8h.html" title="macro&#45;based countof implementation" alt="" coords="916,94,1018,120"/>
+<area shape="poly" id="edge19_Node000001_Node000016" title=" " alt="" coords="637,38,901,90,900,95,636,43"/>
+<area shape="rect" id="Node000017" href="$g4__testing_2main_8h.html" title=" " alt="" coords="474,94,534,120"/>
+<area shape="poly" id="edge20_Node000001_Node000017" title=" " alt="" coords="556,48,526,83,522,80,552,45"/>
+<area shape="poly" id="edge10_Node000004_Node000003" title=" " alt="" coords="442,118,544,159,542,164,440,123"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,168,99,193"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="371,120,359,122,114,170,113,164,358,117,370,115"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="122,168,171,193"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="371,121,186,169,185,164,370,115"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="195,168,261,193"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="381,123,274,164,272,159,379,118"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="286,168,360,193"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="397,122,351,160,348,156,394,118"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="384,168,440,193"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="414,120,414,152,409,152,408,120"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="464,168,531,193"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="427,118,473,156,470,160,424,122"/>
+<area shape="poly" id="edge13_Node000011_Node000003" title=" " alt="" coords="663,122,615,160,612,156,659,118"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="642,168,710,193"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="679,120,679,152,673,152,673,120"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="734,168,842,193"/>
+<area shape="poly" id="edge14_Node000011_Node000013" title=" " alt="" coords="696,118,758,157,755,161,694,122"/>
+<area shape="poly" id="edge17_Node000014_Node000003" title=" " alt="" coords="789,123,634,168,632,163,787,118"/>
+<area shape="poly" id="edge18_Node000014_Node000013" title=" " alt="" coords="825,121,805,156,800,153,820,119"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="866,168,939,193"/>
+<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="843,118,881,155,878,159,840,122"/>
+<area shape="poly" id="edge21_Node000017_Node000003" title=" " alt="" coords="520,118,563,155,560,159,516,122"/>
 </map>

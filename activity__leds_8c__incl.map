@@ -1,31 +1,31 @@
 <map id="firmware/source/cannector/activity_leds.c" name="firmware/source/cannector/activity_leds.c">
-<area shape="rect" id="Node000001" title=" " alt="" coords="366,5,540,46"/>
-<area shape="rect" id="Node000002" href="$activity__leds_8h.html" title=" " alt="" coords="296,102,400,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="431,49,376,94,373,90,428,44"/>
-<area shape="rect" id="Node000011" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="556,94,708,135"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="495,44,579,85,577,89,493,49"/>
-<area shape="rect" id="Node000014" href="$cannector_2main_8h.html" title="&quot;CANnector&quot; node source code" alt="" coords="424,102,483,127"/>
-<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="456,47,456,86,451,86,451,47"/>
-<area shape="rect" id="Node000003" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="281,183,415,208"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="351,128,351,167,345,167,345,128"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="5,256,99,282"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="298,212,114,256,113,250,297,206"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="122,256,171,282"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="315,211,187,257,185,252,313,206"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="195,256,261,282"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="329,211,263,250,260,246,326,207"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="286,256,360,282"/>
-<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="346,209,335,243,329,241,341,208"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="384,256,440,282"/>
-<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="361,207,393,243,389,247,357,210"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="464,256,531,282"/>
-<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="374,206,459,247,457,252,372,211"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="555,256,618,282"/>
-<area shape="poly" id="edge9_Node000003_Node000010" title=" " alt="" coords="389,206,541,251,539,256,388,211"/>
-<area shape="poly" id="edge12_Node000011_Node000010" title=" " alt="" coords="623,136,601,183,591,242,586,241,596,182,618,134"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="610,183,678,208"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="638,135,642,167,637,167,632,135"/>
-<area shape="rect" id="Node000013" title=" " alt="" coords="702,183,810,208"/>
-<area shape="poly" id="edge13_Node000011_Node000013" title=" " alt="" coords="664,133,726,172,723,176,661,137"/>
-<area shape="poly" id="edge15_Node000014_Node000003" title=" " alt="" coords="439,130,378,175,374,171,436,125"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="368,5,542,46"/>
+<area shape="rect" id="Node000002" href="$activity__leds_8h.html" title=" " alt="" coords="298,94,401,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="430,49,379,86,376,82,427,44"/>
+<area shape="rect" id="Node000011" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="562,94,697,120"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="499,44,590,85,588,90,497,49"/>
+<area shape="rect" id="Node000014" href="$cannector_2main_8h.html" title="&quot;CANnector&quot; node source code" alt="" coords="425,94,484,120"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="457,46,457,78,452,78,452,46"/>
+<area shape="rect" id="Node000003" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="310,168,389,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="352,120,352,152,347,152,347,120"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,241,99,267"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="310,194,115,241,113,235,309,189"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="122,241,171,267"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="316,196,186,242,184,237,314,191"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="195,241,261,267"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="330,196,263,235,260,231,327,192"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="286,241,360,267"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="347,194,335,228,330,226,342,193"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="384,241,440,267"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="362,192,393,228,389,231,358,195"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="464,241,531,267"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="376,191,459,232,457,237,373,196"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="555,241,618,267"/>
+<area shape="poly" id="edge9_Node000003_Node000010" title=" " alt="" coords="390,191,541,236,539,241,389,196"/>
+<area shape="poly" id="edge12_Node000011_Node000010" title=" " alt="" coords="623,122,611,143,600,168,593,198,590,226,585,226,588,197,595,167,606,141,619,119"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="609,168,676,193"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="634,119,640,152,635,153,629,120"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="701,168,808,193"/>
+<area shape="poly" id="edge13_Node000011_Node000013" title=" " alt="" coords="652,118,722,157,719,162,649,123"/>
+<area shape="poly" id="edge15_Node000014_Node000003" title=" " alt="" coords="438,122,381,161,378,156,435,118"/>
 </map>

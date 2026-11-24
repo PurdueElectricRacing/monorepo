@@ -1,34 +1,34 @@
 <map id="firmware/source/dashboard/driver_interface/lcd.c" name="firmware/source/dashboard/driver_interface/lcd.c">
-<area shape="rect" id="Node000001" title="LCD display management." alt="" coords="413,5,590,46"/>
-<area shape="rect" id="Node000002" href="$lcd_8h.html" title="LCD display management." alt="" coords="447,94,495,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="496,47,484,80,479,78,491,45"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="216,256,280,282"/>
-<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="413,41,302,60,181,87,125,104,77,124,39,145,16,169,8,192,15,211,33,226,61,239,132,255,201,263,201,268,131,261,59,244,30,231,10,214,3,192,11,166,36,141,74,119,123,99,180,82,301,55,412,36"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2usart_2usart_8h.html" title=" " alt="" coords="450,168,606,208"/>
-<area shape="poly" id="edge12_Node000001_Node000004" title=" " alt="" coords="507,46,525,152,520,153,502,47"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="334,256,402,282"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="532,45,572,77,611,118,625,141,633,164,632,188,621,210,593,224,540,238,417,262,416,257,539,233,591,219,617,206,627,186,628,165,620,143,607,121,569,80,529,49"/>
-<area shape="rect" id="Node000007" href="$nextion_8h.html" title="Nextion display driver interface." alt="" coords="252,94,423,120"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="462,49,377,89,375,85,459,44"/>
-<area shape="rect" id="Node000009" href="$race_8h.html" title="Race page implementation." alt="" coords="26,175,121,201"/>
-<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="413,42,315,62,263,78,213,96,151,131,101,168,97,163,148,126,211,92,261,73,314,57,412,36"/>
-<area shape="rect" id="Node000010" href="$calibration_8h.html" title="Calibration page implementation." alt="" coords="653,94,782,120"/>
-<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="556,44,671,86,669,91,554,49"/>
-<area shape="rect" id="Node000011" href="$faults_8h.html" title="Faults page implementation." alt="" coords="806,94,909,120"/>
-<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="591,44,792,88,790,93,590,49"/>
-<area shape="rect" id="Node000012" href="$source_2dashboard_2driver__interface_2pages_2amk_8h.html" title="AMK page implementation." alt="" coords="932,94,1028,120"/>
-<area shape="poly" id="edge17_Node000001_Node000012" title=" " alt="" coords="591,38,918,91,917,96,590,43"/>
-<area shape="rect" id="Node000013" href="$dashboard_2driver__interface_2pages_2vcu_8h.html" title=" " alt="" coords="145,175,236,201"/>
-<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="413,35,370,42,325,54,281,71,242,96,228,110,216,127,201,162,196,160,211,125,223,107,238,92,279,67,323,49,369,37,412,29"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="466,122,435,164,413,189,388,210,342,238,295,257,293,252,340,233,385,206,409,185,431,161,461,119"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="482,119,507,153,503,157,477,122"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="474,256,582,282"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="531,209,531,241,525,241,525,209"/>
-<area shape="poly" id="edge8_Node000007_Node000003" title=" " alt="" coords="331,122,301,169,262,243,258,241,296,166,327,119"/>
-<area shape="rect" id="Node000008" href="$strbuf_8h.html" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="311,175,375,201"/>
-<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="341,120,344,160,338,160,336,120"/>
-<area shape="poly" id="edge10_Node000008_Node000003" title=" " alt="" coords="330,203,276,248,273,244,327,199"/>
-<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="349,200,362,241,357,242,344,202"/>
-<area shape="poly" id="edge14_Node000009_Node000003" title=" " alt="" coords="101,199,209,247,207,252,99,204"/>
-<area shape="poly" id="edge19_Node000013_Node000003" title=" " alt="" coords="202,200,232,242,228,245,197,203"/>
+<area shape="rect" id="Node000001" title="LCD display management." alt="" coords="403,5,581,46"/>
+<area shape="rect" id="Node000002" href="$lcd_8h.html" title="LCD display management." alt="" coords="437,94,486,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="487,47,474,80,469,78,482,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="216,241,280,267"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="403,42,295,61,177,89,123,106,76,125,39,146,16,169,8,191,15,208,33,222,61,233,132,245,201,250,201,255,131,251,59,238,31,227,10,211,3,191,11,166,36,142,73,120,121,101,176,84,294,56,402,37"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2usart_2usart_8h.html" title=" " alt="" coords="450,168,595,193"/>
+<area shape="poly" id="edge12_Node000001_Node000004" title=" " alt="" coords="499,46,520,152,515,153,493,47"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="334,241,402,267"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="525,44,564,73,600,111,614,131,621,153,620,174,610,195,584,208,534,222,417,247,416,241,532,217,582,203,606,191,615,173,616,154,609,134,596,114,560,78,522,49"/>
+<area shape="rect" id="Node000007" href="$nextion_8h.html" title="Nextion display driver interface." alt="" coords="284,94,401,120"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="456,49,380,89,378,84,454,44"/>
+<area shape="rect" id="Node000009" href="$race_8h.html" title="Race page implementation." alt="" coords="26,168,121,193"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="404,48,322,69,237,96,166,129,107,162,104,157,164,124,235,92,320,63,402,43"/>
+<area shape="rect" id="Node000010" href="$calibration_8h.html" title="Calibration page implementation." alt="" coords="641,94,770,120"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="546,44,660,86,658,91,544,49"/>
+<area shape="rect" id="Node000011" href="$faults_8h.html" title="Faults page implementation." alt="" coords="794,94,897,120"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="581,44,780,88,778,93,580,49"/>
+<area shape="rect" id="Node000012" href="$source_2dashboard_2driver__interface_2pages_2amk_8h.html" title="AMK page implementation." alt="" coords="920,94,1016,120"/>
+<area shape="poly" id="edge17_Node000001_Node000012" title=" " alt="" coords="582,38,906,91,905,96,581,43"/>
+<area shape="rect" id="Node000013" href="$dashboard_2driver__interface_2pages_2vcu_8h.html" title=" " alt="" coords="145,168,236,193"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="404,46,338,66,274,96,238,126,210,157,206,154,234,122,271,92,336,61,402,41"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="456,122,428,157,388,195,342,222,295,241,293,236,340,218,385,191,424,154,451,119"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="474,118,505,154,500,157,470,122"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="469,241,576,267"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="525,194,525,226,520,226,520,194"/>
+<area shape="poly" id="edge8_Node000007_Node000003" title=" " alt="" coords="335,122,301,169,264,229,260,226,297,166,331,119"/>
+<area shape="rect" id="Node000008" href="$strbuf_8h.html" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="311,168,375,193"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="345,120,345,152,340,152,340,120"/>
+<area shape="poly" id="edge10_Node000008_Node000003" title=" " alt="" coords="328,196,278,234,275,230,325,192"/>
+<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="349,193,361,226,356,228,344,194"/>
+<area shape="poly" id="edge14_Node000009_Node000003" title=" " alt="" coords="104,191,205,233,203,237,102,196"/>
+<area shape="poly" id="edge19_Node000013_Node000003" title=" " alt="" coords="202,192,231,227,227,231,198,195"/>
 </map>

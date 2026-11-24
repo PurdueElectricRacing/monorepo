@@ -1,24 +1,24 @@
 <map id="firmware/common/phal_F4/spi/spi.c" name="firmware/common/phal_F4/spi/spi.c">
-<area shape="rect" id="Node000001" title="PER Serial Peripheral Interface Device driver for STM32F4." alt="" coords="292,5,444,46"/>
-<area shape="rect" id="Node000002" href="$phal__F4_2spi_2spi_8h.html" title=" " alt="" coords="213,94,356,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="351,48,316,84,312,81,347,45"/>
-<area shape="rect" id="Node000010" href="$clamp_8h.html" title="Utility header to clamp a value to a bounded range." alt="" coords="380,102,528,127"/>
-<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="390,45,433,88,429,92,386,48"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,190,73,216"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="224,138,87,185,83,187,81,182,85,180,222,133"/>
-<area shape="rect" id="Node000004" href="$phal__F4_2dma_2dma_8h.html" title=" " alt="" coords="97,183,248,223"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="261,137,211,175,208,171,257,133"/>
-<area shape="rect" id="Node000005" href="$phal__F4_8h.html" title=" " alt="" coords="250,271,431,297"/>
-<area shape="poly" id="edge9_Node000002_Node000005" title=" " alt="" coords="290,135,298,176,312,222,328,257,323,259,307,224,293,177,285,136"/>
-<area shape="rect" id="Node000008" href="$phal__F4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32F4 Devices." alt="" coords="322,183,471,223"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="311,133,361,171,358,175,308,137"/>
-<area shape="rect" id="Node000009" href="$phal__F4_2rcc_2rcc_8h.html" title="RCC Configuration Driver for STM32F4 Devices." alt="" coords="495,183,639,223"/>
-<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="350,133,489,175,488,180,348,138"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="215,222,302,262,300,267,213,226"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="258,345,332,371"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="335,299,313,333,308,330,331,296"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="355,345,419,371"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="350,296,373,330,369,333,346,299"/>
-<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="385,225,360,260,356,257,380,222"/>
-<area shape="poly" id="edge11_Node000009_Node000005" title=" " alt="" coords="511,226,391,268,389,263,510,221"/>
+<area shape="rect" id="Node000001" title="PER Serial Peripheral Interface Device driver for STM32F4." alt="" coords="259,5,411,46"/>
+<area shape="rect" id="Node000002" href="$phal__F4_2spi_2spi_8h.html" title=" " alt="" coords="210,94,329,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="321,48,291,83,287,80,317,45"/>
+<area shape="rect" id="Node000010" href="$clamp_8h.html" title="Utility header to clamp a value to a bounded range." alt="" coords="353,94,448,120"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="353,45,383,80,379,83,349,48"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,168,73,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="231,123,88,167,86,162,230,118"/>
+<area shape="rect" id="Node000004" href="$phal__F4_2dma_2dma_8h.html" title=" " alt="" coords="97,168,232,193"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="253,122,196,161,193,156,250,118"/>
+<area shape="rect" id="Node000005" href="$phal__F4_8h.html" title=" " alt="" coords="258,241,385,267"/>
+<area shape="poly" id="edge9_Node000002_Node000005" title=" " alt="" coords="275,119,298,192,312,226,307,228,292,194,270,121"/>
+<area shape="rect" id="Node000008" href="$phal__F4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32F4 Devices." alt="" coords="307,168,440,193"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="289,118,345,156,342,161,286,122"/>
+<area shape="rect" id="Node000009" href="$phal__F4_2rcc_2rcc_8h.html" title="RCC Configuration Driver for STM32F4 Devices." alt="" coords="465,168,586,193"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="314,118,468,160,467,166,312,123"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="192,191,282,232,280,237,190,196"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="240,315,313,341"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="316,269,294,303,290,300,312,266"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="337,315,400,341"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="332,266,354,300,350,303,327,269"/>
+<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="367,195,342,230,337,227,363,192"/>
+<area shape="poly" id="edge11_Node000009_Node000005" title=" " alt="" coords="492,196,371,238,370,233,490,191"/>
 </map>

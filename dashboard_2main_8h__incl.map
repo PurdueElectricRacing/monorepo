@@ -1,26 +1,26 @@
 <map id="firmware/source/dashboard/main.h" name="firmware/source/dashboard/main.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="175,5,353,46"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="10,279,73,304"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,49,151,70,99,98,51,136,31,159,14,184,9,204,10,225,27,265,22,267,5,226,3,203,10,182,27,156,48,133,96,94,149,65,198,44"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8h.html" title="G4 ADC public API. DMA&#45;only, DMA&#45;first conversions." alt="" coords="190,94,338,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,47,267,78,261,78,261,47"/>
-<area shape="rect" id="Node000009" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="367,94,518,135"/>
-<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="306,44,390,85,387,89,303,49"/>
-<area shape="poly" id="edge5_Node000003_Node000002" title=" " alt="" coords="190,129,93,152,53,167,29,184,21,203,20,223,31,264,26,265,14,224,15,201,25,181,50,162,91,146,189,124"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="39,190,113,216"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="222,138,117,186,115,181,220,133"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="414,190,482,216"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="307,133,410,181,407,186,305,138"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="298,360,406,386"/>
-<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="305,133,333,153,354,181,368,224,371,269,368,311,362,346,356,345,363,311,366,269,363,225,350,184,329,157,302,137"/>
-<area shape="rect" id="Node000007" href="$phal__G4_2dma_2dma_8h.html" title="G4 DMA Peripheral public API implementation." alt="" coords="188,183,340,223"/>
-<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="267,135,267,167,261,167,261,135"/>
-<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="214,226,88,275,86,270,212,221"/>
-<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="277,222,304,270,342,345,337,347,299,273,273,225"/>
-<area shape="rect" id="Node000008" href="$dma__wiring_8h.html" title="G4 DMA Peripheral wiring configuration and definitions." alt="" coords="137,271,289,312"/>
-<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="255,225,235,259,230,256,250,222"/>
-<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="249,310,319,350,316,354,247,315"/>
-<area shape="poly" id="edge14_Node000009_Node000002" title=" " alt="" coords="367,136,251,164,177,185,151,203,127,225,70,271,67,267,124,221,148,199,175,180,250,158,366,130"/>
-<area shape="poly" id="edge13_Node000009_Node000005" title=" " alt="" coords="447,135,449,175,444,175,441,135"/>
-<area shape="poly" id="edge15_Node000009_Node000006" title=" " alt="" coords="465,134,482,155,496,182,501,203,496,224,474,265,444,300,413,330,384,353,381,349,409,326,440,297,469,262,491,222,495,203,491,184,478,158,461,137"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="184,5,362,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,241,69,267"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,49,155,67,107,93,63,127,44,147,29,169,24,183,23,197,28,227,23,228,17,198,18,181,24,166,40,143,59,123,104,88,153,62,199,44"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8h.html" title="G4 ADC public API. DMA&#45;only, DMA&#45;first conversions." alt="" coords="208,94,338,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="276,46,276,78,270,78,270,46"/>
+<area shape="rect" id="Node000009" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="372,94,507,120"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="316,44,401,85,399,89,313,49"/>
+<area shape="poly" id="edge5_Node000003_Node000002" title=" " alt="" coords="208,119,111,139,70,153,44,169,37,182,34,196,34,226,28,226,28,195,32,180,40,166,67,148,109,133,207,114"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="55,168,128,193"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="243,123,138,164,136,159,241,118"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="417,168,484,193"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="304,118,407,159,405,164,302,123"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="301,315,408,341"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="303,118,332,137,346,151,357,166,368,201,371,237,364,300,359,299,366,237,363,202,352,169,342,154,329,142,300,123"/>
+<area shape="rect" id="Node000007" href="$phal__G4_2dma_2dma_8h.html" title="G4 DMA Peripheral public API implementation." alt="" coords="204,168,342,193"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="276,120,276,152,270,152,270,120"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="234,196,85,241,83,236,232,191"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="282,192,342,300,338,303,277,195"/>
+<area shape="rect" id="Node000008" href="$dma__wiring_8h.html" title="G4 DMA Peripheral wiring configuration and definitions." alt="" coords="113,241,292,267"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="263,195,227,232,223,228,259,192"/>
+<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="229,265,316,306,313,310,227,270"/>
+<area shape="poly" id="edge14_Node000009_Node000002" title=" " alt="" coords="372,122,286,141,194,170,138,198,72,236,69,231,136,193,192,165,285,136,371,117"/>
+<area shape="poly" id="edge13_Node000009_Node000005" title=" " alt="" coords="444,119,449,152,444,153,439,120"/>
+<area shape="poly" id="edge15_Node000009_Node000006" title=" " alt="" coords="459,118,475,132,491,151,500,172,498,194,477,231,449,262,418,288,390,308,387,304,415,284,445,258,472,227,493,193,495,173,486,153,472,136,455,122"/>
 </map>

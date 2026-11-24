@@ -1,29 +1,29 @@
 <map id="firmware/source/daq/spmc/spmc.c" name="firmware/source/daq/spmc/spmc.c">
-<area shape="rect" id="Node000001" title="Custom SPMC designed for high throughput handling of CAN message streams." alt="" coords="523,5,662,46"/>
-<area shape="rect" id="Node000002" href="$spmc_8h.html" title="Custom SPMC designed for high throughput handling of CAN message streams." alt="" coords="145,94,208,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="523,43,224,99,223,94,522,38"/>
-<area shape="rect" id="Node000006" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="526,94,659,120"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="595,46,595,78,590,78,590,46"/>
+<area shape="rect" id="Node000001" title="Custom SPMC designed for high throughput handling of CAN message streams." alt="" coords="550,5,688,46"/>
+<area shape="rect" id="Node000002" href="$spmc_8h.html" title="Custom SPMC designed for high throughput handling of CAN message streams." alt="" coords="151,94,215,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="550,42,230,100,229,94,549,37"/>
+<area shape="rect" id="Node000006" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="579,94,659,120"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="622,46,622,78,616,78,616,46"/>
 <area shape="rect" id="Node000013" title=" " alt="" coords="683,94,787,120"/>
-<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="629,44,701,84,698,88,627,49"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="649,44,706,83,703,87,646,49"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="5,175,73,201"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="157,122,75,169,72,165,154,118"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="210,256,273,282"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="167,121,152,139,139,161,132,185,133,196,137,207,149,222,163,234,197,252,194,257,160,239,145,226,133,210,128,197,127,184,134,159,148,136,163,118"/>
-<area shape="rect" id="Node000005" href="$timestamped__frame_8h.html" title="Definition for timestamped CAN frames." alt="" coords="146,168,337,208"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="188,118,218,154,214,158,184,122"/>
-<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="244,209,244,241,239,241,239,209"/>
-<area shape="poly" id="edge13_Node000006_Node000004" title=" " alt="" coords="534,123,468,142,400,170,375,189,350,211,281,251,278,246,347,206,371,185,398,165,466,137,532,118"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="411,175,504,201"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="573,122,493,169,490,165,571,118"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="528,175,576,201"/>
-<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="589,121,568,162,563,160,584,119"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="600,175,667,201"/>
-<area shape="poly" id="edge9_Node000006_Node000009" title=" " alt="" coords="601,119,623,160,618,162,596,121"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="691,175,766,201"/>
-<area shape="poly" id="edge10_Node000006_Node000010" title=" " alt="" coords="614,118,696,165,693,169,612,122"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="790,175,846,201"/>
-<area shape="poly" id="edge11_Node000006_Node000011" title=" " alt="" coords="636,118,704,138,779,165,781,166,779,171,777,170,702,144,635,123"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="869,175,937,201"/>
-<area shape="poly" id="edge12_Node000006_Node000012" title=" " alt="" coords="660,117,754,137,858,165,863,167,862,172,857,170,753,142,659,122"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="162,122,76,170,73,165,160,118"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="223,256,287,282"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="171,122,155,140,140,161,132,185,133,196,137,207,151,224,169,237,210,255,208,260,167,242,148,228,133,210,128,197,127,184,135,159,151,136,167,119"/>
+<area shape="rect" id="Node000005" href="$timestamped__frame_8h.html" title="Definition for timestamped CAN frames." alt="" coords="147,168,363,208"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="196,118,229,154,225,158,192,122"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="258,209,258,241,252,241,252,209"/>
+<area shape="poly" id="edge13_Node000006_Node000004" title=" " alt="" coords="579,118,506,138,466,152,427,170,402,189,376,211,299,252,296,247,374,206,398,185,424,165,464,147,505,133,578,113"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="438,175,531,201"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="600,122,519,169,517,165,597,118"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="555,175,603,201"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="615,121,594,162,590,160,611,119"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="627,175,694,201"/>
+<area shape="poly" id="edge9_Node000006_Node000009" title=" " alt="" coords="628,119,649,160,644,162,623,121"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="718,175,792,201"/>
+<area shape="poly" id="edge10_Node000006_Node000010" title=" " alt="" coords="641,118,722,165,720,169,638,122"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="816,175,872,201"/>
+<area shape="poly" id="edge11_Node000006_Node000011" title=" " alt="" coords="660,117,728,138,805,165,808,166,806,171,803,170,727,143,659,122"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="896,175,963,201"/>
+<area shape="poly" id="edge12_Node000006_Node000012" title=" " alt="" coords="659,114,885,165,890,167,888,172,884,170,658,120"/>
 </map>

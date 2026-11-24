@@ -1,27 +1,27 @@
 <map id="firmware/common/sdio/sdio.c" name="firmware/common/sdio/sdio.c">
-<area shape="rect" id="Node000001" title="Secure Digital Input Output Interface driver for STM32F4." alt="" coords="351,5,503,46"/>
-<area shape="rect" id="Node000002" href="$sdio_8h.html" title=" " alt="" coords="318,94,373,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="409,48,371,85,367,81,405,44"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="397,94,457,120"/>
-<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="430,46,430,78,424,78,424,46"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="481,94,544,120"/>
-<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="450,44,490,81,486,85,446,48"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,175,73,201"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="318,116,215,136,86,170,81,172,79,167,85,165,214,131,317,110"/>
-<area shape="rect" id="Node000004" href="$phal__F4_2dma_2dma_8h.html" title=" " alt="" coords="97,168,248,208"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="320,123,231,163,228,158,318,118"/>
-<area shape="rect" id="Node000008" href="$phal__F4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32F4 Devices." alt="" coords="271,168,420,208"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="348,120,348,152,343,152,343,120"/>
-<area shape="rect" id="Node000009" href="$phal__F4_2rcc_2rcc_8h.html" title="RCC Configuration Driver for STM32F4 Devices." alt="" coords="445,168,588,208"/>
-<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="373,118,461,158,459,163,371,123"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="612,175,703,201"/>
-<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="374,114,386,117,494,140,601,165,610,168,608,173,600,170,493,146,385,122,373,119"/>
-<area shape="rect" id="Node000005" href="$phal__F4_8h.html" title=" " alt="" coords="255,256,436,282"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="217,207,306,247,304,252,215,211"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="264,330,337,356"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="340,284,318,318,314,315,336,281"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="361,330,424,356"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="356,281,378,315,374,318,351,284"/>
-<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="348,209,348,241,343,241,343,209"/>
-<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="475,211,387,252,384,247,473,207"/>
+<area shape="rect" id="Node000001" title="Secure Digital Input Output Interface driver for STM32F4." alt="" coords="328,5,480,46"/>
+<area shape="rect" id="Node000002" href="$sdio_8h.html" title=" " alt="" coords="295,94,351,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="386,48,348,85,345,81,382,44"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="375,94,434,120"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="407,46,407,78,402,78,402,46"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="458,94,521,120"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="427,44,467,81,464,85,424,48"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,168,73,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="295,118,89,169,87,164,294,113"/>
+<area shape="rect" id="Node000004" href="$phal__F4_2dma_2dma_8h.html" title=" " alt="" coords="97,168,232,193"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="297,123,206,163,204,159,295,118"/>
+<area shape="rect" id="Node000008" href="$phal__F4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32F4 Devices." alt="" coords="256,168,390,193"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="326,120,326,152,320,152,320,120"/>
+<area shape="rect" id="Node000009" href="$phal__F4_2rcc_2rcc_8h.html" title="RCC Configuration Driver for STM32F4 Devices." alt="" coords="414,168,536,193"/>
+<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="350,118,436,158,434,163,348,123"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="559,168,650,193"/>
+<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="352,114,364,117,545,162,544,168,362,122,350,119"/>
+<area shape="rect" id="Node000005" href="$phal__F4_8h.html" title=" " alt="" coords="259,241,387,267"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="192,191,283,232,281,237,190,196"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="241,315,314,341"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="318,269,296,303,291,300,313,266"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="338,315,401,341"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="333,266,356,300,351,303,328,269"/>
+<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="326,194,326,226,320,226,320,194"/>
+<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="450,196,364,237,362,232,448,191"/>
 </map>
