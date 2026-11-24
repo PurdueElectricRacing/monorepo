@@ -13,3 +13,6 @@
 [submodule "tests/external/fil"]
 	path = tests/external/fil
 	url = https://github.com/ronakpjain/fil.git
+[submodule "torque_vector/yoctocoupler/tools/rpi5-machine"]
+	path = torque_vector/yoctocoupler/tools/rpi5-machine
+	url = https://github.com/hatter6822/rpi5_machine.git

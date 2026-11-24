@@ -1,0 +1,13 @@
+# Production image for physical CM5 hardware.
+header:
+  version: 14
+  includes:
+    - torque_vector/yoctocoupler/kas/yoctocoupler-common.yml
+
+target:
+  - yoctocoupler-image
+
+local_conf_header:
+  yoctocoupler-production: |
+    YOCTOCOUPLER_QEMU = "0"
+    IMAGE_INSTALL:append:pn-yoctocoupler-image = " kernel-module-mcp251xfd"

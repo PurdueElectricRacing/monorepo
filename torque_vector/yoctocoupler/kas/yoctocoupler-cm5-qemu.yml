@@ -1,0 +1,14 @@
+# Development image for QEMU: IGB networking and virtual CAN.
+header:
+  version: 14
+  includes:
+    - torque_vector/yoctocoupler/kas/yoctocoupler-common.yml
+
+target:
+  - yoctocoupler-image
+
+local_conf_header:
+  yoctocoupler-qemu: |
+    YOCTOCOUPLER_QEMU = "1"
+    IMAGE_INSTALL:append:pn-yoctocoupler-image = " kernel-module-igb kernel-module-vcan yoctocoupler-vcan"
+    KERNEL_MODULE_AUTOLOAD:append = " igb vcan"

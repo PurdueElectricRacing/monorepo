@@ -55,6 +55,14 @@ venv
 !/plot_factory/data/README.md
 /plot_factory/output/
 
+# Yoctocoupler build checkouts (KAS layers, downloads, sstate, build dirs)
+/torque_vector/yoctocoupler/build/
+/torque_vector/yoctocoupler/downloads/
+/torque_vector/yoctocoupler/sstate-cache/
+/torque_vector/yoctocoupler/poky/
+/torque_vector/yoctocoupler/meta-raspberrypi/
+/torque_vector/yoctocoupler/meta-openembedded/
+
 # daqcloud db
 daq/daqcloud/daqcloud.db
 daq/daqcloud/daqcloud.db-shm
