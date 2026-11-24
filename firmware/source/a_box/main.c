@@ -9,7 +9,7 @@
 #include "main.h"
 
 /* System Includes */
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 #include "can_library/generated/A_BOX.h"
 #include "heartbeat/heartbeat.h"
 #include "phal_G4/adc/adc.h"

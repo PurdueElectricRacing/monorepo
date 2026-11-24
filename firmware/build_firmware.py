@@ -12,7 +12,8 @@ import tarfile
 ROOT = Path(__file__).resolve().parent
 BUILD_DIR = ROOT / "build"
 OUTPUT_DIR = ROOT.parent / "artifacts" / "firmware"
-CAN_GENERATED_DIR = ROOT / "can_library" / "generated"
+CAN_GENERATED_DIR = ROOT / "common" / "can_library" / "generated"
+FAULT_GENERATED_DIR = ROOT / "common" / "fault_library" / "generated"
 CAN_CONFIG_DIR = ROOT.parent / "generators" / "configs"
 CAN_NODE_CONFIG_DIR = CAN_CONFIG_DIR / "nodes"
 BOOTLOADER_UPDATER_CONFIG = CAN_CONFIG_DIR / "external_nodes" / "BOOTLOADER.json"
@@ -250,6 +251,7 @@ def build() -> None:
             str(BUILD_DIR),
             str(OUTPUT_DIR),
             str(CAN_GENERATED_DIR),
+            str(FAULT_GENERATED_DIR),
         ],
         cwd=ROOT,
         check=True,

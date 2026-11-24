@@ -7,7 +7,7 @@
 
 #include "powertrain.h"
 
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 #include "can_library/generated/MAIN_MODULE.h"
 
 powertrain_t g_powertrain;

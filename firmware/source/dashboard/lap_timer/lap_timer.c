@@ -8,7 +8,7 @@
 
 #include "lap_timer.h"
 
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 #include "can_library/generated/DASHBOARD.h"
 #include "utils/geodetic.h"
 #include "utils/geometry.h"

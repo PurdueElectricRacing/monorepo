@@ -7,7 +7,7 @@
 
 #include "telemetry.h"
 
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 #include "can_library/generated/TORQUE_VECTOR.h"
 #include "can_library/generated/can_version.h"
 #include "bootloader/bootloader_common.h"

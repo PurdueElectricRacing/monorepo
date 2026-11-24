@@ -43,7 +43,7 @@ the bootloader resident; vector and CRC checks reject partial images.
 ## Protocol
 
 START, CRC, JUMP, DATA, and response IDs come from
-[`can_library/configs`](../../can_library/configs/); front and rear driveline use
+[`generators/configs`](../../../generators/configs/); front and rear driveline use
 separate IDs. Each command is a separate CAN message with a four-byte
 little-endian argument. DATA uses a 24-bit little-endian word index followed by
 four word bytes (DLC 7); resident firmware also accepts the legacy DLC 6 frame

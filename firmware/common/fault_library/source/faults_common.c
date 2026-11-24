@@ -5,10 +5,10 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 
 #include "can_library/generated/can_router.h"
-#include "can_library/generated/fault_data.h"
+#include "fault_library/generated/fault_data.h"
 
 #ifdef FAULT_LIB_ENABLED
 
@@ -54,7 +54,7 @@ void update_fault(fault_id_t fault_id, float value) {
         is_out_of_bounds = true; // NaN values are considered out of bounds
     }
 
-    // Implementation of the FSM diagram in can_library/README.md
+    // Implementation of the FSM diagram in common/fault_library/README.md
     // I know this FSM is not "mathematically pure", but it must be implemented in this way
     // to satisfy timing constraints/defensive programming
     switch (fault->state) {

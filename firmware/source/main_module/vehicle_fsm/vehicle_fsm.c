@@ -7,7 +7,7 @@
 
 #include "vehicle_fsm.h"
 
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 #include "can_library/generated/MAIN_MODULE.h"
 #include "phal_G4/gpio/gpio.h"
 #include "main.h"

@@ -7,7 +7,7 @@
 
 #include "faults.h"
 
-#include "can_library/generated/fault_data.h"
+#include "fault_library/generated/fault_data.h"
 #include "nextion/nextion.h"
 #include "colors.h"
 

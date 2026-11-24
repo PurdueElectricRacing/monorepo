@@ -8,7 +8,6 @@ This directory contains the embedded software for PER vehicle controllers.
 | --- | --- |
 | `source/` | One source directory per firmware target. See its [target guide](source/README.md). |
 | `common/` | Reusable vehicle firmware components, HAL wrappers, and utilities. |
-| `can_library/` | CAN configuration, code generation, and shared CAN definitions. |
 | `cmake/` | Toolchain, dependency discovery, and common CMake helpers. |
 | `external/` | Third-party libraries and STM32 vendor dependencies. |
 | `support/` | Linker scripts, SVD files, and OpenOCD configuration. |
@@ -48,7 +47,8 @@ The firmware helper creates these local build products:
 - `build/` — CMake/Ninja build tree and `compile_commands.json`.
 - `output/` — target `.elf` and `.hex` files.
 - `output/firmware_<git-ref>.tar.gz` — packaged firmware.
-- `can_library/generated/` — generated headers for CAN message packing, unpacking, stale detection, and more.
+- `common/can_library/generated/` — generated headers for CAN message packing, unpacking, stale detection, and more.
+- `common/fault_library/generated/` — generated fault definitions and node-specific fault data.
 - `../artifacts/superdbc/` — generated SuperDBC definitions and schema for use in the DAQ app and other tools.
 
 > [!WARNING]
@@ -70,7 +70,7 @@ Each image has `.elf`, `.hex`, `.bin`, and `.elf.map` artifacts.
 
 ## Static Analysis
 
-Run cppcheck over `source/`, `common/`, and `can_library/` with:
+Run cppcheck over `source/` and `common/` with:
 
 ```bash
 python3 firmware/check_firmware.py

@@ -8,7 +8,8 @@ These review checks capture the essence of consistent, safe, and maintainable co
 
 - `firmware/source/`: STM32 vehicle nodes
 - `firmware/common/`: shared C components, drivers, and HALs
-- `firmware/can_library/`: CAN runtime, codecs, and generated CAN/fault code
+- `firmware/common/can_library/`: CAN runtime, codecs, and generated CAN headers
+- `firmware/common/fault_library/`: Fault runtime and generated fault data
 - `firmware/external/`: third-party and vendor dependencies
 - `daq/`: Rust Cargo workspace with:
   - shared CAN/processing logic in `daqcore`

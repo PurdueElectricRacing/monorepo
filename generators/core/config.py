@@ -7,16 +7,18 @@ Author: Irving Wang (irvingw@purdue.edu)
 from pathlib import Path
 
 
-GENERATOR_DIR   = Path(__file__).resolve().parents[1]
-REPOSITORY_DIR  = GENERATOR_DIR.parent
-CAN_LIBRARY_DIR = REPOSITORY_DIR / "firmware" / "can_library"
+GENERATOR_DIR     = Path(__file__).resolve().parents[1]
+REPOSITORY_DIR    = GENERATOR_DIR.parent
+CAN_LIBRARY_DIR   = REPOSITORY_DIR / "firmware" / "common" / "can_library"
+FAULT_LIBRARY_DIR = REPOSITORY_DIR / "firmware" / "common" / "fault_library"
 
-CONFIG_DIR         = GENERATOR_DIR / "configs"
-CAN_TEMPLATE_DIR   = GENERATOR_DIR / "canpiler" / "codegen" / "templates"
-FAULT_TEMPLATE_DIR = GENERATOR_DIR / "faultgen" / "templates"
-GENERATED_DIR      = CAN_LIBRARY_DIR / "generated"
-SUPERDBC_DIR       = REPOSITORY_DIR / "artifacts" / "superdbc"
-CAN_GRAPHS_DIR     = REPOSITORY_DIR / "docs" / "can_graphs"
+CONFIG_DIR          = GENERATOR_DIR / "configs"
+CAN_TEMPLATE_DIR    = GENERATOR_DIR / "canpiler" / "codegen" / "templates"
+FAULT_TEMPLATE_DIR  = GENERATOR_DIR / "faultgen" / "templates"
+CAN_GENERATED_DIR   = CAN_LIBRARY_DIR / "generated"
+FAULT_GENERATED_DIR = FAULT_LIBRARY_DIR / "generated"
+SUPERDBC_DIR        = REPOSITORY_DIR / "artifacts" / "superdbc"
+CAN_GRAPHS_DIR      = REPOSITORY_DIR / "docs" / "can_graphs"
 
 SYSTEM_CONFIG_DIR        = CONFIG_DIR / "system"
 NODE_CONFIG_DIR          = CONFIG_DIR / "nodes"

@@ -3,9 +3,8 @@ if(_CAN_LIBRARY_INCLUDED)
 endif()
 set(_CAN_LIBRARY_INCLUDED TRUE)
 
-# Define the path to the generated directory
-set(CAN_LIB_DIR ${CMAKE_SOURCE_DIR}/can_library)
-set(CAN_GEN_DIR ${CAN_LIB_DIR}/generated)
+set(CAN_LIB_DIR ${CMAKE_SOURCE_DIR}/common/can_library)
+set(FAULT_LIB_DIR ${CMAKE_SOURCE_DIR}/common/fault_library)
 get_filename_component(REPOSITORY_DIR "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
 set(GENERATOR_SCRIPT ${REPOSITORY_DIR}/generators/generate.py)
 
@@ -32,8 +31,8 @@ macro(create_can_node_lib NODE_NAME)
         ${CAN_LIB_DIR}/source/can_init.c
         ${CAN_LIB_DIR}/source/can_rx.c
         ${CAN_LIB_DIR}/source/can_tx.c
-        ${CAN_LIB_DIR}/source/faults_common.c
-        ${CAN_GEN_DIR}/fault_data.c
+        ${FAULT_LIB_DIR}/source/faults_common.c
+        ${FAULT_LIB_DIR}/generated/fault_data.c
     )
 
 	# Force use of full include paths relative to project root
