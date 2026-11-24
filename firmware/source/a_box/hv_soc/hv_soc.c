@@ -1,7 +1,15 @@
+/**
+ * @file hv_soc.c
+ * @brief HV pack state of charge estimation
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
 
+#include "hv_soc.h"
 
-#include "common/rtos/rtos.h"
+#include "common/linear_algebra/linear_algebra.h"
 #include "common/soc_ukf/soc_ukf.h"
+#include "main.h"
 
 soc_ukf_t soc_ukf = {0};
 
@@ -14,7 +22,7 @@ static constexpr soc_ukf_params_t HV_PARAMS = {
         .tau2 = 13.0688f,
         .Q    = 5.0f,
     },
-    .prediction_dt = 0.01f,
+    .prediction_dt = (1.0f / (float)HV_SOC_PERIOD_MS),
     .Q = {{
         {4e-12f, 0.0f,  0.0f},
         {0.0f,   4e-8f, 0.0f},
@@ -26,27 +34,50 @@ static constexpr soc_ukf_params_t HV_PARAMS = {
     .kappa = 0.0f,
 };
 
-float pack_to_cell_current(float pack_current) {
+static float get_cell_current() {
     static constexpr float PACK_PARALLEL = 3.0f;
 
-    return pack_current / (float)PACK_PARALLEL;
+    uint16_t current_raw = adc1_dma_buffer.isense_raw;
+    
+    float pack_current = isense_to_current(current_raw);
+    float cell_current = pack_current / (float)PACK_PARALLEL;
+
+    return cell_current;
 }
 
-float pack_to_cell_voltage(float pack_voltage) {
+static float get_cell_voltage() {
     static constexpr float PACK_SERIES = 128.0f;
 
-    return pack_voltage / (float)PACK_SERIES;
+    // todo update off BMS
+    uint16_t voltage_raw = adc1_dma_buffer.vbatt_raw;
+
+    float pack_voltage = vbatt_to_voltage(voltage_raw);
+    float cell_voltage = pack_voltage / (float)PACK_SERIES;
+
+    return cell_voltage;
+}
+
+void hv_soc_init() {
+
+    // todo inverse SOC lookup based on voltage at rest
+    vec3_t x0 = {0.5f, 0.0f, 0.0f};
+    mat3_t P0 = {{
+        {2.5e-3f, 0.0f, 0.0f},
+        {0.0f, 4e-4f, 0.0f},
+        {0.0f, 0.0f, 4e-4f},
+    }};
+
+    SOC_UKF_init(
+        &soc_ukf,
+        &HV_PARAMS,
+        x0,
+        P0
+    );
 }
 
 void hv_soc_periodic() {
-    uint16_t current_raw = adc1_dma_buffer.isense_raw;
-    uint16_t voltage_raw = adc1_dma_buffer.vbatt_raw; // todo use BMS
-    
-    float pack_current = isense_to_current(current_raw);
-    float pack_voltage = vbatt_to_voltage(voltage_raw);
-
-    float cell_current = pack_to_cell_current(pack_current);
-    float cell_voltage = pack_to_cell_voltage(pack_voltage);
+    float cell_voltage = get_cell_voltage();
+    float cell_current = get_cell_current();
 
     SOC_UFK_predict(
         &soc_ukf,
