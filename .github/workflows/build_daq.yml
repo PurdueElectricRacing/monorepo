@@ -7,6 +7,12 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'daq/**'
+      - 'Dockerfile'
+      - 'requirements.txt'
+      - 'generators/**'
+      - '.github/workflows/build_daq.yml'
   merge_group:
     types: [checks_requested]
     branches:
