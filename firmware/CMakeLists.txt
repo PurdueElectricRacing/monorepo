@@ -9,6 +9,9 @@ project(PER_FIRMWARE VERSION 26.0 LANGUAGES C ASM)
 set(PROJECT_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../artifacts/firmware)
 set(SUPPORT_DIR ${CMAKE_SOURCE_DIR}/support)
 
+# drop the common/ prefix from include directories
+include_directories("${PROJECT_SOURCE_DIR}/common")
+
 # Add Libraries
 include(cmake/utils.cmake)
 include(cmake/dependencies.cmake)

@@ -5,7 +5,7 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#include "common/dearunits/generated/dearunits.h"
+#include "dearunits/generated/dearunits.h"
 
 void test(void) {
     centimeter_t length = (centimeter_t) {.value = 1.0f};

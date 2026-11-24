@@ -12,7 +12,7 @@
 #ifndef _PHAL_CRC_H
 #define _PHAL_CRC_H
 
-#include "common/phal_F4/phal_F4.h"
+#include "phal_F4/phal_F4.h"
 
 void PHAL_CRC32_Reset(void);
 

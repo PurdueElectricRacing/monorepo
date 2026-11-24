@@ -9,7 +9,7 @@
 #ifndef THERMISTOR_H
 #define THERMISTOR_H
 
-#include "common/lerp_lut/lerp_lut.h"
+#include "lerp_lut/lerp_lut.h"
 
 extern const lerp_lut_t cell_thermistor_lut;
 extern const lerp_lut_t board_thermistor_lut;

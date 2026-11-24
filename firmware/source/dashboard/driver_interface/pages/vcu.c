@@ -7,8 +7,8 @@
 
 #include "vcu.h"
 #include "can_library/generated/DASHBOARD.h"
-#include "common/nextion/nextion.h"
-#include "common/utils/clamp.h"
+#include "nextion/nextion.h"
+#include "utils/clamp.h"
 #include "lcd.h"
 #include "menu_system.h"
 

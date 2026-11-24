@@ -10,8 +10,8 @@
 #include "can_library/faults_common.h"
 #include "can_library/generated/TORQUE_VECTOR.h"
 #include "can_library/generated/can_version.h"
-#include "common/bootloader/bootloader_common.h"
-#include "common/utils/clamp.h"
+#include "bootloader/bootloader_common.h"
+#include "utils/clamp.h"
 #include "sensors.h"
 
 /**

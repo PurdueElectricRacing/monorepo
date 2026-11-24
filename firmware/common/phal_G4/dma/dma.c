@@ -5,9 +5,9 @@
  * @author Millan Kumar (kumar798@purdue.edu)
  */
 
-#include "common/phal_G4/dma/dma.h"
+#include "phal_G4/dma/dma.h"
 
-#include "common/phal_G4/dma/dma_priv.h"
+#include "phal_G4/dma/dma_priv.h"
 
 // Tracks which (periph, channel_idx) pairs are owned by a live handle.
 // Provides conflict prevention when claiming a channel and route IRQs/

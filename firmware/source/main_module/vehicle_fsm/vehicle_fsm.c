@@ -9,7 +9,7 @@
 
 #include "can_library/faults_common.h"
 #include "can_library/generated/MAIN_MODULE.h"
-#include "common/phal_G4/gpio/gpio.h"
+#include "phal_G4/gpio/gpio.h"
 #include "main.h"
 #include "powertrain.h"
 #include "torque_controller.h"

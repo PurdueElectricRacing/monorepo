@@ -7,11 +7,11 @@
 
 #include "race.h"
 
-#include "common/nextion/nextion.h"
+#include "nextion/nextion.h"
 #include "can_library/generated/DASHBOARD.h"
 #include "pedals.h"
-#include "common/utils/max.h"
-#include "common/dearunits/generated/dearunits.h"
+#include "utils/max.h"
+#include "dearunits/generated/dearunits.h"
 #include "colors.h"
 #include "lap_timer.h"
 

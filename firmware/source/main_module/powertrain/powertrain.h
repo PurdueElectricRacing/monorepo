@@ -9,7 +9,7 @@
  */
 
 #include <stdint.h>
-#include "common/amk/amk.h"
+#include "amk/amk.h"
 
 typedef struct {
     int16_t front_right;

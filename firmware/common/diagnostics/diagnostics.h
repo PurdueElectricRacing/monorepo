@@ -11,7 +11,7 @@
 #include <stdint.h>
 
 #include "can_library/generated/can_types.h"
-#include "common/rtos/rtos.h"
+#include "rtos/rtos.h"
 #include "task.h"
 
 

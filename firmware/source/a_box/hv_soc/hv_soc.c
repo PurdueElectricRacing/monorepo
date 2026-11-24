@@ -7,9 +7,9 @@
 
 #include "hv_soc.h"
 
-#include "common/linear_algebra/linear_algebra.h"
-#include "common/soc_ukf/soc_ukf.h"
-#include "common/lerp_lut/lerp_lut.h"
+#include "lerp_lut/lerp_lut.h"
+#include "linear_algebra/linear_algebra.h"
+#include "soc_ukf/soc_ukf.h"
 #include "main.h"
 #include "telemetry.h"
 

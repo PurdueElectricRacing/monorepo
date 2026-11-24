@@ -9,7 +9,7 @@
  *
  */
 
-#include "common/phal_F4/usart/usart.h"
+#include "phal_F4/usart/usart.h"
 
 // Comments labeled "ADD: " indicate that code needs to be modified in order to add extra peripherals
 

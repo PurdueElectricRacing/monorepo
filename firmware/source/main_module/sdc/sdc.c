@@ -9,8 +9,8 @@
 #include "sdc.h"
 
 #include "can_library/faults_common.h"
-#include "common/rtos/rtos.h"
-#include "common/phal_G4/gpio/gpio.h"
+#include "rtos/rtos.h"
+#include "phal_G4/gpio/gpio.h"
 #include "main.h"
 
 typedef struct {

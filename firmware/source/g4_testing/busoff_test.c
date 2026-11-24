@@ -3,12 +3,12 @@
 
 #include <stdint.h>
 
-#include "common/phal_G4/fdcan/fdcan.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/phal_G4/pin_defs/g474ret6.h"
-#include "common/rtos/rtos.h"
-#include "common/utils/countof.h"
+#include "phal_G4/fdcan/fdcan.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/rcc/rcc.h"
+#include "phal_G4/pin_defs/g474ret6.h"
+#include "rtos/rtos.h"
+#include "utils/countof.h"
 #include "can_library/can_common.h"
 #include "can_library/generated/G4_TESTING.h"
 

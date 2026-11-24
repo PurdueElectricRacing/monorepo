@@ -13,10 +13,10 @@
 
 #include <stddef.h>
 
-#include "common/phal_F4/dma/dma.h"
-#include "common/phal_F4/gpio/gpio.h"
-#include "common/phal_F4/phal_F4.h"
-#include "common/phal_F4/rcc/rcc.h"
+#include "phal_F4/dma/dma.h"
+#include "phal_F4/gpio/gpio.h"
+#include "phal_F4/phal_F4.h"
+#include "phal_F4/rcc/rcc.h"
 
 /**
  * @brief Configuration entry for SPI initilization

@@ -4,8 +4,8 @@
  * @author Hannah Song (song892@purdue.edu)
  */
 
-#include "common/phal_G4/crc/crc.h"
-#include "common/phal_G4/crc/crc_priv.h"
+#include "phal_G4/crc/crc.h"
+#include "phal_G4/crc/crc_priv.h"
 
 void PHAL_CRC_init(void) {
     CRC_PRIV_enableClock();

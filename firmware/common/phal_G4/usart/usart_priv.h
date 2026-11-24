@@ -3,9 +3,9 @@
 
 #include <sys/types.h> // ssize_t
 
-#include "common/phal_G4/dma/dma.h"
+#include "phal_G4/dma/dma.h"
 #include "stm32g474xx.h"
-#include "common/phal_G4/usart/usart.h" // PHAL_USART_Idx_t
+#include "phal_G4/usart/usart.h" // PHAL_USART_Idx_t
 
 typedef struct {
     volatile uint32_t *rcc_enable_rg;   /*!< RCC enable register for this UART */

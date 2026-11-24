@@ -9,7 +9,7 @@
 #ifndef _PHAL_CAN_H
 #define _PHAL_CAN_H
 
-#include "common/phal_F4/phal_F4.h"
+#include "phal_F4/phal_F4.h"
 
 // Bit timing recovered from http://www.bittiming.can-wiki.info/
 

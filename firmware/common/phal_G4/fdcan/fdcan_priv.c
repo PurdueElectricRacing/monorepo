@@ -4,8 +4,8 @@
  * @author Millan Kumar (kumar798@purdue.edu)
  */
 
-#include "common/phal_G4/fdcan/fdcan.h"
-#include "common/phal_G4/fdcan/fdcan_priv.h"
+#include "phal_G4/fdcan/fdcan.h"
+#include "phal_G4/fdcan/fdcan_priv.h"
  
 uint32_t PHAL_FDCAN_priv_ramBase(const FDCAN_GlobalTypeDef *fdcan) {
     // SRAMCAN_BASE = start address of the single block of SRAM

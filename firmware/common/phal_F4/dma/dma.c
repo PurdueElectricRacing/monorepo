@@ -9,7 +9,7 @@
  *
  */
 
-#include "common/phal_F4/dma/dma.h"
+#include "phal_F4/dma/dma.h"
 
 bool PHAL_initDMA(dma_init_t* init) {
     // Check we aren't going to break the peripheral

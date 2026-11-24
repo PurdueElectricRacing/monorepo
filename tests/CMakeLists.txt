@@ -19,6 +19,8 @@ get_filename_component(
     REALPATH
 )
 
+include_directories("${PER_TEST_FIRMWARE_SOURCE_DIR}/common")
+
 option(
     PER_TEST_SANITIZERS
     "Build host tests with AddressSanitizer and UBSan"

@@ -4,13 +4,13 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "common/diagnostics/diagnostics.h"
-#include "common/phal_G4/rcc/rcc.h"
+#include "diagnostics/diagnostics.h"
+#include "phal_G4/rcc/rcc.h"
 #include "gpio/gpio.h"
 #include "pin_defs/g474ret6.h"
-#include "common/utils/countof.h"
+#include "utils/countof.h"
 #include "rtos.h"
-#include "common/phal_G4/fdcan/fdcan.h"
+#include "phal_G4/fdcan/fdcan.h"
 #include "can_library/can_common.h"
 #include "can_library/generated/G4_TESTING.h"
 

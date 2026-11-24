@@ -14,7 +14,7 @@
 
 #include "adbms6380.h"
 #include "adbms_config.h"
-#include "common/phal_G4/spi/spi.h"
+#include "phal_G4/spi/spi.h"
 
 static_assert(
     ADBMS_CELLS_PER_MODULE <= ADBMS_CHIPS_PER_MODULE * ADBMS6380_CELL_COUNT,

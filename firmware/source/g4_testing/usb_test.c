@@ -13,10 +13,10 @@
 
 #include <stdint.h>
 
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/phal_G4/usb/usb.h"
-#include "common/utils/countof.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/rcc/rcc.h"
+#include "phal_G4/usb/usb.h"
+#include "utils/countof.h"
 #include "main.h"
 
 static constexpr uint8_t CONFIGURATION_VALUE = 1U;

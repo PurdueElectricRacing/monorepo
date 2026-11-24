@@ -9,7 +9,7 @@
 
 #include "can_library/generated/MAIN_MODULE.h"
 #include "can_library/generated/can_version.h"
-#include "common/bootloader/bootloader_common.h"
+#include "bootloader/bootloader_common.h"
 #include "main.h"
 #include "powertrain.h"
 

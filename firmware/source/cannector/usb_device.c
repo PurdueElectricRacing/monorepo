@@ -13,8 +13,8 @@
 #include "activity_leds.h"
 #include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
-#include "common/phal_G4/fdcan/fdcan.h"
-#include "common/rtos/rtos.h"
+#include "phal_G4/fdcan/fdcan.h"
+#include "rtos/rtos.h"
 #include "main.h"
 #include "usb/usb_control.h"
 

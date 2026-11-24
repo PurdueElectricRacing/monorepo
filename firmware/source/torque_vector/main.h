@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 
-#include "common/phal_G4/gpio/gpio.h"
+#include "phal_G4/gpio/gpio.h"
 
 // Status LEDs
 #define HEARTBEAT_LED_PORT  (GPIOB)

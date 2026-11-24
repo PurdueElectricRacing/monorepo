@@ -13,8 +13,8 @@
 #include <stdint.h>
 
 #include "adbms_config.h"
-#include "common/phal_G4/spi/spi.h"
-#include "common/strbuf/strbuf.h"
+#include "phal_G4/spi/spi.h"
+#include "strbuf/strbuf.h"
 
 // Number of cell measurement channels per ADBMS6380 chip
 static constexpr size_t ADBMS6380_CELL_COUNT = 16U;

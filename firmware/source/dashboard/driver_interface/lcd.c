@@ -10,8 +10,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "common/nextion/nextion.h"
-#include "common/phal_G4/usart/usart.h"
+#include "nextion/nextion.h"
+#include "phal_G4/usart/usart.h"
 
 // pages
 #include "pages/race.h"

@@ -13,7 +13,7 @@
 
 #include "stm32g474xx.h"
 
-#include "common/phal_G4/dma/dma.h"
+#include "phal_G4/dma/dma.h"
 
 /// Maximum number of channels one ADC conversion sequence can hold
 static constexpr uint8_t PHAL_ADC_MAX_CHANNEL_COUNT = 16U;

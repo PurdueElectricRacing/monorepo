@@ -7,9 +7,9 @@
 
 #include "switch.h"
 #include "main.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/rtos/rtos.h"
-#include "common/utils/countof.h"
+#include "phal_G4/gpio/gpio.h"
+#include "rtos/rtos.h"
+#include "utils/countof.h"
 
 switch_t g_switches[NUM_SWITCHES] = {
     [SWITCH_ID_SDC] = {

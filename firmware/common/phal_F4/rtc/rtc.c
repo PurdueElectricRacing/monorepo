@@ -9,7 +9,7 @@
  *
  */
 
-#include "common/phal_F4/rtc/rtc.h"
+#include "phal_F4/rtc/rtc.h"
 
 // Register definitions are provided by stm32f423xx.h
 uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {

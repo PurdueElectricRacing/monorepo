@@ -12,7 +12,7 @@
 #ifndef _DMA_H_
 #define _DMA_H_
 
-#include "common/phal_F4/phal_F4.h"
+#include "phal_F4/phal_F4.h"
 
 typedef struct {
     uint32_t periph_addr;

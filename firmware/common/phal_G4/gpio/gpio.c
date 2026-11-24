@@ -4,9 +4,9 @@
  * @author Millan Kumar (kumar798@purdue.edu)
  */
 
-#include "common/phal_G4/gpio/gpio.h"
+#include "phal_G4/gpio/gpio.h"
 
-#include "common/phal_G4/gpio/gpio_priv.h"
+#include "phal_G4/gpio/gpio_priv.h"
 
 bool PHAL_GPIO_init(PHAL_GPIO_InitConfig_t config[], size_t config_len) {
     for (size_t i = 0; i < config_len; i++) {

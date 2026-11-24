@@ -8,9 +8,9 @@
 #ifndef _PHAL_G4_SPI_PRIV_H
 #define _PHAL_G4_SPI_PRIV_H
 
-#include "common/phal_G4/dma/dma.h"
-#include "common/phal_G4/spi/spi.h"
-#include "common/phal_G4/gpio/gpio.h"
+#include "phal_G4/dma/dma.h"
+#include "phal_G4/spi/spi.h"
+#include "phal_G4/gpio/gpio.h"
 
 
 /// Enable the peripheral clock for an SPI instance.

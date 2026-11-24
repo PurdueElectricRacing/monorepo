@@ -4,12 +4,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "common/phal_G4/dma/dma.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/phal_G4/spi/spi.h"
-#include "common/phal_G4/pin_defs/g474ret6.h"
-#include "common/utils/countof.h"
+#include "phal_G4/dma/dma.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/rcc/rcc.h"
+#include "phal_G4/spi/spi.h"
+#include "phal_G4/pin_defs/g474ret6.h"
+#include "utils/countof.h"
 
 // Prototypes
 static void delay_ms(uint32_t ms);

@@ -9,7 +9,7 @@
 #include "amk.h"
 
 #include "can_library/generated/DASHBOARD.h"
-#include "common/nextion/nextion.h"
+#include "nextion/nextion.h"
 #include "colors.h"
 
 typedef struct {

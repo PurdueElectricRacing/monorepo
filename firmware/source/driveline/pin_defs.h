@@ -8,7 +8,7 @@
 #ifndef PIN_DEFS_H
 #define PIN_DEFS_H
 
-#include "common/phal_G4/gpio/gpio.h"
+#include "phal_G4/gpio/gpio.h"
 
 // Status LEDs
 #define HEARTBEAT_LED_PORT  (GPIOA)

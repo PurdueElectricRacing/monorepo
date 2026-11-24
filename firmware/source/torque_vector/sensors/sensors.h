@@ -10,8 +10,8 @@
 
 #include <stdint.h>
 
-#include "common/ublox/nav_pvt.h"
-#include "common/ublox/nav_relposned.h"
+#include "ublox/nav_pvt.h"
+#include "ublox/nav_relposned.h"
 
 typedef struct {
     float gyro_y;

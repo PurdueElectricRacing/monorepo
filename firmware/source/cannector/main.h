@@ -8,7 +8,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include "common/rtos/rtos.h"
+#include "rtos/rtos.h"
 
 #define HEARTBEAT_LED_PORT  (GPIOA)
 #define HEARTBEAT_LED_PIN   (5)

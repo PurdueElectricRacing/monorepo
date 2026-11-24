@@ -5,7 +5,7 @@
  * @author Millan Kumar (kumar798@purdue.edu)
  */
 
-#include "common/phal_G4/dma/dma_priv.h"
+#include "phal_G4/dma/dma_priv.h"
 
 void PHAL_DMA_priv_enableClock(const DMA_TypeDef *periph) {
     // AHB1ENR = AHB1 peripheral clock Enable Register

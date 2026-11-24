@@ -7,9 +7,9 @@
  * verifies results without exposing FLASH controller registers to callers.
  */
 
-#include "common/phal_G4/flash/flash.h"
+#include "phal_G4/flash/flash.h"
 
-#include "common/phal_G4/flash/flash_priv.h"
+#include "phal_G4/flash/flash_priv.h"
 #include "stm32g474xx.h"
 
 /** Validate an absolute flash address range without wrapping arithmetic. */

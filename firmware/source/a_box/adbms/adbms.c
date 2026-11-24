@@ -12,8 +12,8 @@
 #include <stdint.h>
 
 #include "adbms6380.h"
-#include "common/phal_G4/spi/spi.h"
-#include "common/rtos/rtos.h"
+#include "phal_G4/spi/spi.h"
+#include "rtos/rtos.h"
 
 // Wait longer than the ADBMS6380 ~2.2 s inactivity sleep timeout so that a
 // full sleep-wake cycle elapses during recovery before we retry connecting

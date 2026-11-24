@@ -6,7 +6,7 @@
  * @author Millan Kumar (kumar798@purdue.edu)
  */
 
-#include "common/phal_F4/can/can.h"
+#include "phal_F4/can/can.h"
 
 extern uint32_t APB1ClockRateHz;
 

@@ -3,8 +3,8 @@
 Header-only helpers for embedded C. All macros are type-safe (`_Generic` dispatched) and force-inlined when applicable. Include them directly:
 
 ```c
-#include "common/utils/max.h"
-#include "common/utils/clamp.h"
+#include "utils/max.h"
+#include "utils/clamp.h"
 // ...
 ```
 

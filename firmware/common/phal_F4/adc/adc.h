@@ -9,7 +9,7 @@
 #ifndef _PHAL_ADC_H
 #define _PHAL_ADC_H
 
-#include "common/phal_F4/phal_F4.h"
+#include "phal_F4/phal_F4.h"
 
 typedef enum {
     ADC_RES_12_BIT = 0b00,

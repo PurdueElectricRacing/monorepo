@@ -6,8 +6,8 @@
 
 #include <stddef.h>
 
-#include "common/phal_G4/pwm/pwm.h"
-#include "common/phal_G4/pwm/pwm_priv.h"
+#include "phal_G4/pwm/pwm.h"
+#include "phal_G4/pwm/pwm_priv.h"
 
 bool PHAL_PWM_init(TIM_TypeDef* tim, uint32_t frequency_hz, uint8_t channels_en) {
     if (tim == NULL || frequency_hz == 0U) {

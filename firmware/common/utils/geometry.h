@@ -14,10 +14,10 @@
 
 #include <stdbool.h>
 
-#include "common/utils/abs.h"
-#include "common/utils/vector2.h"
-#include "common/utils/max.h"
-#include "common/utils/min.h"
+#include "utils/abs.h"
+#include "utils/vector2.h"
+#include "utils/max.h"
+#include "utils/min.h"
 
 static constexpr float GEOMETRY_EPSILON = 1e-6f;
 

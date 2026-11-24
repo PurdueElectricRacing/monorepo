@@ -4,7 +4,7 @@
  * @author Ronak Jain (jain717@purdue.edu)
  */
 
-#include "common/phal_G4/usb/usb_priv.h"
+#include "phal_G4/usb/usb_priv.h"
 
 #include "stm32g474xx.h"
 

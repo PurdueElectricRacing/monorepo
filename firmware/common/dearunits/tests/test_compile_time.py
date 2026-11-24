@@ -50,7 +50,7 @@ def compile_environment():
     if not compiler or shutil.which(compiler[0]) is None:
         pytest.fail(f"C compiler unavailable: {compiler!r}")
 
-    include_dir = FIRMWARE_DIR
+    include_dir = FIRMWARE_DIR / "common"
 
     # Missing headers, unsupported C23, or a broken compiler must fail setup,
     # rather than let all rejection cases pass for the wrong reason.

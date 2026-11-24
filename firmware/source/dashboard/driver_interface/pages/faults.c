@@ -8,7 +8,7 @@
 #include "faults.h"
 
 #include "can_library/generated/fault_data.h"
-#include "common/nextion/nextion.h"
+#include "nextion/nextion.h"
 #include "colors.h"
 
 static char *const fault_text_objects[DISPLAY_FAULT_COUNT] = {

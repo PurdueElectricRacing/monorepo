@@ -5,7 +5,7 @@
  */
  //credit to Eileen for writing most of this in pdu/fan_control.c
 
-#include "common/phal_F4/pwm/pwm.h"
+#include "phal_F4/pwm/pwm.h"
 // #include "stm32f423xx.h"
 
 extern uint32_t APB1ClockRateHz;

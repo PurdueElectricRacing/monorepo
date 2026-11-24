@@ -8,7 +8,7 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#include "common/phal_G4/gpio/gpio.h"
+#include "phal_G4/gpio/gpio.h"
 
 // VMC is PA3 (ADC1_IN4). VBATT is PA4 (ADC2_IN17). One DMA buffer per ADC.
 typedef struct {

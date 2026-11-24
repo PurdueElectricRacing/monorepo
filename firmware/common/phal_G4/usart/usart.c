@@ -1,7 +1,7 @@
-#include "common/phal_G4/usart/usart.h"
-#include "common/phal_G4/usart/usart_priv.h"
+#include "phal_G4/usart/usart.h"
+#include "phal_G4/usart/usart_priv.h"
 
-#include "common/phal_G4/dma/dma.h"
+#include "phal_G4/dma/dma.h"
 
 // Forward declaration of the DMA callback handler for TX completion
 static void usart_tx_dma_callback(void *ctx);

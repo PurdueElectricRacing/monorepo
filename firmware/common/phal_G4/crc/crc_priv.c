@@ -4,7 +4,7 @@
  * @author Hannah Song (song892@purdue.edu)
  */
 
-#include "common/phal_G4/crc/crc_priv.h"
+#include "phal_G4/crc/crc_priv.h"
 
 void CRC_PRIV_enableClock(void) {
     RCC->AHB1ENR |= RCC_AHB1ENR_CRCEN;

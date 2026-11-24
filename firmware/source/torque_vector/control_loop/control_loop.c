@@ -9,7 +9,7 @@
 #include <stdint.h>
 
 #include "can_library/generated/TORQUE_VECTOR.h"
-#include "common/utils/max.h"
+#include "utils/max.h"
 #include "sensors.h"
 #include "vcu.h"
 

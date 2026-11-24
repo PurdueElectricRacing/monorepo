@@ -12,7 +12,7 @@
 #ifndef _PHAL_RTC_H_
 #define _PHAL_RTC_H_
 
-#include "common/phal_F4/phal_F4.h"
+#include "phal_F4/phal_F4.h"
 
 // Clock source: currently only supporting LSE
 

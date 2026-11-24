@@ -6,7 +6,7 @@
 #ifndef PHAL_G4_GPIO_PRIV_H
 #define PHAL_G4_GPIO_PRIV_H
 
-#include "common/phal_G4/gpio/gpio.h"
+#include "phal_G4/gpio/gpio.h"
 
 // GPIO config registers (MODER, OSPEEDR, OTYPER, PUPDR, AFR) pack one fixed-width
 // field per pin, back-to-back starting at pin 0

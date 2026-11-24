@@ -9,7 +9,7 @@
  *
  */
 
-#include "common/phal_F4/flash/flash.h"
+#include "phal_F4/flash/flash.h"
 
 /**
  * @brief Convert address to sector number

@@ -1,7 +1,7 @@
 #ifndef CANNECTOR_ACTIVITY_LEDS_H
 #define CANNECTOR_ACTIVITY_LEDS_H
 
-#include "common/rtos/rtos.h"
+#include "rtos/rtos.h"
 
 static constexpr uint32_t ACTIVITY_LED_TIMEOUT_MS = 100U;
 

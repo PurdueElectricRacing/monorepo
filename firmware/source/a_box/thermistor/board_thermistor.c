@@ -7,7 +7,7 @@
 
 #include "thermistor.h"
 
-#include "common/lerp_lut/lerp_lut.h"
+#include "lerp_lut/lerp_lut.h"
 
 
 // https://pages.hmc.edu/spjut/RocketE80/PDFs/MurataThermistor.pdf (Murata Cat. No. R44E.pdf)

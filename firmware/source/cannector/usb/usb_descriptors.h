@@ -8,7 +8,7 @@
 #ifndef CANNECTOR_USB_DESCRIPTORS_H
 #define CANNECTOR_USB_DESCRIPTORS_H
 
-#include "common/phal_G4/usb/usb.h"
+#include "phal_G4/usb/usb.h"
 #include "can_library/generated/can_version.h"
 
 static const char USB_PRODUCT_NAME[] = "CANnector27_" FIRMWARE_GIT_HASH_STRING;

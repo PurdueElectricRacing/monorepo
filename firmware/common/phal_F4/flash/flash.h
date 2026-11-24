@@ -12,7 +12,7 @@
 #ifndef _PHAL_FLASH_H_
 #define _PHAL_FLASH_H_
 
-#include "common/phal_F4/phal_F4.h"
+#include "phal_F4/phal_F4.h"
 
 enum {
     FLASH_OK = 0,

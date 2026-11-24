@@ -11,12 +11,12 @@
 #include <stdint.h>
 
 #if !defined(BOOTLOADER_FIRMWARE)
-#include "common/rtos/rtos.h"
+#include "rtos/rtos.h"
 #endif
 #if !defined(STM32G474xx)
 #error "CAN library requires STM32G474xx (FDCAN)"
 #endif
-#include "common/phal_G4/fdcan/fdcan.h"
+#include "phal_G4/fdcan/fdcan.h"
 
 #if !defined(BOOTLOADER_FIRMWARE)
 typedef struct {

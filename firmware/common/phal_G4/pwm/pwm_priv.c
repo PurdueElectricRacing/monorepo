@@ -6,8 +6,8 @@
 
 #include <stddef.h>
 
-#include "common/phal_G4/pwm/pwm_priv.h"
-#include "common/phal_G4/rcc/rcc.h"
+#include "phal_G4/pwm/pwm_priv.h"
+#include "phal_G4/rcc/rcc.h"
 
 
 /// Configure and enable a timer channel for PWM output.

@@ -10,9 +10,9 @@
 
 #include "can_library/faults_common.h"
 #include "can_library/generated/DASHBOARD.h"
-#include "common/utils/geodetic.h"
-#include "common/utils/geometry.h"
-#include "common/utils/vector2.h"
+#include "utils/geodetic.h"
+#include "utils/geometry.h"
+#include "utils/vector2.h"
 
 static lap_timer_context_t lap_timer = {
     .state = LAP_TIMER_STATE_IDLE,

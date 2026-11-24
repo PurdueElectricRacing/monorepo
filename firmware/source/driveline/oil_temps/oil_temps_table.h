@@ -8,7 +8,7 @@
 #ifndef OIL_TEMPS_H
 #define OIL_TEMPS_H
 
-#include "common/lerp_lut/lerp_lut.h"
+#include "lerp_lut/lerp_lut.h"
 
 extern const lerp_lut_t oil_temps_lut;
 
