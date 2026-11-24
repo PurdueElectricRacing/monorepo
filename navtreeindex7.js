@@ -1,5 +1,6 @@
 var NAVTREEINDEX7 =
 {
+"bootloader_8c.html#ac1fa48bee07db6c9d511afb985c68f59":[34,0,1,2,1,0,0,8],
 "bootloader_8c.html#ac2d28de1668a1ef30b63868db0e8516b":[34,0,1,2,1,0,0,7],
 "bootloader_8c.html#ac60843a6445f115dfc084962072b15af":[34,0,1,2,1,0,0,20],
 "bootloader_8c.html#ac67d8f3c1b3d2c648d6a5ac3489eb654":[34,0,1,2,1,0,0,25],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421a4262d134a881766077ccb2b8389ff337":[34,0,1,0,0,9,2,2],
 "can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421a6d26600ca9e2472ff058dfc3685bb5f7":[34,0,1,0,0,9,2,4],
 "can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421a6d97c7ee463822bc55795dcd2f9592b1":[34,0,1,0,0,9,2,0],
-"can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421ab3a8024326460d2ac19e1e67b23909b3":[34,0,1,0,0,9,2,7],
-"can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421ab7984394ea213ad6bad57daa96babb03":[34,0,1,0,0,9,2,3]
+"can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421ab3a8024326460d2ac19e1e67b23909b3":[34,0,1,0,0,9,2,7]
 };

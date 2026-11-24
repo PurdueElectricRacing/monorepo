@@ -490,7 +490,7 @@ var searchData=
   ['isense_5fgpio_5fpin_487',['ISENSE_GPIO_PIN',['../a__box_2main_8h.html#abc6a7ba90261fb9feda4ef1623bd9ab8',1,'main.h']]],
   ['isense_5fgpio_5fport_488',['ISENSE_GPIO_PORT',['../a__box_2main_8h.html#a407e835f0bf84d6b20450ec50407a309',1,'main.h']]],
   ['isense_5fraw_489',['isense_raw',['../structadc1__dma__buffer__t.html#a785c6883cfac53c137c26a3da346c488',1,'adc1_dma_buffer_t']]],
-  ['isense_5fto_5fcurrent_490',['isense_to_current',['../a__box_2telemetry_2telemetry_8c.html#a67fad0cc41ef114ce940febe40180d97',1,'telemetry.c']]],
+  ['isense_5fto_5fcurrent_490',['isense_to_current',['../a__box_2telemetry_2telemetry_8h.html#a67fad0cc41ef114ce940febe40180d97',1,'telemetry.h']]],
   ['item_5fcount_491',['item_count',['../structRTOS__queue__params__t.html#a92b328b02aa36e4967e74b9b7511b296',1,'RTOS_queue_params_t']]],
   ['item_5fsize_492',['item_size',['../structRTOS__queue__params__t.html#a38a73c764681e25d7124ec58901517e5',1,'RTOS_queue_params_t']]],
   ['itow_493',['iTOW',['../structNAV__PVT__payload__t.html#a518d473630fe01a0db89f650474893b7',1,'NAV_PVT_payload_t::iTOW'],['../structNAV__RELPOSNED__payload__t.html#a28773a1657a976e3432ea8cc47407bd4',1,'NAV_RELPOSNED_payload_t::iTOW']]],

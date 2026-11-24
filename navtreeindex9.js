@@ -1,5 +1,6 @@
 var NAVTREEINDEX9 =
 {
+"commands_8h.html#a31866314e8621347528a9fa230923217":[34,0,1,2,0,0,6,31],
 "commands_8h.html#a35504b90a7de156cfa8f1e8688c4166b":[34,0,1,2,0,0,6,50],
 "commands_8h.html#a361da7a314c53c29c6e530cb208f695b":[34,0,1,2,0,0,6,33],
 "commands_8h.html#a378386cc459a0730cf2499bd3c5789cd":[34,0,1,2,0,0,6,66],
@@ -248,6 +249,5 @@ var NAVTREEINDEX9 =
 "daqapp__bootloader__state__machine_8drawio_8png.html":[34,0,0,1,1],
 "daqapp__overview_8drawio_8png.html":[34,0,0,1,2],
 "daqapp__threads_8drawio_8png.html":[34,0,0,1,3],
-"dashboard_2driver__interface_2pages_2vcu_8h.html":[34,0,1,2,4,1,0,9],
-"dashboard_2driver__interface_2pages_2vcu_8h.html#a040d01859246b58821cdce95afdd1d95":[34,0,1,2,4,1,0,9,12]
+"dashboard_2driver__interface_2pages_2vcu_8h.html":[34,0,1,2,4,1,0,9]
 };

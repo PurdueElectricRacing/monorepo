@@ -1,25 +1,27 @@
 <map id="firmware/common/lerp_lut/lerp_lut.h" name="firmware/common/lerp_lut/lerp_lut.h">
-<area shape="rect" id="Node000001" title="Linear interpolation lookup table (LUT)." alt="" coords="545,5,695,46"/>
+<area shape="rect" id="Node000001" title="Linear interpolation lookup table (LUT)." alt="" coords="664,5,813,46"/>
 <area shape="rect" id="Node000002" href="$lerp__lut_8c.html" title="Linear interpolation lookup table (LUT)." alt="" coords="5,94,155,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="530,41,361,65,167,97,156,99,155,94,166,91,361,59,530,36"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="649,37,429,60,167,97,156,99,155,93,166,91,428,55,648,32"/>
 <area shape="rect" id="Node000003" href="$lerp__lut__test_8cpp.html" title=" " alt="" coords="178,94,352,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="531,51,347,96,345,91,529,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="649,45,364,97,354,99,353,93,364,91,648,40"/>
 <area shape="rect" id="Node000004" href="$soc__ukf_8c.html" title="Unscented Kalman filter for state of charge estimation." alt="" coords="376,94,525,135"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="569,56,490,96,488,91,567,51"/>
-<area shape="rect" id="Node000005" href="$board__thermistor_8c.html" title="Board thermistor lookup table from datasheet." alt="" coords="383,183,577,223"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="599,60,539,136,499,184,495,181,535,133,595,56"/>
-<area shape="rect" id="Node000006" href="$cell__thermistor_8c.html" title="Cell thermistor lookup table from datasheet." alt="" coords="777,183,959,223"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="691,50,730,69,768,92,819,137,856,181,852,184,815,141,765,96,728,73,689,55"/>
-<area shape="rect" id="Node000007" href="$thermistor_8h.html" title="Cell and onboard thermistor lookup tables from datasheets." alt="" coords="600,94,755,135"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="644,57,667,92,662,95,639,60"/>
-<area shape="rect" id="Node000009" href="$oil__temps__table_8c.html" title="Oil temp lookup table from datasheet." alt="" coords="830,94,1016,135"/>
-<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="704,48,855,91,853,96,703,53"/>
-<area shape="rect" id="Node000010" href="$oil__temps__table_8h.html" title="Oil temp lookup table from datasheet." alt="" coords="1040,94,1226,135"/>
-<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="711,39,1028,91,1040,93,1039,99,1028,97,710,44"/>
-<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="620,144,526,185,524,180,618,139"/>
-<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="735,139,826,180,824,185,733,144"/>
-<area shape="rect" id="Node000008" href="$adbms6380_8c.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="602,183,753,223"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="680,150,680,182,675,182,675,150"/>
-<area shape="rect" id="Node000011" href="$driveline_2main_8c.html" title="&quot;Driveline&quot; node source code" alt="" coords="1051,183,1216,223"/>
-<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="1136,150,1136,182,1131,182,1131,150"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="660,53,517,96,515,91,658,48"/>
+<area shape="rect" id="Node000005" href="$hv__soc_8c.html" title="HV pack state of charge estimation." alt="" coords="550,94,701,135"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="703,58,653,96,649,91,699,53"/>
+<area shape="rect" id="Node000006" href="$board__thermistor_8c.html" title="Board thermistor lookup table from datasheet." alt="" coords="559,183,753,223"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="737,62,730,98,716,136,698,162,679,184,675,181,694,159,711,133,725,97,732,61"/>
+<area shape="rect" id="Node000007" href="$cell__thermistor_8c.html" title="Cell thermistor lookup table from datasheet." alt="" coords="953,183,1135,223"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="829,44,888,63,944,92,971,112,996,136,1033,180,1028,184,992,140,968,116,941,96,885,68,828,49"/>
+<area shape="rect" id="Node000008" href="$thermistor_8h.html" title="Cell and onboard thermistor lookup tables from datasheets." alt="" coords="776,94,931,135"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="778,53,829,91,826,96,775,58"/>
+<area shape="rect" id="Node000010" href="$oil__temps__table_8c.html" title="Oil temp lookup table from datasheet." alt="" coords="1006,94,1192,135"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="829,46,1017,91,1016,96,828,51"/>
+<area shape="rect" id="Node000011" href="$oil__temps__table_8h.html" title="Oil temp lookup table from datasheet." alt="" coords="1216,94,1402,135"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="829,36,1204,91,1216,93,1215,99,1204,97,828,42"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="796,144,702,185,700,180,794,139"/>
+<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="911,139,1002,180,1000,185,909,144"/>
+<area shape="rect" id="Node000009" href="$adbms6380_8c.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="778,183,929,223"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="856,150,856,182,851,182,851,150"/>
+<area shape="rect" id="Node000012" href="$driveline_2main_8c.html" title="&quot;Driveline&quot; node source code" alt="" coords="1227,183,1392,223"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="1312,150,1312,182,1307,182,1307,150"/>
 </map>

@@ -1,14 +1,18 @@
 <map id="mat3_mult_vec3" name="mat3_mult_vec3">
-<area shape="rect" id="Node000001" title=" " alt="" coords="439,80,556,106"/>
-<area shape="rect" id="Node000002" href="$imu_8c.html#a4e2ff3413851866d1385d942698f59e9" title="Callback function for handling IZZE acceleration data." alt="" coords="187,5,390,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="458,75,390,45,355,34,357,29,392,40,460,70"/>
-<area shape="rect" id="Node000004" href="$imu_8c.html#a033e363e85c9a7712d85b7fb947a94c0" title="Finalize the IMU decoupling calibration by deriving the rotation matrix from the accumulated accelero..." alt="" coords="187,55,391,80"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="423,86,391,83,392,77,423,81"/>
-<area shape="rect" id="Node000005" href="$soc__ukf_8c.html#a042187a5c2a956467c3a4ebc207fd2e2" title="Predict the next state and covariance." alt="" coords="224,104,354,130"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="424,104,354,112,354,107,423,99"/>
-<area shape="rect" id="Node000006" href="$matrix3__test_8cpp.html#aefdbe7c62792380452a4d76b72324306" title=" " alt="" coords="262,153,316,179"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="459,116,392,145,317,164,316,159,390,140,457,111"/>
-<area shape="rect" id="Node000003" href="$TORQUE__VECTOR_8h.html#aba60db2ca6b351f91082c06fc4d18cd5" title=" " alt="" coords="5,31,139,56"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="172,35,139,38,138,33,171,29"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="171,57,139,54,139,48,171,52"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="536,80,654,106"/>
+<area shape="rect" id="Node000002" href="$imu_8c.html#a4e2ff3413851866d1385d942698f59e9" title="Callback function for handling IZZE acceleration data." alt="" coords="284,5,488,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="555,75,487,45,452,34,454,29,489,40,557,70"/>
+<area shape="rect" id="Node000004" href="$imu_8c.html#a033e363e85c9a7712d85b7fb947a94c0" title="Finalize the IMU decoupling calibration by deriving the rotation matrix from the accumulated accelero..." alt="" coords="284,55,488,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="520,86,488,83,489,77,521,81"/>
+<area shape="rect" id="Node000005" href="$soc__ukf_8c.html#a042187a5c2a956467c3a4ebc207fd2e2" title="Predict the next state and covariance." alt="" coords="322,104,451,130"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="521,104,451,112,451,107,521,99"/>
+<area shape="rect" id="Node000008" href="$matrix3__test_8cpp.html#aefdbe7c62792380452a4d76b72324306" title=" " alt="" coords="359,153,413,179"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="556,116,489,145,414,164,413,159,487,140,554,111"/>
+<area shape="rect" id="Node000003" href="$TORQUE__VECTOR_8h.html#aba60db2ca6b351f91082c06fc4d18cd5" title=" " alt="" coords="103,31,236,56"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="269,35,236,38,236,33,269,29"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="268,57,236,54,237,48,269,52"/>
+<area shape="rect" id="Node000006" href="$hv__soc_8c.html#aa3f1976eeba2a82f11f7c4e115d51eab" title=" " alt="" coords="112,104,227,130"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="306,120,228,120,228,114,306,114"/>
+<area shape="rect" id="Node000007" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,104,55,130"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="96,120,55,120,55,114,96,114"/>
 </map>

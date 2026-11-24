@@ -3,7 +3,7 @@ var searchData=
   ['valid_5fendpoint_0',['valid_endpoint',['../usb__control_8c.html#aee81ec5968dca95851916ce33f80e2bf',1,'usb_control.c']]],
   ['vapplicationgetidletaskmemory_1',['vApplicationGetIdleTaskMemory',['../rtos_8c.html#a1988aa923b19fa6f31c93afa7773f793',1,'rtos.c']]],
   ['vapplicationgettimertaskmemory_2',['vApplicationGetTimerTaskMemory',['../rtos_8c.html#a1e80ecbd3fc2d04f18d6409ffa893a86',1,'rtos.c']]],
-  ['vbatt_5fto_5fvoltage_3',['vbatt_to_voltage',['../a__box_2telemetry_2telemetry_8c.html#a19a5190bd53f3e792c4c164ff3cce592',1,'telemetry.c']]],
+  ['vbatt_5fto_5fvoltage_3',['vbatt_to_voltage',['../a__box_2telemetry_2telemetry_8h.html#a19a5190bd53f3e792c4c164ff3cce592',1,'telemetry.h']]],
   ['vcu_5fdriver_5frequest_5fcallback_4',['vcu_driver_request_CALLBACK',['../control__loop_8c.html#af473b63657e6dcfab3ec6dba8fb68300',1,'vcu_driver_request_CALLBACK(void):&#160;control_loop.c'],['../TORQUE__VECTOR_8h.html#abe61f12bdbd8c77ab99e180bdd85c7fb',1,'vcu_driver_request_CALLBACK():&#160;control_loop.c']]],
   ['vcu_5fmove_5fdown_5',['vcu_move_down',['../vcu_8c.html#aa1e50b257477672961d3d089dd2531ed',1,'vcu_move_down():&#160;vcu.c'],['../dashboard_2driver__interface_2pages_2vcu_8h.html#a6125f151ac3d7a1e281bc8047ccebc99',1,'vcu_move_down(void):&#160;vcu.c']]],
   ['vcu_5fmove_5fup_6',['vcu_move_up',['../vcu_8c.html#a7584d411418c72e61404ff410c27acc3',1,'vcu_move_up():&#160;vcu.c'],['../dashboard_2driver__interface_2pages_2vcu_8h.html#a040d01859246b58821cdce95afdd1d95',1,'vcu_move_up(void):&#160;vcu.c']]],

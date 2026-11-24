@@ -1,5 +1,6 @@
 var NAVTREEINDEX6 =
 {
+"activity__leds_8h.html#a1f01bc0528602ddc62a868b9b47818dd":[34,0,1,2,2,2,2],
 "activity__leds_8h.html#a6cf4596b123b7a5a1ad4df5178207b07":[34,0,1,2,2,2,3],
 "activity__leds_8h.html#ab6c8c2aeda7554db08899cf2ca238ac5":[34,0,1,2,2,2,1],
 "activity__leds_8h.html#ad9addf6b58c6556d64a987a07f205988":[34,0,1,2,2,2,0],
@@ -204,10 +205,10 @@ var NAVTREEINDEX6 =
 "blinky_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4":[34,0,1,2,6,1,4],
 "blinky_8c.html#ae965016321c6928065b5ea1cb61edc8e":[34,0,1,2,6,1,5],
 "blinky_8c.html#af1732b68a532fd4dbaa6e34152c49585":[34,0,1,2,6,1,1],
-"board__thermistor_8c.html":[34,0,1,2,0,4,0],
-"board__thermistor_8c.html#a5ba260ea88cff3b1947a35a56adeee99":[34,0,1,2,0,4,0,2],
-"board__thermistor_8c.html#a75fcf1d42d4304220396e7830b1e5bb3":[34,0,1,2,0,4,0,0],
-"board__thermistor_8c.html#a997cbd20f20a22457ab7a11be0ae43b6":[34,0,1,2,0,4,0,1],
+"board__thermistor_8c.html":[34,0,1,2,0,5,0],
+"board__thermistor_8c.html#a5ba260ea88cff3b1947a35a56adeee99":[34,0,1,2,0,5,0,2],
+"board__thermistor_8c.html#a75fcf1d42d4304220396e7830b1e5bb3":[34,0,1,2,0,5,0,0],
+"board__thermistor_8c.html#a997cbd20f20a22457ab7a11be0ae43b6":[34,0,1,2,0,5,0,1],
 "bootloader_2main_8c.html":[34,0,1,2,1,4],
 "bootloader_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe":[34,0,1,2,1,4,0],
 "bootloader_8c.html":[34,0,1,2,1,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX6 =
 "bootloader_8c.html#ab8c95db6ba7bf75889443068c0ab2b07":[34,0,1,2,1,0,0,21],
 "bootloader_8c.html#abbd621abae9447410acb67b8a27f4d6b":[34,0,1,2,1,0,0,31],
 "bootloader_8c.html#abf75df907f2cb56139815b8adb7c195e":[34,0,1,2,1,0,0,16],
-"bootloader_8c.html#ac19da133af9137d8db35468a8e1b7af5":[34,0,1,2,1,0,0,19],
-"bootloader_8c.html#ac1fa48bee07db6c9d511afb985c68f59":[34,0,1,2,1,0,0,8]
+"bootloader_8c.html#ac19da133af9137d8db35468a8e1b7af5":[34,0,1,2,1,0,0,19]
 };

@@ -21,7 +21,7 @@ var searchData=
   ['vbatt_5fpin_18',['VBATT_PIN',['../main__module_2main_8h.html#a1c7f58d3e70a4f1194b50c5b6c1942bc',1,'main.h']]],
   ['vbatt_5fport_19',['VBATT_PORT',['../main__module_2main_8h.html#a3789fe55a4d0f22bab5cf5bc7d951c57',1,'main.h']]],
   ['vbatt_5fraw_20',['vbatt_raw',['../structadc1__dma__buffer__t.html#a56c855217254a640ee5e06655d912aff',1,'adc1_dma_buffer_t']]],
-  ['vbatt_5fto_5fvoltage_21',['vbatt_to_voltage',['../a__box_2telemetry_2telemetry_8c.html#a19a5190bd53f3e792c4c164ff3cce592',1,'telemetry.c']]],
+  ['vbatt_5fto_5fvoltage_21',['vbatt_to_voltage',['../a__box_2telemetry_2telemetry_8h.html#a19a5190bd53f3e792c4c164ff3cce592',1,'telemetry.h']]],
   ['vbatt_5fvmc_5fdata_5ft_22',['vbatt_vmc_data_t',['../structvbatt__vmc__data__t.html',1,'']]],
   ['vbatt_5fvmc_5fdlc_23',['VBATT_VMC_DLC',['../VCAN_8h.html#a0be368acf7ad2598ce89830d8850fe98',1,'VCAN.h']]],
   ['vbatt_5fvmc_5flayout_5fhash_24',['VBATT_VMC_LAYOUT_HASH',['../VCAN_8h.html#ade868715c8e750f6354f2fa3ada7ae76',1,'VCAN.h']]],

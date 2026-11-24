@@ -9,6 +9,7 @@ var a__box_2main_8c =
     [ "RTOS_DEFINE_TASK", "a__box_2main_8c.html#a6fe855a5346e11fef18f35f17cfbe065", null ],
     [ "RTOS_DEFINE_TASK", "a__box_2main_8c.html#af7c8edeab73fafe8358e31ee43064c01", null ],
     [ "RTOS_DEFINE_TASK", "a__box_2main_8c.html#a820c8a4001c9cc5a0c90cbd0a6a5bf25", null ],
+    [ "RTOS_DEFINE_TASK", "a__box_2main_8c.html#ad6e46b3830305e67cd682394a4284d7f", null ],
     [ "RTOS_DEFINE_TASK", "a__box_2main_8c.html#abed511de37bed025bb6e71af3e979d30", null ],
     [ "RTOS_DEFINE_TASK", "a__box_2main_8c.html#a82fe837997b54030e3e2773da5e6dba5", null ],
     [ "RTOS_DEFINE_TASK", "a__box_2main_8c.html#a3184f8c6df1f18874885d192b937ef0e", null ],

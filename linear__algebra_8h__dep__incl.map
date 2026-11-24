@@ -1,25 +1,28 @@
 <map id="firmware/common/linear_algebra/linear_algebra.h" name="firmware/common/linear_algebra/linear_algebra.h">
-<area shape="rect" id="Node000001" title="Basic floating point vector and matrix types and operations." alt="" coords="463,5,627,46"/>
+<area shape="rect" id="Node000001" title="Basic floating point vector and matrix types and operations." alt="" coords="555,5,719,46"/>
 <area shape="rect" id="Node000002" href="$matrix3_8c.html" title="Implementation of 3x3 matrix operations." alt="" coords="5,102,165,142"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="448,45,319,67,178,97,151,103,149,98,176,91,318,62,447,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="540,40,370,62,178,97,150,103,148,98,176,91,369,57,539,35"/>
 <area shape="rect" id="Node000003" href="$matrix3__test_8cpp.html" title=" " alt="" coords="189,94,349,150"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="474,54,350,96,348,91,472,49"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="540,52,362,97,350,100,349,95,360,91,539,47"/>
 <area shape="rect" id="Node000004" href="$vector3__test_8cpp.html" title=" " alt="" coords="373,94,533,150"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="517,59,482,95,478,91,514,55"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="586,56,507,96,505,91,584,51"/>
 <area shape="rect" id="Node000005" href="$vector3_8c.html" title="Implementation of 3D vector operations." alt="" coords="557,102,717,142"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="577,55,620,99,616,103,573,59"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="640,62,640,101,634,101,634,62"/>
 <area shape="rect" id="Node000006" href="$soc__ukf_8h.html" title="Unscented Kalman filter for state of charge estimation." alt="" coords="741,102,890,142"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="617,49,760,98,758,103,615,54"/>
-<area shape="rect" id="Node000008" href="$orientation_8h.html" title=" " alt="" coords="914,102,1066,142"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="643,40,767,62,903,91,929,98,927,103,902,97,766,67,642,45"/>
-<area shape="rect" id="Node000007" href="$soc__ukf_8c.html" title="Unscented Kalman filter for state of charge estimation." alt="" coords="741,205,890,246"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="818,158,818,205,813,205,813,158"/>
-<area shape="rect" id="Node000009" href="$orientation__test__shim_8h.html" title=" " alt="" coords="914,198,1066,253"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="993,158,993,197,988,197,988,158"/>
-<area shape="rect" id="Node000012" href="$imu_8c.html" title="IMU calibration and coordinate transformations." alt="" coords="1091,205,1244,246"/>
-<area shape="poly" id="edge11_Node000008_Node000012" title=" " alt="" coords="1039,148,1135,202,1132,207,1036,152"/>
-<area shape="rect" id="Node000010" href="$orientation__test_8cpp.html" title="orientation unit test" alt="" coords="811,309,983,350"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="957,267,917,311,913,307,953,263"/>
-<area shape="rect" id="Node000011" href="$orientation__test__shim_8c.html" title="Test orientation." alt="" coords="1006,301,1158,357"/>
-<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="1027,263,1060,299,1056,302,1023,267"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="689,51,779,99,777,103,687,56"/>
+<area shape="rect" id="Node000008" href="$hv__soc_8c.html" title="HV pack state of charge estimation." alt="" coords="820,205,971,246"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="735,36,836,58,878,73,904,92,917,120,919,151,914,181,906,205,901,204,909,179,914,151,912,122,900,96,875,78,835,63,734,42"/>
+<area shape="rect" id="Node000009" href="$orientation_8h.html" title=" " alt="" coords="996,102,1148,142"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="735,45,996,101,994,107,734,51"/>
+<area shape="rect" id="Node000007" href="$soc__ukf_8c.html" title="Unscented Kalman filter for state of charge estimation." alt="" coords="646,205,796,246"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="789,155,741,207,737,203,785,152"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="843,153,882,203,878,206,838,156"/>
+<area shape="rect" id="Node000010" href="$orientation__test__shim_8h.html" title=" " alt="" coords="996,198,1148,253"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="1074,158,1074,197,1069,197,1069,158"/>
+<area shape="rect" id="Node000013" href="$imu_8c.html" title="IMU calibration and coordinate transformations." alt="" coords="1172,205,1326,246"/>
+<area shape="poly" id="edge12_Node000009_Node000013" title=" " alt="" coords="1120,148,1216,202,1214,207,1118,152"/>
+<area shape="rect" id="Node000011" href="$orientation__test_8cpp.html" title="orientation unit test" alt="" coords="893,309,1064,350"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1038,267,998,311,994,307,1035,263"/>
+<area shape="rect" id="Node000012" href="$orientation__test__shim_8c.html" title="Test orientation." alt="" coords="1088,301,1240,357"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="1108,263,1141,299,1137,302,1104,267"/>
 </map>

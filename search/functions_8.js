@@ -19,6 +19,8 @@ var searchData=
   ['hertz_5ffrom_5fkilohertz_16',['hertz_from_kilohertz',['../dearunits_8h.html#a34c130a509886f190d95fd4ba5afaedb',1,'dearunits.h']]],
   ['hour_5ffrom_5fsecond_17',['hour_from_second',['../dearunits_8h.html#aefb2f8d7b370f8ad7a38fc84c4e7baff',1,'dearunits.h']]],
   ['hv_5fadc_5fto_5fvoltage_18',['hv_adc_to_voltage',['../main__module_2telemetry_2telemetry_8c.html#ac1c9aff5306b535060dc2070e0749a6b',1,'telemetry.c']]],
-  ['hx_5ffan_5foff_19',['hx_fan_off',['../cooling__callbacks_8c.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c']]],
-  ['hx_5ffan_5fon_20',['hx_fan_on',['../cooling__callbacks_8c.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c']]]
+  ['hv_5fsoc_5finit_19',['hv_soc_init',['../hv__soc_8c.html#a857c59ccd18545af13ec2e639750bdda',1,'hv_soc_init():&#160;hv_soc.c'],['../hv__soc_8h.html#a44bf8a5bc10f17bd191e9c6ccfdaa239',1,'hv_soc_init(void):&#160;hv_soc.c']]],
+  ['hv_5fsoc_5fperiodic_20',['hv_soc_periodic',['../hv__soc_8c.html#aa3f1976eeba2a82f11f7c4e115d51eab',1,'hv_soc_periodic():&#160;hv_soc.c'],['../hv__soc_8h.html#a4204b9dec6f6cfea08ed3af7911b4205',1,'hv_soc_periodic(void):&#160;hv_soc.c']]],
+  ['hx_5ffan_5foff_21',['hx_fan_off',['../cooling__callbacks_8c.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c']]],
+  ['hx_5ffan_5fon_22',['hx_fan_on',['../cooling__callbacks_8c.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c']]]
 ];
