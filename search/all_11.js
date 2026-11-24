@@ -55,13 +55,12 @@ var searchData=
   ['hv_5fadc_5fto_5fvoltage_52',['hv_adc_to_voltage',['../main__module_2telemetry_2telemetry_8c.html#ac1c9aff5306b535060dc2070e0749a6b',1,'telemetry.c']]],
   ['hv_5fboard_5fswitch_5ffault_53',['HV_BOARD_SWITCH_FAULT',['../structpdu__fault__sync__data__t.html#a103dc990c0757cc5e456cba4a5fe6be5',1,'pdu_fault_sync_data_t']]],
   ['hw_5fdisable_54',['HW_DISABLE',['../phal__F4_2usart_2usart_8h.html#a764ee627968d428e2ca107a995cdf7c2a791d53ca9fd6a52d968f740e63288eb6',1,'usart.h']]],
-  ['hw_5ffail_55',['hw_fail',['../structelcon__status__data__t.html#ab252e3b707ba4470fe3c219d0cb378e9',1,'elcon_status_data_t']]],
-  ['hw_5fflow_5fctl_56',['hw_flow_ctl',['../structusart__init__t.html#ac36a6ddfa1405916862f19954981bea4',1,'usart_init_t']]],
-  ['hw_5fflow_5fctl_5ft_57',['hw_flow_ctl_t',['../phal__F4_2usart_2usart_8h.html#a764ee627968d428e2ca107a995cdf7c2',1,'usart.h']]],
-  ['hx_5ffan_5finterval_58',['HX_FAN_INTERVAL',['../cooling__fsm_8c.html#a95035ce7342017cd4cb9356848d04731',1,'cooling_fsm.c']]],
-  ['hx_5ffan_5flower_5flimit_59',['HX_FAN_LOWER_LIMIT',['../cooling__fsm_8c.html#af0c33c92c651eab14a146c4689dc80e6',1,'cooling_fsm.c']]],
-  ['hx_5ffan_5foff_60',['hx_fan_off',['../cooling__callbacks_8c.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c']]],
-  ['hx_5ffan_5fon_61',['hx_fan_on',['../cooling__callbacks_8c.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c']]],
-  ['hx_5ffan_5fupper_5flimit_62',['HX_FAN_UPPER_LIMIT',['../cooling__fsm_8c.html#ae61f78a8984f1e42b3f3e2172453e6b1',1,'cooling_fsm.c']]],
-  ['hxfan_5fswitch_5ffault_63',['HXFAN_SWITCH_FAULT',['../structpdu__fault__sync__data__t.html#af8c605db2e0e306351c0a711ba052e4c',1,'pdu_fault_sync_data_t']]]
+  ['hw_5fflow_5fctl_55',['hw_flow_ctl',['../structusart__init__t.html#ac36a6ddfa1405916862f19954981bea4',1,'usart_init_t']]],
+  ['hw_5fflow_5fctl_5ft_56',['hw_flow_ctl_t',['../phal__F4_2usart_2usart_8h.html#a764ee627968d428e2ca107a995cdf7c2',1,'usart.h']]],
+  ['hx_5ffan_5finterval_57',['HX_FAN_INTERVAL',['../cooling__fsm_8c.html#a95035ce7342017cd4cb9356848d04731',1,'cooling_fsm.c']]],
+  ['hx_5ffan_5flower_5flimit_58',['HX_FAN_LOWER_LIMIT',['../cooling__fsm_8c.html#af0c33c92c651eab14a146c4689dc80e6',1,'cooling_fsm.c']]],
+  ['hx_5ffan_5foff_59',['hx_fan_off',['../cooling__callbacks_8c.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c']]],
+  ['hx_5ffan_5fon_60',['hx_fan_on',['../cooling__callbacks_8c.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c']]],
+  ['hx_5ffan_5fupper_5flimit_61',['HX_FAN_UPPER_LIMIT',['../cooling__fsm_8c.html#ae61f78a8984f1e42b3f3e2172453e6b1',1,'cooling_fsm.c']]],
+  ['hxfan_5fswitch_5ffault_62',['HXFAN_SWITCH_FAULT',['../structpdu__fault__sync__data__t.html#af8c605db2e0e306351c0a711ba052e4c',1,'pdu_fault_sync_data_t']]]
 ];
