@@ -12,6 +12,8 @@
 
 static constexpr uint32_t HV_SOC_PERIOD_MS = 10;
 
+void hv_soc_init(void);
+void hv_soc_periodic(void);
 
 
 #endif // HV_SOC_H

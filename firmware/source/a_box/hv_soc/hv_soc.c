@@ -10,6 +10,7 @@
 #include "common/linear_algebra/linear_algebra.h"
 #include "common/soc_ukf/soc_ukf.h"
 #include "main.h"
+#include "telemetry.h"
 
 soc_ukf_t soc_ukf = {0};
 
@@ -22,7 +23,7 @@ static constexpr soc_ukf_params_t HV_PARAMS = {
         .tau2 = 13.0688f,
         .Q    = 5.0f,
     },
-    .prediction_dt = (1.0f / (float)HV_SOC_PERIOD_MS),
+    .prediction_dt = (float)HV_SOC_PERIOD_MS / 1000.0f,
     .Q = {{
         {4e-12f, 0.0f,  0.0f},
         {0.0f,   4e-8f, 0.0f},
@@ -35,7 +36,7 @@ static constexpr soc_ukf_params_t HV_PARAMS = {
 };
 
 static float get_cell_current() {
-    static constexpr float PACK_PARALLEL = 3.0f;
+    static constexpr float PACK_PARALLEL = 2.0f;
 
     uint16_t current_raw = adc1_dma_buffer.isense_raw;
     
@@ -46,7 +47,7 @@ static float get_cell_current() {
 }
 
 static float get_cell_voltage() {
-    static constexpr float PACK_SERIES = 128.0f;
+    static constexpr float PACK_SERIES = 145.0f;
 
     // todo update off BMS
     uint16_t voltage_raw = adc1_dma_buffer.vbatt_raw;
@@ -79,12 +80,12 @@ void hv_soc_periodic() {
     float cell_voltage = get_cell_voltage();
     float cell_current = get_cell_current();
 
-    SOC_UFK_predict(
+    SOC_UKF_predict(
         &soc_ukf,
         cell_current
     );
 
-    SOC_UFK_update(
+    SOC_UKF_update(
         &soc_ukf,
         cell_voltage,
         cell_current
