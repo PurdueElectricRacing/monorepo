@@ -146,7 +146,7 @@ add_subdirectory(
     "${CMAKE_BINARY_DIR}/unit/lerp_lut"
 )
 add_subdirectory(
-    "${PER_TEST_FIRMWARE_SOURCE_DIR}/can_library/tests"
+    "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/can_library/tests"
     "${CMAKE_BINARY_DIR}/unit/can_codec"
 )
 add_subdirectory(

@@ -10,7 +10,7 @@ Index:
 
 ---
 If:
-  PathMatch: firmware/(can_library|common/[^/]+)/tests/.*
+  PathMatch: firmware/common/[^/]+/tests/.*
 
 CompileFlags:
   CompilationDatabase: firmware/build/host-tests

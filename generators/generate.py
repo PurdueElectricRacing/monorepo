@@ -9,7 +9,8 @@ from core.config import (
     CAN_GRAPHS_DIR,
     FIL_CONFIG_DIR,
     FIL_STIMULI_DIR,
-    GENERATED_DIR,
+    CAN_GENERATED_DIR,
+    FAULT_GENERATED_DIR,
     SUPERDBC_DIR,
     UNIT_GRAPHS_DIR,
     UNITS_GENERATED_DIR,
@@ -45,7 +46,8 @@ def generate() -> None:
     artifacts += dearunits.generate(unit_graph)
 
     output_roots = {
-        "generated": GENERATED_DIR,
+        "generated": CAN_GENERATED_DIR,
+        "fault_generated": FAULT_GENERATED_DIR,
         "superdbc": SUPERDBC_DIR,
         "can_graphs": CAN_GRAPHS_DIR,
         "units_generated": UNITS_GENERATED_DIR,
@@ -56,6 +58,7 @@ def generate() -> None:
         output_roots,
         {
             "generated": "*",
+            "fault_generated": "*",
             "superdbc": (
                 "superdbc_*.json",
                 "superdbc.schema.json"

@@ -8,7 +8,7 @@
 
 #include "sdc.h"
 
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 #include "rtos/rtos.h"
 #include "phal_G4/gpio/gpio.h"
 #include "main.h"

@@ -46,7 +46,6 @@ def check() -> None:
             "--funsigned-char",
             "--file-filter=*/firmware/source/*",
             "--file-filter=*/firmware/common/*",
-            "--file-filter=*/firmware/can_library/*",
             "--suppress=*:*/external/*",
             "--suppress=*:*/source/torque_vector/vcu/*",
             "--suppress=*:*/common/phal_F4/*",

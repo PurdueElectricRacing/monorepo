@@ -1,7 +1,7 @@
 use crate::{firmware, frame};
 use std::time;
 
-// Values mirror bootloader_status_t in firmware/can_library/generated/can_types.h.
+// Values mirror bootloader_status_t in firmware/common/can_library/generated/can_types.h.
 // Keeping the wire constants here avoids coupling the host updater to generated
 // C headers.
 const PROTOCOL_VERSION: u32 = 1;

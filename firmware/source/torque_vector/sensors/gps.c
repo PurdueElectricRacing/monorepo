@@ -5,7 +5,7 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 #include "rtos/rtos.h"
 #include "sensors.h"
 

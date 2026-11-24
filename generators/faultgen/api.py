@@ -196,7 +196,7 @@ class FaultGenerator:
         print("Generating fault library implementation data...")
         artifacts = [
             Artifact(
-                "generated",
+                "fault_generated",
                 "fault_data.h",
                 render_template(
                     env,
@@ -205,7 +205,7 @@ class FaultGenerator:
                 ),
             ),
             Artifact(
-                "generated",
+                "fault_generated",
                 "fault_data.c",
                 render_template(
                     env,

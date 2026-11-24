@@ -7,12 +7,14 @@ Libraries, drivers, generic data structures, and other utilities.
 - `rtos` FreeRTOS configuration and wrapper functions.
 
 ## Device / protocol drivers
+- `can_library` CAN runtime, codec, and generated CAN headers.
 - `amk` AMK motor controller helpers.
 - `nextion` Nextion display communication helpers.
 - `sdio` SDIO helpers.
 - `ublox` u-blox GNSS parsing and configuration helpers.
 
 ## System services
+- `fault_library` Fault state management and CAN fault synchronization.
 - `heartbeat` Board heartbeat / liveness utilities.
 - `watchdog` Watchdog abstraction and helpers.
 - `syscalls` Syscall shims used by embedded runtime/newlib.

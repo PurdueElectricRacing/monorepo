@@ -8,7 +8,7 @@
 
 #include "pedals.h"
 
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 #include "can_library/generated/DASHBOARD.h"
 #include "utils/abs.h"
 #include "utils/clamp.h"

@@ -10,7 +10,7 @@
 #include "switch.h"
 #include "rtos/rtos.h"
 #include "can_library/generated/PDU.h"
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 
 
 

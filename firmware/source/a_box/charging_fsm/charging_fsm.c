@@ -8,7 +8,7 @@
 #include "charging_fsm.h"
 
 #include "adbms.h"
-#include "can_library/faults_common.h"
+#include "fault_library/faults_common.h"
 #include "can_library/generated/A_BOX.h"
 #include "can_library/generated/can_types.h"
 
