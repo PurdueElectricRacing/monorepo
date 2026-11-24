@@ -11,22 +11,22 @@
 /* System Includes */
 #include "can_library/faults_common.h"
 #include "can_library/generated/A_BOX.h"
-#include "charging_fsm.h"
-#include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/adc/adc.h"
 #include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/pin_defs/g474ret6.h"
+#include "common/phal_G4/rcc/rcc.h"
+#include "common/rtos/rtos.h"
 #include "common/utils/clamp.h"
+#include "common/utils/countof.h"
+#include "common/watchdog/watchdog.h"
 
 /* Module Includes */
 #include "adbms.h"
-#include "common/utils/countof.h"
-#include "common/watchdog/watchdog.h"
+#include "charging_fsm.h"
+#include "hv_soc.h"
 #include "imd.h"
 #include "telemetry.h"
-
 
 static PHAL_DMA_Handle_t spi1_rx_dma = {
     .wiring = &SPI1_RX_DMA_WIRING,
@@ -143,6 +143,7 @@ DEFINE_CAN_TASKS();
 RTOS_DEFINE_TASK(bms_task, BMS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_2048);
 RTOS_DEFINE_TASK(charging_fsm_periodic, ELCON_COMMAND_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
 RTOS_DEFINE_TASK(fault_library_periodic, A_BOX_FAULT_SYNC_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_1024);
+RTOS_DEFINE_TASK(hv_soc_periodic, HV_SOC_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_2048);
 RTOS_DEFINE_TASK(report_telemetry_100hz, TELEMETRY_100HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(report_telemetry_8hz, TELEMETRY_8HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(report_telemetry_02hz, TELEMETRY_02HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
@@ -177,10 +178,13 @@ int main(void) {
 
     CAN_init();
 
+    hv_soc_init();
+
     START_CAN_TASKS();
     CAN_SEND_abox_init(WDG_get_CSR());
     RTOS_START_TASK(bms_task);
     RTOS_START_TASK(fault_library_periodic);
+    RTOS_START_TASK(hv_soc_periodic);
     RTOS_START_TASK(report_telemetry_100hz);
     RTOS_START_TASK(report_telemetry_8hz);
     RTOS_START_TASK(report_telemetry_02hz);
