@@ -20,28 +20,28 @@
                     "scale": 0.1
                 },
                 {
-                    "signal_name": "hw_fail",
+                    "signal_name": "is_hardware_fail",
                     "description": "Hardware failure",
                     "data_type": "bool"
                 },
                 {
-                    "signal_name": "temp_fail",
-                    "description": "Temperature failure",
+                    "signal_name": "is_over_temperature",
+                    "description": "Charger overtemp protection active",
                     "data_type": "bool"
                 },
                 {
-                    "signal_name": "input_v_fail",
-                    "description": "Input voltage failure",
+                    "signal_name": "is_invalid_input_voltage",
+                    "description": "Invalid input voltage",
                     "data_type": "bool"
                 },
                 {
-                    "signal_name": "startup_fail",
-                    "description": "Startup voltage detection failure",
+                    "signal_name": "is_startup_fail",
+                    "description": "Charger stays off to prevent reverse polarity",
                     "data_type": "bool"
                 },
                 {
-                    "signal_name": "communication_fail",
-                    "description": " 5s timeout from communication failure",
+                    "signal_name": "is_comms_timeout",
+                    "description": "5s elapsed since last rx of 0x1806E5F4",
                     "data_type": "bool"
                 }
             ],
