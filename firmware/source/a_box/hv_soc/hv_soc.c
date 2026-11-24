@@ -9,10 +9,28 @@
 
 #include "common/linear_algebra/linear_algebra.h"
 #include "common/soc_ukf/soc_ukf.h"
+#include "common/lerp_lut/lerp_lut.h"
 #include "main.h"
 #include "telemetry.h"
 
 soc_ukf_t soc_ukf = {0};
+
+// todo a shared home with PDU
+static constexpr size_t OCV_TO_SOC_SIZE = 11;
+static const lut_entry_t OCV_TO_SOC_ENTRIES[OCV_TO_SOC_SIZE] = {
+    {2.811f, 0.0f},
+    {3.096f, 0.1f},
+    {3.286f, 0.2f},
+    {3.439f, 0.3f},
+    {3.570f, 0.4f},
+    {3.690f, 0.5f},
+    {3.829f, 0.6f},
+    {3.906f, 0.7f},
+    {4.040f, 0.8f},
+    {4.085f, 0.9f},
+    {4.171f, 1.0f},
+};
+LERP_LUT_INIT(OCV_TO_SOC, OCV_TO_SOC_ENTRIES, OCV_TO_SOC_SIZE);
 
 static constexpr soc_ukf_params_t HV_PARAMS = {
     .ecm = {
@@ -59,9 +77,15 @@ static float get_cell_voltage() {
 }
 
 void hv_soc_init() {
+    float cell_voltage = get_cell_voltage();
+    float initial_soc = lut_lookup(&OCV_TO_SOC, cell_voltage);
 
-    // todo inverse SOC lookup based on voltage at rest
-    vec3_t x0 = {0.5f, 0.0f, 0.0f};
+    vec3_t x0 = {
+        initial_soc,
+        0.0f,
+        0.0f
+    };
+
     mat3_t P0 = {{
         {2.5e-3f, 0.0f, 0.0f},
         {0.0f, 4e-4f, 0.0f},
