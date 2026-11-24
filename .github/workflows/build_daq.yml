@@ -96,15 +96,10 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Cache Cargo
-        uses: actions/cache@v6
+        uses: Swatinem/rust-cache@v2
         with:
-          path: |
-            /opt/cargo/registry
-            /opt/cargo/git
-            daq/target
-          key: ${{ runner.os }}-daq-${{ hashFiles('daq/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-daq-
+          workspaces: daq -> target
+          key: ${{ hashFiles('Dockerfile') }}
 
       - name: Build DAQ workspace
         working-directory: daq
@@ -143,15 +138,10 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Cache Cargo
-        uses: actions/cache@v6
+        uses: Swatinem/rust-cache@v2
         with:
-          path: |
-            /opt/cargo/registry
-            /opt/cargo/git
-            daq/target
-          key: ${{ runner.os }}-clippy-DAQ-${{ hashFiles('daq/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-clippy-DAQ-
+          workspaces: daq -> target
+          key: ${{ hashFiles('Dockerfile') }}
 
       - name: Check Clippy
         working-directory: daq
