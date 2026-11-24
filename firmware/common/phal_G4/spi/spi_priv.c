@@ -6,10 +6,10 @@
  * 
  */
 
-#include "common/phal_G4/spi/spi.h"
-#include "common/phal_G4/spi/spi_priv.h"
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/utils/clamp.h"
+#include "phal_G4/spi/spi.h"
+#include "phal_G4/spi/spi_priv.h"
+#include "phal_G4/rcc/rcc.h"
+#include "utils/clamp.h"
 
 
 static inline uint32_t LOG2_DOWN(uint32_t x) {

@@ -2,8 +2,8 @@
 
 #if (G4_TESTING_CHOSEN == TEST_SOC_UKF)
 
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/rtos/rtos.h"
+#include "phal_G4/rcc/rcc.h"
+#include "rtos/rtos.h"
 #include "soc_ukf.h"
 
 static soc_ukf_t filter;

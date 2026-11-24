@@ -10,9 +10,9 @@
 
 #include "can_library/faults_common.h"
 #include "can_library/generated/DASHBOARD.h"
-#include "common/utils/abs.h"
-#include "common/utils/clamp.h"
-#include "common/utils/rescale.h"
+#include "utils/abs.h"
+#include "utils/clamp.h"
+#include "utils/rescale.h"
 #include "main.h"
 
 static constexpr uint16_t THROTTLE1_MIN = 200;

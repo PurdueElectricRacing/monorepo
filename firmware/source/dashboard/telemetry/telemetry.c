@@ -9,9 +9,9 @@
 
 #include "can_library/generated/DASHBOARD.h"
 #include "can_library/generated/can_version.h"
-#include "common/bootloader/bootloader_common.h"
-#include "common/utils/clamp.h"
-#include "common/utils/rescale.h"
+#include "bootloader/bootloader_common.h"
+#include "utils/clamp.h"
+#include "utils/rescale.h"
 #include "main.h"
 
 static inline float brake_adc_to_pressure(uint16_t raw_brake_adc) {

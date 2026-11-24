@@ -10,8 +10,8 @@
 #define LAP_TIMER_H
 
 #include <stdint.h>
-#include "common/utils/geodetic.h"
-#include "common/utils/vector2.h"
+#include "utils/geodetic.h"
+#include "utils/vector2.h"
 
 // how far the car must travel past the start point to establish its heading
 static constexpr float LAP_TIMER_CAPTURE_DISTANCE_M = 1.0f;

@@ -9,8 +9,8 @@
 
 #include "can_library/generated/A_BOX.h"
 #include "can_library/generated/can_version.h"
-#include "common/bootloader/bootloader_common.h"
-#include "common/utils/clamp.h"
+#include "bootloader/bootloader_common.h"
+#include "utils/clamp.h"
 #include "main.h"
 
 /**

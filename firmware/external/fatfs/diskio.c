@@ -9,7 +9,7 @@
 
 #include "diskio.h" /* Declarations of disk functions */
 
-#include "common/phal_F4/rtc/rtc.h"
+#include "phal_F4/rtc/rtc.h"
 
 /* Set in defines.h file if you want it */
 #ifndef TM_FATFS_CUSTOM_FATTIME
@@ -19,7 +19,7 @@
 #include <string.h>
 
 #include "main.h"
-#include "common/sdio/sdio.h"
+#include "sdio/sdio.h"
 
 /* Definitions of physical drive number for each media */
 #define ATA       0

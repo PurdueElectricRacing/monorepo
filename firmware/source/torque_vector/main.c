@@ -9,14 +9,14 @@
 
 /* System Includes */
 #include "can_library/generated/TORQUE_VECTOR.h"
-#include "common/rtos/rtos.h"
-#include "common/heartbeat/heartbeat.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/phal_G4/usart/usart.h"
-#include "common/phal_G4/pin_defs/g474ret6.h"
-#include "common/utils/countof.h"
-#include "common/watchdog/watchdog.h"
+#include "rtos/rtos.h"
+#include "heartbeat/heartbeat.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/rcc/rcc.h"
+#include "phal_G4/usart/usart.h"
+#include "phal_G4/pin_defs/g474ret6.h"
+#include "utils/countof.h"
+#include "watchdog/watchdog.h"
 
 /* Module Includes */
 #include "control_loop.h"

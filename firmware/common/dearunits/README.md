@@ -5,7 +5,7 @@ Available unit families: temperature (C/F), distance (m/cm/mm/in/ft/mi), time (m
 
 ## Usage Example
 ```c
-#include "common/dearunits/generated/dearunits.h"
+#include "dearunits/generated/dearunits.h"
 
 celsius_t board_temp     = { .value = 42.0f };
 fahrenheit_t temperature = fahrenheit_from_celsius(board_temp); // 107.6 F

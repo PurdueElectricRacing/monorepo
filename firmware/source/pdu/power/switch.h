@@ -8,7 +8,7 @@
 #ifndef SWITCH_H
 #define SWITCH_H
 
-#include "common/phal_G4/gpio/gpio.h"
+#include "phal_G4/gpio/gpio.h"
 #include "can_library/generated/PDU.h"
 
 static constexpr uint8_t NUM_SWITCHES = SWITCH_ID_EMETER + 1;

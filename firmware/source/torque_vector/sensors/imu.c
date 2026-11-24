@@ -6,11 +6,11 @@
  */
 
 #include "can_library/generated/TORQUE_VECTOR.h"
-#include "common/utils/orientation.h"
+#include "utils/orientation.h"
 #include "sensors.h"
 // #include <math.h>
-#include "common/dearunits/generated/dearunits.h"
-#include "common/utils/clamp.h"
+#include "dearunits/generated/dearunits.h"
+#include "utils/clamp.h"
 
 typedef enum {
     DECOUPLING_STATE_IDLE,

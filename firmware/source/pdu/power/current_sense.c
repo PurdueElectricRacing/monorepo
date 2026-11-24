@@ -8,7 +8,7 @@
 #include "current_sense.h"
 #include "main.h"
 #include "switch.h"
-#include "common/rtos/rtos.h"
+#include "rtos/rtos.h"
 #include "can_library/generated/PDU.h"
 #include "can_library/faults_common.h"
 

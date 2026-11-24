@@ -4,12 +4,12 @@
 #include <string.h>
 
 #include "can_library/generated/can_version.h"
-#include "common/bootloader/bootloader_common.h"
-#include "common/phal_G4/crc/crc.h"
-#include "common/phal_G4/fdcan/fdcan.h"
-#include "common/phal_G4/flash/flash.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/rcc/rcc.h"
+#include "bootloader/bootloader_common.h"
+#include "phal_G4/crc/crc.h"
+#include "phal_G4/fdcan/fdcan.h"
+#include "phal_G4/flash/flash.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/rcc/rcc.h"
 #include "node_defs.h"
 
 /*

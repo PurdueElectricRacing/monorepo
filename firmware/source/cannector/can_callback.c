@@ -10,9 +10,9 @@
 
 #include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
-#include "common/phal_G4/fdcan/fdcan.h"
-#include "common/rtos/rtos.h"
-#include "common/timestamped_frame/timestamped_frame.h"
+#include "phal_G4/fdcan/fdcan.h"
+#include "rtos/rtos.h"
+#include "timestamped_frame/timestamped_frame.h"
 #include "main.h"
 
 volatile uint32_t last_can_rx_time_ms = 0;

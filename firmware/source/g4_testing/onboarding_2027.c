@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/utils/countof.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/rcc/rcc.h"
+#include "utils/countof.h"
 #include "main.h"
 
 

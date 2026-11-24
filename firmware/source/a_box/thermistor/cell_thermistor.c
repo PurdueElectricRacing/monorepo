@@ -8,7 +8,7 @@
 
 #include "thermistor.h"
 
-#include "common/lerp_lut/lerp_lut.h"
+#include "lerp_lut/lerp_lut.h"
 
 
 // https://www.tdk-electronics.tdk.com/inf/50/db/ntc/NTC_Mini_sensors_S861.pdf

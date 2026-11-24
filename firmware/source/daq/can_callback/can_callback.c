@@ -11,9 +11,9 @@
 #include "can_library/generated/MCAN.h"
 #include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
-#include "common/phal_F4/can/can.h"
-#include "common/rtos/rtos.h"
-#include "common/timestamped_frame/timestamped_frame.h"
+#include "phal_F4/can/can.h"
+#include "rtos/rtos.h"
+#include "timestamped_frame/timestamped_frame.h"
 #include "rtc_sync.h"
 #include "spmc.h"
 

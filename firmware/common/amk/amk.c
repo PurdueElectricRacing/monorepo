@@ -7,7 +7,7 @@
  * @author Chris McGalliard (cpmcgalliard@gmail.com)
  */
 
-#include "common/amk/amk.h"
+#include "amk/amk.h"
 
 // Diagnostic IDs
 static constexpr uint32_t AMK_CAN_ERR_ID = 3587U;

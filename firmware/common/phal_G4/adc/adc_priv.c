@@ -9,7 +9,7 @@
  * @author Ronak Jain (jain717@purdue.edu)
  */
 
-#include "common/phal_G4/adc/adc_priv.h"
+#include "phal_G4/adc/adc_priv.h"
 
 /// HSI16 rate, used only as a fallback when SystemCoreClock is unset
 static constexpr uint32_t ADC_PRIV_HSI_CLOCK_RATE_HZ = 16'000'000U;

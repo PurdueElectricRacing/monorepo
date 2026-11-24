@@ -7,8 +7,8 @@
  */
 
 #include "rtc_sync.h"
-#include "common/phal_F4/rtc/rtc.h"
-#include "common/timestamped_frame/timestamped_frame.h"
+#include "phal_F4/rtc/rtc.h"
+#include "timestamped_frame/timestamped_frame.h"
 #include "main.h"
 #include "can_library/generated/VCAN.h"
 

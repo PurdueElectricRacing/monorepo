@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "common/phal_G4/usart/usart.h"
+#include "phal_G4/usart/usart.h"
 
 /**
  * @file lcd.h

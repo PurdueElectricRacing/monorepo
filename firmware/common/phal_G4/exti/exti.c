@@ -3,9 +3,9 @@
  * @brief G4 EXTI public API implementation
  * @author Ronak Jain (jain717@purdue.edu)
  */
-#include "common/phal_G4/exti/exti.h"
+#include "phal_G4/exti/exti.h"
 
-#include "common/phal_G4/exti/exti_priv.h"
+#include "phal_G4/exti/exti_priv.h"
 
 static bool exti_validate_config(const PHAL_EXTI_InitConfig_t config[], size_t config_len) {
     uint32_t configured_lines = 0U;

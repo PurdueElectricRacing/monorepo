@@ -6,7 +6,7 @@
 #ifndef PHAL_G4_EXTI_PRIV_H
 #define PHAL_G4_EXTI_PRIV_H
 
-#include "common/phal_G4/exti/exti.h"
+#include "phal_G4/exti/exti.h"
 
 static constexpr uint32_t PHAL_EXTI_PRIV_GPIO_LINE_COUNT = 16U;
 

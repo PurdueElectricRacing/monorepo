@@ -4,7 +4,7 @@
  * @author Millan Kumar (kumar798@purdue.edu)
  */
 
-#include "common/phal_G4/gpio/gpio_priv.h"
+#include "phal_G4/gpio/gpio_priv.h"
 
 
 /// Get the bit pattern for a pin's MODER field from its type

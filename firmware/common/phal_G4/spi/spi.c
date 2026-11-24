@@ -6,11 +6,11 @@
  * @version 0.1
  */
 
-#include "common/phal_G4/spi/spi.h"
-#include "common/phal_G4/spi/spi_priv.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/dma/dma.h"
-#include "common/utils/clamp.h"
+#include "phal_G4/spi/spi.h"
+#include "phal_G4/spi/spi_priv.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/dma/dma.h"
+#include "utils/clamp.h"
 
 
 static uint16_t trash_can; // For RX discard when in_data NULL

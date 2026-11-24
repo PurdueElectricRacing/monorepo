@@ -4,7 +4,7 @@
  * @author Millan Kumar (kumar798@purdue.edu)
  */
 
-#include "common/phal_G4/rcc/rcc_priv.h"
+#include "phal_G4/rcc/rcc_priv.h"
 
 void PHAL_RCC_priv_enableHSI(void) {
     // CR = Clock control register

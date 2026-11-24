@@ -13,10 +13,10 @@
 #include <string.h>
 
 #include "commands.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/spi/spi.h"
-#include "common/rtos/rtos.h"
-#include "common/utils/countof.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/spi/spi.h"
+#include "rtos/rtos.h"
+#include "utils/countof.h"
 #include "pec.h"
 #include "thermistor.h"
 

@@ -1,4 +1,4 @@
-#include "common/phal_F4/gpio/gpio.h"
+#include "phal_F4/gpio/gpio.h"
 
 bool PHAL_initGPIO(GPIOInitConfig_t config[], uint8_t config_len) {
     uint8_t afr_i;

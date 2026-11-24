@@ -1,6 +1,6 @@
 #include "activity_leds.h"
 
-#include "common/phal_G4/gpio/gpio.h"
+#include "phal_G4/gpio/gpio.h"
 #include "main.h"
 
 static volatile uint32_t g_last_activity[ACTIVITY_COUNT];

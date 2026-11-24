@@ -10,7 +10,7 @@
 
 #include <stddef.h>
 
-#include "common/phal_G4/dma/dma.h"
+#include "phal_G4/dma/dma.h"
 
 /**
  * @brief SPI operating mode.

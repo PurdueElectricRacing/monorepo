@@ -27,8 +27,8 @@
 #define USART8_ACTIVE_IDX 7
 #endif
 
-#include "common/phal_F4/dma/dma.h"
-#include "common/phal_F4/phal_F4.h"
+#include "phal_F4/dma/dma.h"
+#include "phal_F4/phal_F4.h"
 
 typedef uint32_t ptr_int;
 

@@ -10,9 +10,9 @@
 
 #include <stdint.h>
 #if defined(STM32F423xx)
-#include "common/phal_F4/can/can.h"
+#include "phal_F4/can/can.h"
 #elif defined(STM32G474xx)
-#include "common/phal_G4/fdcan/fdcan.h"
+#include "phal_G4/fdcan/fdcan.h"
 #else
 #error "Unsupported CAN target"
 #endif

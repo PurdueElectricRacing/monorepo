@@ -11,7 +11,7 @@
 #ifndef _PHAL_RCC_H_
 #define _PHAL_RCC_H_
 
-#include "common/phal_F4/phal_F4.h"
+#include "phal_F4/phal_F4.h"
 
 #if !defined(HSE_VALUE) || HSE_VALUE == 0
 #error "Define HSE_VALUE to the board HSE frequency in Hz for both CMSIS and PHAL"

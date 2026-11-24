@@ -7,7 +7,7 @@
  */
 
 #include "w5500/wizchip_conf.h"
-#include "common/phal_F4/spi/spi.h"
+#include "phal_F4/spi/spi.h"
 #include "main.h"
 
 extern SPI_InitConfig_t eth_spi_config;

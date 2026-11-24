@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2021
  *
  */
-#include "common/phal_F4/spi/spi.h"
-#include "common/utils/clamp.h"
+#include "phal_F4/spi/spi.h"
+#include "utils/clamp.h"
 
 extern uint32_t APB2ClockRateHz;
 extern uint32_t APB1ClockRateHz;

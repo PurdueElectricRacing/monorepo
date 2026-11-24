@@ -4,12 +4,12 @@
 
 #include <string.h>
 
-#include "common/rtos/rtos.h"
-#include "common/phal_G4/fdcan/fdcan.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/phal_G4/pin_defs/g474ret6.h"
-#include "common/utils/countof.h"
+#include "rtos/rtos.h"
+#include "phal_G4/fdcan/fdcan.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/rcc/rcc.h"
+#include "phal_G4/pin_defs/g474ret6.h"
+#include "utils/countof.h"
 
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_RX_PB12,

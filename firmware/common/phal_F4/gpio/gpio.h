@@ -13,7 +13,7 @@
 #ifndef _PHAL_GPIO_H_
 #define _PHAL_GPIO_H_
 
-#include "common/phal_F4/phal_F4.h"
+#include "phal_F4/phal_F4.h"
 
 /**
  * @brief Configuration type for GPIO Pin

@@ -1,4 +1,4 @@
-#include "common/phal_G4/usart/usart_priv.h"
+#include "phal_G4/usart/usart_priv.h"
 
 static const PHAL_USART_HwMap_t USART_MAP[NUM_USART] = {
     [USART1_IDX] = {

@@ -14,8 +14,8 @@
 
 #include <math.h>
 
-#include "common/utils/vector2.h"
-#include "common/dearunits/generated/dearunits.h"
+#include "utils/vector2.h"
+#include "dearunits/generated/dearunits.h"
 
 // WGS84 mean meters of northing per degree of latitude
 static constexpr float METERS_PER_DEGREE = 111132.0f;

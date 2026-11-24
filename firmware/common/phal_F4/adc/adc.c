@@ -6,7 +6,7 @@
  * @date 2023-09-17
  */
 
-#include "common/phal_F4/adc/adc.h"
+#include "phal_F4/adc/adc.h"
 
 bool PHAL_initADC(ADCInitConfig_t* config, ADCChannelConfig_t channels[], uint8_t num_channels) {
     // F423 provides only ADC1; other ADC clock bits are reserved.

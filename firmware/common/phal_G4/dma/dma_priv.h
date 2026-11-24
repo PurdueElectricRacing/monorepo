@@ -8,7 +8,7 @@
 #ifndef PHAL_G4_DMA_PRIV_H
 #define PHAL_G4_DMA_PRIV_H
 
-#include "common/phal_G4/dma/dma.h"
+#include "phal_G4/dma/dma.h"
 
 
 // Every DMA1/DMA2 channel register block is this many bytes apart

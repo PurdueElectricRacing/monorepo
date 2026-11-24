@@ -7,7 +7,7 @@
  * supplies validated requests and receives simple success/failure results.
  */
 
-#include "common/phal_G4/flash/flash_priv.h"
+#include "phal_G4/flash/flash_priv.h"
 
 #include "stm32g474xx.h"
 

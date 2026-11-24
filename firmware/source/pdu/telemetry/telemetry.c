@@ -7,7 +7,7 @@
 
 #include "can_library/generated/PDU.h"
 #include "can_library/generated/can_version.h"
-#include "common/bootloader/bootloader_common.h"
+#include "bootloader/bootloader_common.h"
 
 /**
  * @brief Reports telemetry data at 0.2 Hz rate

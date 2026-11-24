@@ -12,7 +12,7 @@
 
 #include "stm32g474xx.h"
 
-#include "common/phal_G4/dma/dma_wiring.h"
+#include "phal_G4/dma/dma_wiring.h"
 
 /// Relative priority when multiple DMA requests are pending at once
 typedef enum {

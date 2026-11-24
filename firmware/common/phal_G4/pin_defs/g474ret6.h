@@ -12,7 +12,7 @@
 
 #include "stm32g474xx.h"
 
-#include "common/phal_G4/gpio/gpio.h"
+#include "phal_G4/gpio/gpio.h"
 
 
 // FDCAN ---------------------------------------------------------------------//

@@ -10,7 +10,7 @@
 #include <stdint.h>
 
 #include "stm32g474xx.h"
-#include "common/phal_G4/rcc/rcc.h"
+#include "phal_G4/rcc/rcc.h"
 
 
 // This board's external oscillator input

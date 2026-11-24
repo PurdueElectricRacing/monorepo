@@ -6,9 +6,9 @@
  * Logic level code. All register/message-RAM detail lives in fdcan_priv.c.
  */
 
-#include "common/phal_G4/fdcan/fdcan.h"
+#include "phal_G4/fdcan/fdcan.h"
 
-#include "common/phal_G4/fdcan/fdcan_priv.h"
+#include "phal_G4/fdcan/fdcan_priv.h"
 
 
 void PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate) {

@@ -10,9 +10,9 @@
 #include "imd_decode.h"
 
 #include "can_library/generated/A_BOX.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/rtos/rtos.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/rcc/rcc.h"
+#include "rtos/rtos.h"
 #include "main.h"
 
 

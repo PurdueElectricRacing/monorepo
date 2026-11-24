@@ -12,7 +12,7 @@
 
 #include <stdint.h>
 
-#include "common/phal_G4/usb/usb.h"
+#include "phal_G4/usb/usb.h"
 
 /**
  * @brief Enable and reset the USB hardware, configure pins and packet memory.

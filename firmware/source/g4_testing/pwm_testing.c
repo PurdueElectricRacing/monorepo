@@ -10,11 +10,11 @@
 
 #include <stdint.h>
 
-#include "common/rtos/rtos.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/phal_G4/pwm/pwm.h"
-#include "common/utils/countof.h"
+#include "rtos/rtos.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/rcc/rcc.h"
+#include "phal_G4/pwm/pwm.h"
+#include "utils/countof.h"
 
 // Designed to test multiple GPIO pins on PDU for PER27
 //When you are configuring new pins use page 73 for the alternate function mapping for the STM32G474RET6: 

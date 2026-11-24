@@ -10,14 +10,14 @@
 /* System Includes */
 #include "can_library/faults_common.h"
 #include "can_library/generated/PDU.h"
-#include "common/rtos/rtos.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/pin_defs/g474ret6.h"
-#include "common/phal_G4/rcc/rcc.h"
-#include "common/phal_G4/adc/adc.h"
-#include "common/utils/countof.h"
-#include "common/watchdog/watchdog.h"
-#include "common/heartbeat/heartbeat.h"
+#include "rtos/rtos.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/pin_defs/g474ret6.h"
+#include "phal_G4/rcc/rcc.h"
+#include "phal_G4/adc/adc.h"
+#include "utils/countof.h"
+#include "watchdog/watchdog.h"
+#include "heartbeat/heartbeat.h"
 
 /* Module Includes */
 #include "cooling_fsm.h"

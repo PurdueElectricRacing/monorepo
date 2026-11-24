@@ -1,5 +1,5 @@
 
-#include "common/bootloader/bootloader_common.h"
+#include "bootloader/bootloader_common.h"
 
 #include "stm32g474xx.h"
 

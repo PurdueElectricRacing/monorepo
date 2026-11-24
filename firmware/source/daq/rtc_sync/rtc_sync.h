@@ -9,8 +9,8 @@
 #ifndef RTC_SYNC_H
 #define RTC_SYNC_H
 
-#include "common/phal_F4/rtc/rtc.h"
-#include "common/rtos/rtos.h"
+#include "phal_F4/rtc/rtc.h"
+#include "rtos/rtos.h"
 
 extern volatile uint32_t last_RTC_sync_time;
 extern QueueHandle_t gps_time_queue;

@@ -7,7 +7,7 @@
 
 #include "dearunits_test_shim.h"
 
-#include "common/dearunits/generated/dearunits.h"
+#include "dearunits/generated/dearunits.h"
 
 // Keep C23 dispatch in C; inputs and assertions live in Google Test.
 

@@ -4,9 +4,9 @@
  * @author Millan Kumar (kumar798@purdue.edu)
  */
 
-#include "common/phal_G4/rcc/rcc.h"
+#include "phal_G4/rcc/rcc.h"
 
-#include "common/phal_G4/rcc/rcc_priv.h"
+#include "phal_G4/rcc/rcc_priv.h"
 
 
 // Init to safe defaults, all HSI 16 MHz

@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 
-#include "common/lerp_lut/lerp_lut.h"
+#include "lerp_lut/lerp_lut.h"
 
 static constexpr size_t OIL_TEMPS_LUT_SIZE = 63;
 const lut_entry_t OIL_TEMPS[OIL_TEMPS_LUT_SIZE] = {

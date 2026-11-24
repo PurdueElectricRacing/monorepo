@@ -5,7 +5,7 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#include "common/dearunits/generated/dearunits.h"
+#include "dearunits/generated/dearunits.h"
 
 void test(void) {
     meters_per_second_t velocity = (meters_per_second_t) {.value = 2.0f};

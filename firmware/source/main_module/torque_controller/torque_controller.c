@@ -8,7 +8,7 @@
 #include "torque_controller.h"
 
 #include "can_library/generated/MAIN_MODULE.h"
-#include "common/utils/min.h"
+#include "utils/min.h"
 
 // For speed calculations
 static constexpr float WHEEL_RADIUS_IN = 8.0f;

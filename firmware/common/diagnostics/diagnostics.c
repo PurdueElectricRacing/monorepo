@@ -8,7 +8,7 @@
 
 #include <string.h>
 
-#include "common/rtos/rtos.h"
+#include "rtos/rtos.h"
 
 static constexpr uint32_t DIAGNOSTICS_SAMPLE_PERIOD_MS = 1000;
 static constexpr uint8_t DIAGNOSTICS_TICKS_PER_SAMPLE =

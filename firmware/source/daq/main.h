@@ -9,7 +9,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include "common/rtos/rtos.h"
+#include "rtos/rtos.h"
 
 // Pinouts
 // LEDs (HB, CAN, ERR)

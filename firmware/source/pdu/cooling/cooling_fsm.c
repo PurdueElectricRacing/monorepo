@@ -8,8 +8,8 @@
 #include "cooling_fsm.h"
 
 #include "can_library/generated/PDU.h"
-#include "common/bangbang/bangbang.h"
-#include "common/utils/max.h"
+#include "bangbang/bangbang.h"
+#include "utils/max.h"
 #include "cooling_callbacks.h"
 #include "main.h"
 

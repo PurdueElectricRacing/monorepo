@@ -9,7 +9,7 @@
  *
  */
 
-#include "common/phal_F4/rcc/rcc.h"
+#include "phal_F4/rcc/rcc.h"
 
 /* Globals for Clock Rates */
 uint32_t APB1ClockRateHz;

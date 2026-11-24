@@ -5,9 +5,9 @@
  * @author Ronak Jain (jain717@purdue.edu)
  */
 
-#include "common/phal_G4/adc/adc.h"
+#include "phal_G4/adc/adc.h"
 
-#include "common/phal_G4/adc/adc_priv.h"
+#include "phal_G4/adc/adc_priv.h"
 
 // One active handle per ADC instance, so the DMA interrupt can find the
 // handle that owns the channel that fired.

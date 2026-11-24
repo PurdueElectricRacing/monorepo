@@ -6,9 +6,9 @@
 
 #include "can_library/generated/VCAN.h"
 #include "can_library/generated/SCAN.h"
-#include "common/phal_G4/fdcan/fdcan.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/pin_defs/g474ret6.h"
+#include "phal_G4/fdcan/fdcan.h"
+#include "phal_G4/gpio/gpio.h"
+#include "phal_G4/pin_defs/g474ret6.h"
 
 /**
  * @brief All board-specific details needed by the bootloader transport.

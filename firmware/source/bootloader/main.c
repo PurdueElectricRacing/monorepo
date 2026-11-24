@@ -1,6 +1,6 @@
 
 #include "bootloader/bootloader.h"
-#include "common/phal_G4/rcc/rcc.h"
+#include "phal_G4/rcc/rcc.h"
 
 int main(void) {
     uint32_t reset_flags = RCC->CSR;

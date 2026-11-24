@@ -5,7 +5,7 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#include "common/dearunits/generated/dearunits.h"
+#include "dearunits/generated/dearunits.h"
 
 void test(void) {
     meter_t distance = (meter_t) {.value = 1.0f};

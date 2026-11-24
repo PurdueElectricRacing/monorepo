@@ -13,7 +13,7 @@
 #include <stdint.h>
 
 #include "colors.h"
-#include "common/nextion/nextion.h"
+#include "nextion/nextion.h"
 
 static constexpr uint16_t HOVER_BORDER_WIDTH = 3;
 static constexpr uint16_t NO_BORDER_WIDTH = 0;
