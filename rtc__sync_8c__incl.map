@@ -1,40 +1,36 @@
 <map id="firmware/source/daq/rtc_sync/rtc_sync.c" name="firmware/source/daq/rtc_sync/rtc_sync.c">
-<area shape="rect" id="Node000001" title="Synchronization of the RTC peripheral with the GPS UTC time." alt="" coords="564,5,702,46"/>
-<area shape="rect" id="Node000002" href="$rtc__sync_8h.html" title="Synchronization of the RTC peripheral with the GPS UTC time." alt="" coords="397,102,477,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="590,49,479,97,477,92,587,44"/>
-<area shape="rect" id="Node000003" href="$rtc_8h.html" title="RTC Configuration Driver for STM32F4 Devices." alt="" coords="258,190,373,216"/>
-<area shape="poly" id="edge14_Node000001_Node000003" title=" " alt="" coords="564,35,521,42,475,54,429,72,387,96,367,114,351,135,328,177,324,174,347,132,363,110,383,92,426,67,473,49,520,37,563,30"/>
-<area shape="rect" id="Node000014" href="$timestamped__frame_8h.html" title="Definition for timestamped CAN frames." alt="" coords="525,94,741,135"/>
-<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="636,47,636,78,630,78,630,47"/>
-<area shape="rect" id="Node000015" title=" " alt="" coords="765,102,824,127"/>
-<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="671,44,760,92,757,96,668,49"/>
-<area shape="rect" id="Node000016" href="$VCAN_8h.html" title="Auto&#45;generated CAN bus definitions for VCAN." alt="" coords="808,183,952,223"/>
-<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="703,32,773,52,807,69,837,92,852,109,863,128,876,167,871,168,858,130,847,112,834,96,804,74,771,57,702,38"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="422,130,346,183,343,179,419,125"/>
-<area shape="rect" id="Node000007" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="397,190,477,216"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="440,128,440,174,434,174,434,128"/>
-<area shape="rect" id="Node000004" href="$phal__F4_8h.html" title=" " alt="" coords="5,279,133,304"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="282,219,119,276,117,271,280,214"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="32,360,106,386"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="72,305,72,344,66,344,66,305"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="739,360,802,386"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="117,302,152,309,316,332,478,349,723,366,723,372,478,354,315,337,151,315,116,308"/>
-<area shape="poly" id="edge13_Node000007_Node000006" title=" " alt="" coords="407,219,386,226,310,242,234,255,206,263,188,275,185,281,185,289,197,310,224,323,275,334,423,351,590,362,723,367,723,373,590,367,423,357,274,340,222,328,194,314,180,290,180,280,185,271,204,258,233,249,309,236,384,221,405,214"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="208,279,301,304"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="412,219,295,274,293,269,410,214"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="325,279,373,304"/>
-<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="427,218,374,270,370,266,423,214"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="397,279,464,304"/>
-<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="439,216,435,264,430,263,433,216"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="488,279,562,304"/>
-<area shape="poly" id="edge10_Node000007_Node000011" title=" " alt="" coords="451,214,504,266,500,270,447,218"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="586,279,642,304"/>
-<area shape="poly" id="edge11_Node000007_Node000012" title=" " alt="" coords="463,214,577,269,574,274,461,219"/>
-<area shape="rect" id="Node000013" title=" " alt="" coords="666,279,733,304"/>
-<area shape="poly" id="edge12_Node000007_Node000013" title=" " alt="" coords="478,213,560,237,655,269,659,270,657,275,653,274,558,242,476,218"/>
-<area shape="poly" id="edge16_Node000014_Node000006" title=" " alt="" coords="653,134,700,192,725,230,747,270,761,308,769,344,764,345,756,310,743,272,721,233,696,195,649,137"/>
-<area shape="poly" id="edge19_Node000016_Node000006" title=" " alt="" coords="869,225,789,348,784,345,865,222"/>
-<area shape="rect" id="Node000017" href="$can__types_8h.html" title="Auto&#45;generated custom types and enums for the CAN library." alt="" coords="858,271,1002,312"/>
-<area shape="poly" id="edge20_Node000016_Node000017" title=" " alt="" coords="893,222,913,256,909,259,889,225"/>
-<area shape="poly" id="edge21_Node000017_Node000006" title=" " alt="" coords="892,315,810,355,807,350,889,310"/>
+<area shape="rect" id="Node000001" title="Synchronization of the RTC peripheral with the GPS UTC time." alt="" coords="426,5,565,46"/>
+<area shape="rect" id="Node000002" href="$rtc__sync_8h.html" title="Synchronization of the RTC peripheral with the GPS UTC time." alt="" coords="378,102,458,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="480,48,441,92,437,88,476,45"/>
+<area shape="rect" id="Node000003" href="$rtc_8h.html" title="RTC Configuration Driver for STM32F4 Devices." alt="" coords="251,190,367,216"/>
+<area shape="poly" id="edge14_Node000001_Node000003" title=" " alt="" coords="443,49,404,69,368,96,339,136,320,176,316,174,335,133,364,92,401,64,440,44"/>
+<area shape="rect" id="Node000014" href="$timestamped__frame_8h.html" title="Definition for timestamped CAN frames." alt="" coords="579,183,794,223"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="498,46,503,89,510,113,523,133,550,157,582,174,580,179,547,161,519,136,506,115,498,91,492,47"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="533,102,592,127"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="513,45,546,87,542,91,509,48"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="616,94,760,135"/>
+<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="540,44,632,85,629,90,538,49"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="405,130,338,182,335,178,401,126"/>
+<area shape="rect" id="Node000007" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="391,190,470,216"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="423,127,429,175,424,175,417,128"/>
+<area shape="rect" id="Node000004" href="$phal__F4_8h.html" title=" " alt="" coords="5,271,133,297"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="273,219,121,269,119,264,271,214"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="32,345,106,371"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="72,297,72,329,66,329,66,297"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="139,345,202,371"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="88,295,142,333,139,338,85,300"/>
+<area shape="poly" id="edge13_Node000007_Node000006" title=" " alt="" coords="399,219,379,226,325,236,280,237,239,245,219,256,198,273,188,286,181,300,174,330,169,329,176,298,183,283,194,269,216,251,238,240,279,232,324,231,378,221,398,214"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="208,271,301,297"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="404,219,296,267,294,262,402,214"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="325,271,373,297"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="420,218,374,262,371,258,416,214"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="397,271,464,297"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="433,216,433,255,428,255,428,216"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="488,271,562,297"/>
+<area shape="poly" id="edge10_Node000007_Node000011" title=" " alt="" coords="446,214,501,259,497,263,443,218"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="586,271,642,297"/>
+<area shape="poly" id="edge11_Node000007_Node000012" title=" " alt="" coords="460,214,573,262,571,267,458,219"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="666,271,733,297"/>
+<area shape="poly" id="edge12_Node000007_Node000013" title=" " alt="" coords="471,214,652,266,650,271,470,219"/>
+<area shape="poly" id="edge16_Node000014_Node000006" title=" " alt="" coords="715,222,733,238,748,258,755,279,753,289,747,299,719,313,667,325,518,342,351,352,218,358,218,352,350,347,517,336,666,319,717,308,743,295,748,287,749,279,743,260,729,242,711,226"/>
 </map>

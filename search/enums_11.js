@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['vcu_5fbinding_5ft_0',['vcu_binding_t',['../dashboard_2driver__interface_2pages_2vcu_8h.html#a12393813f6e1ea34c62098c8243cb513',1,'vcu.h']]],
-  ['vcu_5felements_5ft_1',['vcu_elements_t',['../vcu_8c.html#ade667dee6c3f02f349ff062fc90a0b4e',1,'vcu.c']]],
-  ['vcu_5fmode_5ft_2',['vcu_mode_t',['../can__types_8h.html#a82019ed8603553c37b4aac2361f53a1a',1,'can_types.h']]]
+  ['winding_5ft_0',['winding_t',['../geometry_8h.html#aad9b6852c3b76d3070948c0cc7853f5f',1,'geometry.h']]],
+  ['word_5flength_5ft_1',['word_length_t',['../phal__F4_2usart_2usart_8h.html#a0c0f23ca19df3c59dfbc84e0d1e58493',1,'usart.h']]]
 ];

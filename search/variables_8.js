@@ -11,16 +11,14 @@ var searchData=
   ['heightmsl_8',['heightMSL',['../structNAV__PVT__payload__t.html#a01f305515dc54d035d90bdff8cb40602',1,'NAV_PVT_payload_t']]],
   ['high_5fticks_9',['high_ticks',['../structimd__capture__t.html#a82b16b86c72afb5fc6de695d8b0e721a',1,'imd_capture_t']]],
   ['horizontalaccuracy_10',['horizontalAccuracy',['../structNAV__PVT__payload__t.html#ac7609fbe8236937467a698a1d28e4c20',1,'NAV_PVT_payload_t']]],
-  ['hour_11',['hour',['../structNAV__PVT__payload__t.html#ac602c4ffb74b7c79988564cb80f6bf0e',1,'NAV_PVT_payload_t::hour'],['../structgps__time__data__t.html#a1c3434c575d75eefad26126007d32505',1,'gps_time_data_t::hour']]],
+  ['hour_11',['hour',['../structNAV__PVT__payload__t.html#ac602c4ffb74b7c79988564cb80f6bf0e',1,'NAV_PVT_payload_t']]],
   ['hours_5fbcd_12',['hours_bcd',['../structRTC__time__t.html#a8d02832380abd6524b9d4272495f6252',1,'RTC_time_t']]],
   ['hover_5fborder_5fwidth_13',['HOVER_BORDER_WIDTH',['../menu__system_8c.html#a3c301bd8bfb775fb3e61da22899491ec',1,'menu_system.c']]],
   ['ht_14',['ht',['../structpVCU__struct.html#ad88b860274726778ea4447e8e0dcd8ac',1,'pVCU_struct']]],
-  ['hv_5fboard_5fswitch_5ffault_15',['HV_BOARD_SWITCH_FAULT',['../structpdu__fault__sync__data__t.html#a103dc990c0757cc5e456cba4a5fe6be5',1,'pdu_fault_sync_data_t']]],
-  ['hv_5fparams_16',['HV_PARAMS',['../hv__soc_8c.html#a79c0f429d3d71e3823d985e1d4b93bed',1,'hv_soc.c']]],
-  ['hv_5fsoc_5fperiod_5fms_17',['HV_SOC_PERIOD_MS',['../hv__soc_8h.html#a803150360537e3c80ad952b46d2c49fa',1,'hv_soc.h']]],
-  ['hw_5fflow_5fctl_18',['hw_flow_ctl',['../structusart__init__t.html#ac36a6ddfa1405916862f19954981bea4',1,'usart_init_t']]],
-  ['hx_5ffan_5finterval_19',['HX_FAN_INTERVAL',['../cooling__fsm_8c.html#a95035ce7342017cd4cb9356848d04731',1,'cooling_fsm.c']]],
-  ['hx_5ffan_5flower_5flimit_20',['HX_FAN_LOWER_LIMIT',['../cooling__fsm_8c.html#af0c33c92c651eab14a146c4689dc80e6',1,'cooling_fsm.c']]],
-  ['hx_5ffan_5fupper_5flimit_21',['HX_FAN_UPPER_LIMIT',['../cooling__fsm_8c.html#ae61f78a8984f1e42b3f3e2172453e6b1',1,'cooling_fsm.c']]],
-  ['hxfan_5fswitch_5ffault_22',['HXFAN_SWITCH_FAULT',['../structpdu__fault__sync__data__t.html#af8c605db2e0e306351c0a711ba052e4c',1,'pdu_fault_sync_data_t']]]
+  ['hv_5fparams_15',['HV_PARAMS',['../hv__soc_8c.html#a79c0f429d3d71e3823d985e1d4b93bed',1,'hv_soc.c']]],
+  ['hv_5fsoc_5fperiod_5fms_16',['HV_SOC_PERIOD_MS',['../hv__soc_8h.html#a803150360537e3c80ad952b46d2c49fa',1,'hv_soc.h']]],
+  ['hw_5fflow_5fctl_17',['hw_flow_ctl',['../structusart__init__t.html#ac36a6ddfa1405916862f19954981bea4',1,'usart_init_t']]],
+  ['hx_5ffan_5finterval_18',['HX_FAN_INTERVAL',['../cooling__fsm_8c.html#a95035ce7342017cd4cb9356848d04731',1,'cooling_fsm.c']]],
+  ['hx_5ffan_5flower_5flimit_19',['HX_FAN_LOWER_LIMIT',['../cooling__fsm_8c.html#af0c33c92c651eab14a146c4689dc80e6',1,'cooling_fsm.c']]],
+  ['hx_5ffan_5fupper_5flimit_20',['HX_FAN_UPPER_LIMIT',['../cooling__fsm_8c.html#ae61f78a8984f1e42b3f3e2172453e6b1',1,'cooling_fsm.c']]]
 ];

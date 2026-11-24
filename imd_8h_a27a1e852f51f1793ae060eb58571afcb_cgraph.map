@@ -1,26 +1,16 @@
 <map id="imd_periodic" name="imd_periodic">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,153,100,179"/>
-<area shape="rect" id="Node000002" href="$A__BOX_8h.html#a4e4893841e8526aee263a12c0b566f54" title=" " alt="" coords="148,80,304,106"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,150,179,110,181,115,86,155"/>
-<area shape="rect" id="Node000007" href="$imd__decode_8c.html#aa96f6dbb1ccab521a1d55d676a0c661a" title=" " alt="" coords="180,153,272,179"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="100,164,165,164,165,169,100,169"/>
-<area shape="rect" id="Node000012" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="161,203,290,228"/>
-<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="101,177,165,195,163,201,99,182"/>
-<area shape="rect" id="Node000003" href="$A__BOX_8h.html#ae0afd2c16e8c1125c2d62d717a8fc155" title=" " alt="" coords="352,5,533,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="256,77,351,40,372,33,374,38,353,45,258,82"/>
-<area shape="rect" id="Node000004" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="366,55,519,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="304,81,350,76,351,81,305,86"/>
-<area shape="rect" id="Node000006" href="$can__codec_8h.html#a2ba7cd673ebc72d6164e744be452602f" title=" " alt="" coords="360,104,525,130"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="305,99,345,103,345,109,304,104"/>
-<area shape="rect" id="Node000005" href="$can__codec_8h.html#a1ffbd7318559fdd74ae2cb491a424bda" title=" " alt="" coords="583,55,714,80"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="520,65,568,65,568,70,520,70"/>
-<area shape="rect" id="Node000008" href="$imd__decode_8c.html#ae0a284b7584f61a5bf560ea1071fccf0" title=" " alt="" coords="372,153,513,179"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="272,164,357,164,357,169,272,169"/>
-<area shape="rect" id="Node000009" href="$imd__decode_8c.html#a5957a35161dfb4d3b4369b7659807f40" title=" " alt="" coords="384,203,502,228"/>
-<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="273,174,369,196,368,201,271,179"/>
-<area shape="rect" id="Node000010" href="$imd__decode_8c.html#a318673e9307dcc4ba55acc0149f75bdb" title=" " alt="" coords="581,177,716,203"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="502,206,565,198,566,203,503,211"/>
-<area shape="rect" id="Node000011" href="$imd__decode_8c.html#a3fb3e6f8348ee70560052d24273e8817" title=" " alt="" coords="764,203,851,228"/>
-<area shape="poly" id="edge11_Node000009_Node000011" title=" " alt="" coords="502,213,748,213,748,218,502,218"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="716,198,749,204,748,209,716,204"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,100,80"/>
+<area shape="rect" id="Node000002" href="$imd__decode_8c.html#aa96f6dbb1ccab521a1d55d676a0c661a" title=" " alt="" coords="167,29,258,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,57,151,49,151,54,101,63"/>
+<area shape="rect" id="Node000007" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="148,79,277,104"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="101,72,133,77,132,82,100,77"/>
+<area shape="rect" id="Node000003" href="$imd__decode_8c.html#ae0a284b7584f61a5bf560ea1071fccf0" title=" " alt="" coords="325,5,465,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="258,34,309,27,310,32,259,39"/>
+<area shape="rect" id="Node000004" href="$imd__decode_8c.html#a5957a35161dfb4d3b4369b7659807f40" title=" " alt="" coords="336,55,454,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="259,46,321,55,320,60,258,51"/>
+<area shape="rect" id="Node000005" href="$imd__decode_8c.html#a318673e9307dcc4ba55acc0149f75bdb" title=" " alt="" coords="513,29,648,55"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="454,57,498,51,499,56,455,62"/>
+<area shape="rect" id="Node000006" href="$imd__decode_8c.html#a3fb3e6f8348ee70560052d24273e8817" title=" " alt="" coords="696,55,783,80"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="455,65,680,65,680,70,455,70"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="648,50,681,56,680,61,648,56"/>
 </map>

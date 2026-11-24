@@ -1,15 +1,19 @@
 var searchData=
 [
-  ['mark_5fdata_0',['MARK_DATA',['../driver__interface_8h.html#a229e398c86c302f6e87d5be9a8570f89a1b1a107953a299989df08505e6d807e4',1,'driver_interface.h']]],
-  ['mco1_5fsrc_5fhse_1',['MCO1_SRC_HSE',['../phal__F4_2rcc_2rcc_8h.html#a378741c9da736e56ad4972e7bf27fd0aa92c11660c4125b6ad8e338a939a76ec8',1,'rcc.h']]],
-  ['mco1_5fsrc_5fhsi_2',['MCO1_SRC_HSI',['../phal__F4_2rcc_2rcc_8h.html#a378741c9da736e56ad4972e7bf27fd0aa694e3e4b34c7b22d64cda7c787ce5511',1,'rcc.h']]],
-  ['mco1_5fsrc_5flse_3',['MCO1_SRC_LSE',['../phal__F4_2rcc_2rcc_8h.html#a378741c9da736e56ad4972e7bf27fd0aa045de9f21f18b253cffa79b21754f137',1,'rcc.h']]],
-  ['mco1_5fsrc_5fpll_4',['MCO1_SRC_PLL',['../phal__F4_2rcc_2rcc_8h.html#a378741c9da736e56ad4972e7bf27fd0aa953e0f629f671a6063e0f37bd1904cfd',1,'rcc.h']]],
-  ['mco_5fdiv_5f2_5',['MCO_DIV_2',['../phal__F4_2rcc_2rcc_8h.html#a60ed31989981f6f69b4f5363337cfd8fac4932e43c2d2836da911c0811a948853',1,'rcc.h']]],
-  ['mco_5fdiv_5f3_6',['MCO_DIV_3',['../phal__F4_2rcc_2rcc_8h.html#a60ed31989981f6f69b4f5363337cfd8fa788d8c3f072ca9c1aa75491c7752a461',1,'rcc.h']]],
-  ['mco_5fdiv_5f4_7',['MCO_DIV_4',['../phal__F4_2rcc_2rcc_8h.html#a60ed31989981f6f69b4f5363337cfd8fa26dd3271d060d88212a702ce1348ade4',1,'rcc.h']]],
-  ['mco_5fdiv_5f5_8',['MCO_DIV_5',['../phal__F4_2rcc_2rcc_8h.html#a60ed31989981f6f69b4f5363337cfd8fa0cb031dded7d4efe9040dcea7dd29c36',1,'rcc.h']]],
-  ['mco_5fdiv_5fnone_9',['MCO_DIV_NONE',['../phal__F4_2rcc_2rcc_8h.html#a60ed31989981f6f69b4f5363337cfd8fa96e952f37018f93280090fbe8c39a620',1,'rcc.h']]],
-  ['menu_5fdown_10',['MENU_DOWN',['../driver__interface_8h.html#a229e398c86c302f6e87d5be9a8570f89ad37aeda5e4636a1cf0c59a877f5a070f',1,'driver_interface.h']]],
-  ['menu_5fup_11',['MENU_UP',['../driver__interface_8h.html#a229e398c86c302f6e87d5be9a8570f89ab848ac49e4c4cbaac8fabbc7b19703ee',1,'driver_interface.h']]]
+  ['nav_5frelposned_5fflags_5fcarr_5fsoln_5ffixed_0',['NAV_RELPOSNED_FLAGS_CARR_SOLN_FIXED',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5a6b302400864d57225d1b3d16cea7c748',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5fcarr_5fsoln_5ffloat_1',['NAV_RELPOSNED_FLAGS_CARR_SOLN_FLOAT',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5a2f5693fb555a0c687ca5d0903b337875',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5fcarr_5fsoln_5fmask_2',['NAV_RELPOSNED_FLAGS_CARR_SOLN_MASK',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5acac07a4c806dbecd93fd639e027446c3',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5fcarr_5fsoln_5fnone_3',['NAV_RELPOSNED_FLAGS_CARR_SOLN_NONE',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5a464e532fea51c01329a81a5415df455e',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5fdiff_5fsoln_4',['NAV_RELPOSNED_FLAGS_DIFF_SOLN',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5a77543c00f7f2aad18593a89bce98a15b',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5fgnss_5ffix_5fok_5',['NAV_RELPOSNED_FLAGS_GNSS_FIX_OK',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5a74fe85468319d5c3c91447ab83fe7463',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5fheading_5fvalid_6',['NAV_RELPOSNED_FLAGS_HEADING_VALID',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5af96df30c40849c2f9a9f643c20fe6619',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5fis_5fmoving_7',['NAV_RELPOSNED_FLAGS_IS_MOVING',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5a6eb45d0c2247b96973e22bfc8edf860e',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5fnormalized_8',['NAV_RELPOSNED_FLAGS_NORMALIZED',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5af6ccdff3342bf47c78f0e16c708a4a9c',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5fref_5fobs_5fmiss_9',['NAV_RELPOSNED_FLAGS_REF_OBS_MISS',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5aa2e42f95571811314a99ed4b48090305',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5fref_5fpos_5fmiss_10',['NAV_RELPOSNED_FLAGS_REF_POS_MISS',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5a9d0032187d57ecb942ed21ec04ff86a3',1,'nav_relposned.h']]],
+  ['nav_5frelposned_5fflags_5frel_5fpos_5fvalid_11',['NAV_RELPOSNED_FLAGS_REL_POS_VALID',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5a876dca308f9ead3e7174bde6c1135d51',1,'nav_relposned.h']]],
+  ['num_5ffault_5fprios_12',['NUM_FAULT_PRIOS',['../faults__common_8h.html#a03cf0c7e0fba09e53e6aacd890b3d4eea00b1fe1b6035838201f5ae8c0f20c0d8',1,'faults_common.h']]],
+  ['num_5fpages_13',['NUM_PAGES',['../lcd_8h.html#a99a5fddfe71e6e9cd0c559b9a9a41a99acd382a61c55aa2f67b15244ad7cd9618',1,'lcd.h']]],
+  ['num_5fusart_14',['NUM_USART',['../phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252a0ac75a5473f51888c304a37948db7419',1,'usart.h']]],
+  ['num_5fvcu_5felements_15',['NUM_VCU_ELEMENTS',['../vcu_8c.html#ade667dee6c3f02f349ff062fc90a0b4ea9fc792121a956f796820aed9a2565d13',1,'vcu.c']]]
 ];

@@ -14,10 +14,8 @@ var searchData=
   ['square_5fmeter_5ft_11',['square_meter_t',['../structsquare__meter__t.html',1,'']]],
   ['square_5fmillimeter_5ft_12',['square_millimeter_t',['../structsquare__millimeter__t.html',1,'']]],
   ['standard_5fgravity_5ft_13',['standard_gravity_t',['../structstandard__gravity__t.html',1,'']]],
-  ['start_5fbutton_5fdata_5ft_14',['start_button_data_t',['../structstart__button__data__t.html',1,'']]],
-  ['status_5fleds_5ft_15',['status_leds_t',['../structstatus__leds__t.html',1,'']]],
-  ['strbuf_5ft_16',['strbuf_t',['../structstrbuf__t.html',1,'']]],
-  ['strbuftest_17',['StrbufTest',['../classStrbufTest.html',1,'']]],
-  ['switch_5fcs_5fdata_5ft_18',['switch_cs_data_t',['../structswitch__cs__data__t.html',1,'']]],
-  ['switch_5ft_19',['switch_t',['../structswitch__t.html',1,'']]]
+  ['status_5fleds_5ft_14',['status_leds_t',['../structstatus__leds__t.html',1,'']]],
+  ['strbuf_5ft_15',['strbuf_t',['../structstrbuf__t.html',1,'']]],
+  ['strbuftest_16',['StrbufTest',['../classStrbufTest.html',1,'']]],
+  ['switch_5ft_17',['switch_t',['../structswitch__t.html',1,'']]]
 ];

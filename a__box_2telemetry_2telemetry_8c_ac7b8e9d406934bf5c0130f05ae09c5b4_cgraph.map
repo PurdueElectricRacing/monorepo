@@ -1,28 +1,13 @@
 <map id="report_telemetry_8hz" name="report_telemetry_8hz">
-<area shape="rect" id="Node000001" title="Reports telemetry data at 8 Hz rate Includes: Thermal stats and the emeter thermal summary." alt="" coords="5,153,147,179"/>
-<area shape="rect" id="Node000002" href="$adbms_8h.html#a6e1fad78e5f407e881ae751613b9679b" title="Get the average cell thermistor temperature across all modules in Celsius." alt="" coords="214,5,398,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,151,126,97,157,66,193,40,203,35,206,40,196,44,161,70,130,100,88,154"/>
-<area shape="rect" id="Node000003" href="$adbms_8h.html#aa450eb9eaee8eefdb98574259f0bdedf" title="Get the latest onboard PCB temperature (Celsius) for a specific module and board thermistor." alt="" coords="222,55,390,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="93,151,137,120,194,89,211,83,213,88,196,94,140,124,96,155"/>
-<area shape="rect" id="Node000004" href="$adbms_8h.html#a6f6ef5a061ea48c88c53059b3f78be53" title="Get the latest cell thermistor temperature (Celsius) for a specific module and cell thermistor." alt="" coords="228,104,384,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="139,150,227,131,228,136,140,155"/>
-<area shape="rect" id="Node000005" href="$adbms_8h.html#ac23feea83e55e6257895353a2b614dd8" title="Get the maximum cell thermistor temperature across all modules in Celsius." alt="" coords="212,153,400,179"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="147,164,197,164,197,169,147,169"/>
-<area shape="rect" id="Node000006" href="$adbms_8h.html#ab5d2269c4b2a78ed6c22353246b4ebfd" title="Get the minimum cell thermistor temperature across all modules in Celsius." alt="" coords="214,203,398,228"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="140,177,228,196,227,201,139,182"/>
-<area shape="rect" id="Node000007" href="$A__BOX_8h.html#a8dfaa4cd32ce08921c4b7f6e0a1a61fc" title=" " alt="" coords="195,317,417,343"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="87,178,128,239,159,273,196,303,208,309,206,314,193,307,155,277,123,242,82,181"/>
-<area shape="rect" id="Node000012" href="$A__BOX_8h.html#ad3a4fee9b6a15d3e7b35044f2adbc6e4" title=" " alt="" coords="227,252,384,293"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="96,177,140,208,196,238,213,246,211,251,194,243,137,212,93,182"/>
-<area shape="rect" id="Node000008" href="$A__BOX_8h.html#ae0afd2c16e8c1125c2d62d717a8fc155" title=" " alt="" coords="465,239,646,264"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="379,314,416,302,440,288,464,273,480,267,482,272,466,278,442,293,418,307,381,319"/>
-<area shape="rect" id="Node000009" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="479,288,632,314"/>
-<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="417,314,463,309,463,314,418,320"/>
-<area shape="rect" id="Node000011" href="$can__codec_8h.html#a2ba7cd673ebc72d6164e744be452602f" title=" " alt="" coords="474,337,638,363"/>
-<area shape="poly" id="edge10_Node000007_Node000011" title=" " alt="" coords="418,336,458,340,457,345,417,342"/>
-<area shape="rect" id="Node000010" href="$can__codec_8h.html#a1ffbd7318559fdd74ae2cb491a424bda" title=" " alt="" coords="694,288,826,314"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="633,298,679,298,679,304,633,304"/>
-<area shape="poly" id="edge12_Node000012_Node000008" title=" " alt="" coords="385,263,449,258,450,263,385,269"/>
-<area shape="poly" id="edge13_Node000012_Node000009" title=" " alt="" coords="385,279,464,288,463,293,385,284"/>
-<area shape="poly" id="edge14_Node000012_Node000011" title=" " alt="" coords="385,291,418,302,466,324,485,330,484,335,464,329,416,307,383,296"/>
+<area shape="rect" id="Node000001" title="Reports telemetry data at 8 Hz rate Includes: Thermal stats and the emeter thermal summary." alt="" coords="5,104,147,130"/>
+<area shape="rect" id="Node000002" href="$adbms_8h.html#a6e1fad78e5f407e881ae751613b9679b" title="Get the average cell thermistor temperature across all modules in Celsius." alt="" coords="196,5,380,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,101,137,70,194,40,209,34,211,39,196,45,140,75,96,106"/>
+<area shape="rect" id="Node000003" href="$adbms_8h.html#aa450eb9eaee8eefdb98574259f0bdedf" title="Get the latest onboard PCB temperature (Celsius) for a specific module and board thermistor." alt="" coords="204,55,372,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,101,215,82,216,87,135,106"/>
+<area shape="rect" id="Node000004" href="$adbms_8h.html#a6f6ef5a061ea48c88c53059b3f78be53" title="Get the latest cell thermistor temperature (Celsius) for a specific module and cell thermistor." alt="" coords="210,104,366,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="147,114,194,114,194,120,147,120"/>
+<area shape="rect" id="Node000005" href="$adbms_8h.html#ac23feea83e55e6257895353a2b614dd8" title="Get the maximum cell thermistor temperature across all modules in Celsius." alt="" coords="195,153,382,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="135,128,216,147,215,152,134,133"/>
+<area shape="rect" id="Node000006" href="$adbms_8h.html#ab5d2269c4b2a78ed6c22353246b4ebfd" title="Get the minimum cell thermistor temperature across all modules in Celsius." alt="" coords="196,203,380,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="96,128,140,159,196,189,211,195,209,200,194,194,137,163,93,133"/>
 </map>

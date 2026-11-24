@@ -1,27 +1,19 @@
 <map id="firmware/source/dashboard/driver_interface/pages/faults.c" name="firmware/source/dashboard/driver_interface/pages/faults.c">
-<area shape="rect" id="Node000001" title="Faults page implementation." alt="" coords="139,5,316,61"/>
+<area shape="rect" id="Node000001" title="Faults page implementation." alt="" coords="156,5,334,61"/>
 <area shape="rect" id="Node000002" href="$faults_8h.html" title="Faults page implementation." alt="" coords="5,116,69,142"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,64,76,112,74,107,171,59"/>
-<area shape="rect" id="Node000003" href="$fault__data_8h.html" title="Auto&#45;generated global fault definitions and limits." alt="" coords="93,109,237,150"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,63,188,98,184,95,207,60"/>
-<area shape="rect" id="Node000007" href="$nextion_8h.html" title="Nextion display driver interface." alt="" coords="249,205,366,231"/>
-<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="242,60,299,190,294,192,237,62"/>
-<area shape="rect" id="Node000010" href="$colors_8h.html" title="Color definitions for LCD display." alt="" coords="390,205,457,231"/>
-<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="258,59,402,193,398,196,255,63"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="219,375,282,401"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="138,152,96,187,55,231,40,255,32,279,32,303,43,325,68,343,109,357,204,377,203,382,108,362,66,347,39,329,27,304,27,278,35,253,50,228,92,183,134,148"/>
-<area shape="rect" id="Node000005" href="$can__types_8h.html" title="Auto&#45;generated custom types and enums for the CAN library." alt="" coords="53,286,197,327"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="136,152,113,173,95,199,91,217,93,236,106,272,101,274,87,237,86,216,91,197,109,169,132,148"/>
-<area shape="rect" id="Node000006" href="$faults__common_8h.html" title="Event&#45;based FIDR system." alt="" coords="105,198,225,238"/>
-<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="168,150,168,182,162,182,162,150"/>
-<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="157,325,220,364,217,369,155,330"/>
-<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="181,237,211,285,243,359,239,361,207,288,177,240"/>
-<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="158,240,143,273,138,271,154,238"/>
-<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="306,232,262,361,257,360,301,230"/>
-<area shape="rect" id="Node000008" href="$strbuf_8h.html" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="322,294,386,320"/>
-<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="316,230,343,279,338,281,312,233"/>
-<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="340,322,280,368,276,363,337,318"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="321,375,388,401"/>
-<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="357,320,357,359,352,359,352,320"/>
-<area shape="poly" id="edge15_Node000010_Node000004" title=" " alt="" coords="427,231,423,277,415,304,400,329,383,342,358,354,298,376,296,370,356,349,381,337,396,325,410,302,418,276,422,231"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,64,79,112,77,107,184,59"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="92,109,240,150"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,63,194,99,190,95,220,60"/>
+<area shape="rect" id="Node000004" href="$nextion_8h.html" title="Nextion display driver interface." alt="" coords="265,116,382,142"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="270,60,306,103,302,107,266,63"/>
+<area shape="rect" id="Node000008" href="$colors_8h.html" title="Color definitions for LCD display." alt="" coords="386,198,453,223"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="331,59,366,80,396,107,407,125,415,145,422,182,416,183,410,146,403,127,392,111,363,84,328,64"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="328,271,391,297"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="329,142,356,256,351,257,324,143"/>
+<area shape="rect" id="Node000006" href="$strbuf_8h.html" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="248,198,312,223"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="319,144,296,185,291,183,315,141"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="295,222,337,259,333,263,291,226"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="237,271,304,297"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="281,224,277,256,271,256,275,223"/>
+<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="412,225,382,261,377,258,408,222"/>
 </map>

@@ -1,36 +1,21 @@
 <map id="charging_fsm_periodic" name="charging_fsm_periodic">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,231,157,256"/>
-<area shape="rect" id="Node000002" href="$A__BOX_8h.html#a1d2c326ec65a3480aa5e0335969bad73" title=" " alt="" coords="429,25,623,51"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,228,138,182,169,156,203,133,260,105,320,83,433,52,434,57,322,88,262,110,206,138,172,160,141,186,96,232"/>
-<area shape="rect" id="Node000007" href="$charging__fsm_8c.html#a97fe3a486a7c526d82f57401ca1ada35" title=" " alt="" coords="219,201,367,227"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="157,230,203,224,203,229,158,236"/>
-<area shape="rect" id="Node000010" href="$charging__fsm_8c.html#a1eeb74bea95978e6037605518acaa940" title=" " alt="" coords="219,251,366,292"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="158,251,204,257,203,262,157,256"/>
-<area shape="rect" id="Node000011" href="$charging__fsm_8c.html#ab8d997ca74a3fb5e295f9298810ade03" title=" " alt="" coords="223,148,362,174"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="109,228,204,186,231,176,233,182,206,191,111,232"/>
-<area shape="rect" id="Node000014" href="$charging__fsm_8c.html#acfc841627e534342d5178be3b0255c54" title=" " alt="" coords="205,316,381,342"/>
-<area shape="poly" id="edge16_Node000001_Node000014" title=" " alt="" coords="108,255,153,278,206,301,226,308,225,313,204,306,150,282,105,259"/>
-<area shape="rect" id="Node000016" href="$charging__fsm_8c.html#afc1d97b27be1eae8bcbf02119804f921" title=" " alt="" coords="208,365,378,391"/>
-<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="95,255,140,303,172,329,206,352,216,357,214,362,203,356,168,333,137,306,91,259"/>
-<area shape="rect" id="Node000003" href="$A__BOX_8h.html#a0da956162efe3e0016f181cee58961e6" title=" " alt="" coords="671,5,853,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="623,27,656,25,656,30,624,33"/>
-<area shape="rect" id="Node000004" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="685,55,839,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="624,48,670,53,670,59,623,53"/>
-<area shape="rect" id="Node000006" href="$can__codec_8h.html#a2ba7cd673ebc72d6164e744be452602f" title=" " alt="" coords="680,104,844,130"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="590,49,624,61,649,76,673,90,688,96,686,101,670,95,646,80,622,66,588,54"/>
-<area shape="rect" id="Node000005" href="$can__codec_8h.html#a1ffbd7318559fdd74ae2cb491a424bda" title=" " alt="" coords="901,55,1032,80"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="839,65,885,65,885,70,839,70"/>
-<area shape="rect" id="Node000008" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="493,205,559,231"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="367,213,478,215,478,220,367,218"/>
-<area shape="rect" id="Node000009" href="$charging__fsm_8c.html#ab281666eaa24da6546c73d18fe6c88ba" title=" " alt="" coords="472,255,580,280"/>
-<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="353,225,458,249,457,255,352,230"/>
-<area shape="rect" id="Node000012" href="$adbms_8h.html#a9de7b59257be3644e232ec367cd8b8e6" title="Check whether cell discharge balancing is currently enabled." alt="" coords="452,140,600,181"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="363,158,437,158,437,164,363,164"/>
-<area shape="rect" id="Node000013" href="$A__BOX_8h.html#a8e8d0b3951983e4482e1e0876b77c033" title=" " alt="" coords="438,75,615,116"/>
-<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="341,145,436,118,437,123,342,150"/>
-<area shape="poly" id="edge13_Node000013_Node000003" title=" " alt="" coords="592,72,622,61,670,40,690,33,692,38,672,45,624,66,594,77"/>
-<area shape="poly" id="edge14_Node000013_Node000004" title=" " alt="" coords="615,82,670,76,670,81,615,88"/>
-<area shape="poly" id="edge15_Node000013_Node000006" title=" " alt="" coords="615,101,665,105,664,111,615,106"/>
-<area shape="rect" id="Node000015" href="$adbms_8h.html#a87abd0a009f92d9cc0d2d3be3334b347" title="Enable or disable cell discharge balancing." alt="" coords="448,308,604,349"/>
-<area shape="poly" id="edge17_Node000014_Node000015" title=" " alt="" coords="381,326,433,326,433,332,381,332"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,144,157,170"/>
+<area shape="rect" id="Node000002" href="$charging__fsm_8c.html#a97fe3a486a7c526d82f57401ca1ada35" title=" " alt="" coords="219,29,367,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,141,142,104,203,65,219,58,221,63,206,70,145,108,99,145"/>
+<area shape="rect" id="Node000005" href="$charging__fsm_8c.html#a1eeb74bea95978e6037605518acaa940" title=" " alt="" coords="219,79,366,120"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="131,141,203,121,204,126,132,146"/>
+<area shape="rect" id="Node000006" href="$charging__fsm_8c.html#ab8d997ca74a3fb5e295f9298810ade03" title=" " alt="" coords="223,144,362,170"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="157,154,208,154,208,160,157,160"/>
+<area shape="rect" id="Node000008" href="$charging__fsm_8c.html#acfc841627e534342d5178be3b0255c54" title=" " alt="" coords="205,193,381,219"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="140,168,220,187,219,192,139,173"/>
+<area shape="rect" id="Node000010" href="$charging__fsm_8c.html#afc1d97b27be1eae8bcbf02119804f921" title=" " alt="" coords="208,243,378,268"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="102,168,148,198,206,229,221,235,219,240,204,234,145,203,99,172"/>
+<area shape="rect" id="Node000003" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="474,5,540,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="367,31,457,21,458,26,368,36"/>
+<area shape="rect" id="Node000004" href="$charging__fsm_8c.html#ab281666eaa24da6546c73d18fe6c88ba" title=" " alt="" coords="453,55,560,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="368,48,438,57,437,62,367,54"/>
+<area shape="rect" id="Node000007" href="$adbms_8h.html#a9de7b59257be3644e232ec367cd8b8e6" title="Check whether cell discharge balancing is currently enabled." alt="" coords="433,132,580,173"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="363,153,417,152,417,157,363,158"/>
+<area shape="rect" id="Node000009" href="$adbms_8h.html#a87abd0a009f92d9cc0d2d3be3334b347" title="Enable or disable cell discharge balancing." alt="" coords="429,198,584,238"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="381,208,414,210,413,216,381,214"/>
 </map>

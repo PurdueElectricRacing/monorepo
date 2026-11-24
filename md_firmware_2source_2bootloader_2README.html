@@ -138,7 +138,7 @@ Update flow</h1>
 <p>An interrupted transfer leaves metadata invalid. Resets during programming keep the bootloader resident; vector and CRC checks reject partial images.</p>
 <h1><a class="anchor" id="autotoc_md26"></a>
 Protocol</h1>
-<p>START, CRC, JUMP, DATA, and response IDs come from <a href="../../can_library/configs/"><code>can_library/configs</code></a>; front and rear driveline use separate IDs. Each command is a separate CAN message with a four-byte little-endian argument. DATA uses a 24-bit little-endian word index followed by four word bytes (DLC 7); resident firmware also accepts the legacy DLC 6 frame with a 16-bit index.</p>
+<p>START, CRC, JUMP, DATA, and response IDs come from <a href="../../../generators/configs/"><code>generators/configs</code></a>; front and rear driveline use separate IDs. Each command is a separate CAN message with a four-byte little-endian argument. DATA uses a 24-bit little-endian word index followed by four word bytes (DLC 7); resident firmware also accepts the legacy DLC 6 frame with a 16-bit index.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Message   </th><th class="markdownTableHeadNone">Argument   </th><th class="markdownTableHeadNone">Result    </th></tr>

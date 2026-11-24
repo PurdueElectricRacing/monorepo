@@ -107,13 +107,13 @@ $(function(){initNavTree('faults_8c.html',''); initResizable(true); });
 <p>Faults page implementation.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="faults_8h_source.html">faults.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="fault__data_8h_source.html">can_library/generated/fault_data.h</a>&quot;</code><br />
+<code>#include &quot;fault_library/generated/fault_data.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="nextion_8h_source.html">nextion/nextion.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="colors_8h_source.html">colors.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for faults.c:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="faults_8c__incl.svg" width="463" height="407"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="faults_8c__incl.svg" width="459" height="303"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -127,7 +127,7 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a27894179079c8ab16e901521b05e406b" id="r_a27894179079c8ab16e901521b05e406b"><td class="memItemLeft" align="right" valign="top">static char *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27894179079c8ab16e901521b05e406b">fault_text_objects</a> [<a class="el" href="faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a350f15f19a79930cfb9699bdb9ad4e12">DISPLAY_FAULT_COUNT</a>]</td></tr>
 <tr class="separator:a27894179079c8ab16e901521b05e406b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04aba38221005387b6e6c05f0c20d933" id="r_a04aba38221005387b6e6c05f0c20d933"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63">fault_id_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a04aba38221005387b6e6c05f0c20d933">selected</a> [<a class="el" href="faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a350f15f19a79930cfb9699bdb9ad4e12">DISPLAY_FAULT_COUNT</a>]</td></tr>
+<tr class="memitem:a04aba38221005387b6e6c05f0c20d933" id="r_a04aba38221005387b6e6c05f0c20d933"><td class="memItemLeft" align="right" valign="top">static fault_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a04aba38221005387b6e6c05f0c20d933">selected</a> [<a class="el" href="faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a350f15f19a79930cfb9699bdb9ad4e12">DISPLAY_FAULT_COUNT</a>]</td></tr>
 <tr class="separator:a04aba38221005387b6e6c05f0c20d933"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b6ef146e66284208ee799b768636ce6" id="r_a6b6ef146e66284208ee799b768636ce6"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b6ef146e66284208ee799b768636ce6">selected_count</a></td></tr>
 <tr class="separator:a6b6ef146e66284208ee799b768636ce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -252,7 +252,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63">fault_id_t</a> selected[<a class="el" href="faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a350f15f19a79930cfb9699bdb9ad4e12">DISPLAY_FAULT_COUNT</a>]</td>
+          <td class="memname">fault_id_t selected[<a class="el" href="faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a350f15f19a79930cfb9699bdb9ad4e12">DISPLAY_FAULT_COUNT</a>]</td>
         </tr>
       </table>
   </td>

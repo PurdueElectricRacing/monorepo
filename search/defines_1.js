@@ -29,6 +29,5 @@ var searchData=
   ['app_5fpdu_26',['APP_PDU',['../node__defs_8h.html#a4d873dbd470e0447bf55b43907ac479e',1,'node_defs.h']]],
   ['app_5frear_5fdriveline_27',['APP_REAR_DRIVELINE',['../node__defs_8h.html#a511ef71fb9ea29948612b8831b6e4cd0',1,'node_defs.h']]],
   ['app_5ftorque_5fvector_28',['APP_TORQUE_VECTOR',['../node__defs_8h.html#a04dddd0894273a3e9aeb6cf98052a68f',1,'node_defs.h']]],
-  ['application_5fbootloadable_29',['APPLICATION_BOOTLOADABLE',['../can__version_8h.html#aad9ba719be5068b0901f79c1541af99f',1,'can_version.h']]],
-  ['ascii_5foffset_30',['ASCII_OFFSET',['../nextion_8h.html#ae3c47801ea3ac450ff9b877b1e008e1a',1,'nextion.h']]]
+  ['ascii_5foffset_29',['ASCII_OFFSET',['../nextion_8h.html#ae3c47801ea3ac450ff9b877b1e008e1a',1,'nextion.h']]]
 ];

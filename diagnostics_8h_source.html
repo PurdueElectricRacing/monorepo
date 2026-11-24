@@ -107,7 +107,7 @@ $(function(){initNavTree('diagnostics_8h_source.html',''); initResizable(true); 
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="can__types_8h.html">can_library/generated/can_types.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;can_library/generated/can_types.h&quot;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="rtos_8h.html">rtos/rtos.h</a>&quot;</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;task.h&quot;</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
@@ -119,7 +119,7 @@ $(function(){initNavTree('diagnostics_8h_source.html',''); initResizable(true); 
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    uint32_t task_id,</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    uint16_t stack_hwm,</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    uint8_t cpu_percent,</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <a class="code hl_enumeration" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a> state</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    diagnostics_task_state_t state</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>);</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="diagnostics_8h.html#a64e8d48a5ef63e9dffad7a0672741106">   27</a></span><span class="keyword">typedef</span> void (*<a class="code hl_typedef" href="diagnostics_8h.html#a64e8d48a5ef63e9dffad7a0672741106">diagnostics_send_summary_fn_t</a>)(</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    uint32_t sample_count,</div>
@@ -226,8 +226,6 @@ $(function(){initNavTree('diagnostics_8h_source.html',''); initResizable(true); 
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">#endif </span><span class="comment">// DIAGNOSTICS_H</span></div>
 <div class="ttc" id="aFreeRTOSConfig_8h_html_ac388dc4041aab6997348828eb27fc1a8"><div class="ttname"><a href="FreeRTOSConfig_8h.html#ac388dc4041aab6997348828eb27fc1a8">configMAX_TASK_NAME_LEN</a></div><div class="ttdeci">#define configMAX_TASK_NAME_LEN</div><div class="ttdef"><b>Definition</b> FreeRTOSConfig.h:83</div></div>
-<div class="ttc" id="acan__types_8h_html"><div class="ttname"><a href="can__types_8h.html">can_types.h</a></div><div class="ttdoc">Auto-generated custom types and enums for the CAN library.</div></div>
-<div class="ttc" id="acan__types_8h_html_a6104ec5329b296213fecd43034bab65f"><div class="ttname"><a href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a></div><div class="ttdeci">diagnostics_task_state_t</div><div class="ttdef"><b>Definition</b> can_types.h:80</div></div>
 <div class="ttc" id="adiagnostics_8h_html_a64e8d48a5ef63e9dffad7a0672741106"><div class="ttname"><a href="diagnostics_8h.html#a64e8d48a5ef63e9dffad7a0672741106">diagnostics_send_summary_fn_t</a></div><div class="ttdeci">void(* diagnostics_send_summary_fn_t)(uint32_t sample_count, uint16_t task_count, uint8_t cpu_percent, bool capacity_exceeded)</div><div class="ttdef"><b>Definition</b> diagnostics.h:27</div></div>
 <div class="ttc" id="adiagnostics_8h_html_a70b96eac4637323e7d446b3ce3f1b31c"><div class="ttname"><a href="diagnostics_8h.html#a70b96eac4637323e7d446b3ce3f1b31c">diagnostics_send_task_fn_t</a></div><div class="ttdeci">void(* diagnostics_send_task_fn_t)(uint32_t task_id, uint16_t stack_hwm, uint8_t cpu_percent, diagnostics_task_state_t state)</div><div class="ttdef"><b>Definition</b> diagnostics.h:21</div></div>
 <div class="ttc" id="adiagnostics_8h_html_abd1e10f1f5463b0b720a2991adc71f96"><div class="ttname"><a href="diagnostics_8h.html#abd1e10f1f5463b0b720a2991adc71f96">DIAGNOSTICS_MAX_TASKS</a></div><div class="ttdeci">#define DIAGNOSTICS_MAX_TASKS</div><div class="ttdef"><b>Definition</b> diagnostics.h:18</div></div>
