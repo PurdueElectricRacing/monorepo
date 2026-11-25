@@ -61,6 +61,7 @@ jobs:
         run: python3 firmware/build_firmware.py
 
       - name: Upload build artifacts
+        if: github.event_name != 'merge_group'
         uses: actions/upload-artifact@v7
         with:
           name: firmware-${{ steps.git_info.outputs.branch }}-${{ steps.git_info.outputs.short_hash }}
@@ -74,7 +75,7 @@ jobs:
 
   cppcheck:
     needs: [image]
-    if: ${{ !failure() && !cancelled() }}
+    if: ${{ !failure() && !cancelled() && github.event_name != 'push' }}
     runs-on: ubuntu-latest
     container:
       image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
