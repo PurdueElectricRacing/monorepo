@@ -408,9 +408,9 @@ The repository's main build entry point is:
 python3 build_all.py
 ```
 
-This builds the firmware, builds FIL and runs the PER integration tests,
-then builds all DAQ workspace targets and runs the generator and firmware
-host-test workflow.
+This builds the firmware, builds and tests all DAQ workspace targets, runs the
+generator and firmware host-test workflow, then builds FIL and runs the PER
+integration tests.
 
 If this completes successfully, your development environment is set up correctly.
 
