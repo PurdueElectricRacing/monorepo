@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "name": "pdu",
+  "mcu": "../../external/fil/configs/mcus/stm32g474retx.json",
+  "elf": "../../../artifacts/firmware/pdu/pdu.elf",
+  "vector_base": "0x08000000",
+  "can": {
+    "FDCAN1": {
+      "bus": "0"
+    },
+    "FDCAN2": {
+      "bus": "3"
+    }
+  }
+}
