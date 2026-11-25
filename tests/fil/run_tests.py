@@ -6,84 +6,121 @@ import json
 import os
 from pathlib import Path
 import re
-import shlex
 import subprocess
 import tempfile
 
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIGS = Path(__file__).resolve().parent
-FIL_SOURCE = ROOT / "tests/external/fil"
-BUILD = FIL_SOURCE
+FIL_SOURCE = ROOT / "tests" / "external" / "fil"
+DEFAULT_FIL = FIL_SOURCE / "build" / "fil"
+BUILD_JOBS = os.environ.get("CMAKE_BUILD_PARALLEL_LEVEL") or str(os.cpu_count() or 1)
+
 BOARDS = (
-    "dashboard", "main_module", "torque_vector", "a_box",
-    "front_driveline", "rear_driveline",
+    "dashboard",
+    "main_module",
+    "torque_vector",
+    "a_box",
+    "front_driveline",
+    "rear_driveline",
 )
+SHARED_CAN_BUSES = ("0", "1")
 
 
-def run(command: list[str], **kwargs) -> subprocess.CompletedProcess:
-    print(f"$ {shlex.join(command)}", flush=True)
-    try:
-        return subprocess.run(command, cwd=ROOT, check=True, timeout=600, **kwargs)
-    except subprocess.CalledProcessError as error:
-        if error.stdout:
-            print(error.stdout, end="")
-        if error.stderr:
-            print(error.stderr, end="")
-        raise
+def print_section(name: str) -> None:
+    """Print a visible heading before a test phase."""
+    print(f"\n{'=' * 80}\n{name}\n{'=' * 80}", flush=True)
 
 
-def build() -> None:
-    """Build FIL with a plain release build (skipping upstream tests and docs)."""
-    run([
-        "make", "-C", str(FIL_SOURCE), "build", "TESTS=OFF", "DOCS=OFF",
-        f"JOBS={os.environ.get('CMAKE_BUILD_PARALLEL_LEVEL') or os.cpu_count() or 1}",
-    ])
-
-
-def simulate(executable: Path, config: Path, duration_ms: int,
-             trace: Path | None = None) -> None:
+def simulate(
+    executable: Path,
+    config: Path,
+    duration_ms: int,
+    *,
+    network: bool = False,
+    trace: Path | None = None,
+) -> None:
+    """Run one FIL simulation and assert it reaches the requested time budget."""
     command = [
-        str(executable), "run",
-        str(config), "--duration", f"{duration_ms}ms",
-        "--strict-mmio", "--adc-decimation", "1",
+        str(executable),
+        "run",
+        str(config),
+        "--duration",
+        f"{duration_ms}ms",
+        "--strict-mmio",
     ]
-    if config.parent == CONFIGS:
-        command.extend(["--quantum", "512", "--no-detect-spin"])
+    if network:
+        command.extend(["--quantum", "512"])
     if trace is not None:
         command.extend(["--trace", str(trace)])
-    result = run(command, capture_output=True, text=True)
+
+    result = subprocess.run(
+        command,
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        timeout=600,
+    )
     print(result.stdout, end="")
     print(result.stderr, end="")
+    result.check_returncode()
+
     if re.search(r"stop:\s+time-budget", result.stdout) is None:
         raise RuntimeError(f"{config.name} did not reach the requested time budget")
 
 
+def verify_shared_can_traffic(trace: Path) -> None:
+    """Assert firmware-originated CAN TX and RX occurred on shared vehicle buses."""
+    events = [json.loads(line) for line in trace.read_text().splitlines()]
+    for kind in ("can_tx", "can_rx"):
+        has_event = any(
+            event.get("type") == kind
+            and event.get("bus") in SHARED_CAN_BUSES
+            and event.get("origin", "").split(".")[0] in BOARDS
+            for event in events
+        )
+        if not has_event:
+            raise RuntimeError(f"No firmware-originated shared-bus {kind} events")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--build", action="store_true", help="build FIL first")
-    parser.add_argument("--fil", type=Path, default=BUILD / "build/fil")
+    parser.add_argument("--build", action="store_true", help="build FIL before running tests")
+    parser.add_argument("--fil", type=Path, default=DEFAULT_FIL, help="path to the FIL executable")
     args = parser.parse_args()
-    for board in BOARDS:
-        elf = ROOT / f"artifacts/firmware/{board}/{board}.elf"
-        if not elf.is_file():
-            raise FileNotFoundError(f"{elf}: run python3 firmware/build_firmware.py first")
+
     if args.build:
-        build()
+        print_section("Build FIL")
+        subprocess.run(
+            [
+                "make",
+                "-C",
+                str(FIL_SOURCE),
+                "build",
+                "TESTS=OFF",
+                "DOCS=OFF",
+                f"JOBS={BUILD_JOBS}",
+            ],
+            cwd=ROOT,
+            check=True,
+        )
+
+    fil = args.fil.resolve()
+
+    print_section("Single-board boot tests (10 ms)")
     for board in BOARDS:
-        simulate(args.fil.resolve(), CONFIGS / f"boards/{board}.json", 10)
+        simulate(fil, CONFIGS / "boards" / f"{board}.json", 10)
+
+    print_section("Network CAN smoke test (20 ms)")
     with tempfile.TemporaryDirectory(prefix="per-fil-") as directory:
         trace = Path(directory) / "network.jsonl"
-        simulate(args.fil.resolve(), CONFIGS / "network.json", 20, trace)
-        events = [json.loads(line) for line in trace.read_text().splitlines()]
-        for kind in ("can_tx", "can_rx"):
-            if not any(event.get("type") == kind and
-                       event.get("bus") in ("0", "1") and
-                       event.get("origin", "").split(".")[0] in BOARDS for event in events):
-                raise RuntimeError(f"No firmware-originated shared-bus {kind} events")
-    # FIL returns failure if the stimulus expectations are unmet.
-    simulate(args.fil.resolve(), CONFIGS / "ready_to_drive.json", 6000)
-    print("PER FIL tests passed")
+        simulate(fil, CONFIGS / "network.json", 20, network=True, trace=trace)
+        verify_shared_can_traffic(trace)
+
+    print_section("Ready-to-drive integration test (6 s)")
+    simulate(fil, CONFIGS / "ready_to_drive.json", 6000, network=True)
+
+    print("\nPER FIL tests passed")
 
 
 if __name__ == "__main__":
