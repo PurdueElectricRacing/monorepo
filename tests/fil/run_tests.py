@@ -8,7 +8,6 @@ from pathlib import Path
 import subprocess
 import tempfile
 
-
 ROOT = Path(__file__).resolve().parents[2]
 CONFIGS = Path(__file__).resolve().parent
 FIL_SOURCE = ROOT / "tests" / "external" / "fil"
@@ -35,7 +34,6 @@ def simulate(
     executable: Path,
     config: Path,
     duration_ms: int,
-    *,
     network: bool = False,
     trace: Path | None = None,
 ) -> None:
