@@ -93,7 +93,7 @@ jobs:
 
   clippy:
     name: Clippy (DAQ)
-    needs: [image, build]
+    needs: [image]
     if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
