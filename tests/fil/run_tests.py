@@ -5,7 +5,6 @@ import argparse
 import json
 import os
 from pathlib import Path
-import shlex
 import subprocess
 import tempfile
 
@@ -28,7 +27,7 @@ SHARED_CAN_BUSES = ("0", "1")
 
 
 def run(command: list[str]) -> None:
-    print(f"$ {shlex.join(command)}", flush=True)
+    print(f"$ {' '.join(command)}", flush=True)
     subprocess.run(command, cwd=ROOT, check=True, timeout=600)
 
 
