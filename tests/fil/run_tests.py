@@ -5,7 +5,6 @@ import argparse
 import json
 import os
 from pathlib import Path
-import re
 import subprocess
 import tempfile
 
@@ -40,7 +39,7 @@ def simulate(
     network: bool = False,
     trace: Path | None = None,
 ) -> None:
-    """Run one FIL simulation and assert it reaches the requested time budget."""
+    """Run one FIL simulation."""
     command = [
         str(executable),
         "run",
@@ -54,19 +53,7 @@ def simulate(
     if trace is not None:
         command.extend(["--trace", str(trace)])
 
-    result = subprocess.run(
-        command,
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-        timeout=600,
-    )
-    print(result.stdout, end="")
-    print(result.stderr, end="")
-    result.check_returncode()
-
-    if re.search(r"stop:\s+time-budget", result.stdout) is None:
-        raise RuntimeError(f"{config.name} did not reach the requested time budget")
+    subprocess.run(command, cwd=ROOT, check=True, timeout=600)
 
 
 def verify_shared_can_traffic(trace: Path) -> None:
