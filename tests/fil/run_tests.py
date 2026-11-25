@@ -21,6 +21,7 @@ BOARDS = (
     "a_box",
     "front_driveline",
     "rear_driveline",
+    "pdu",
 )
 SHARED_CAN_BUSES = ("0", "1")
 
