@@ -129,7 +129,7 @@ Getting Started</h1>
 <dl class="section note"><dt>Note</dt><dd><a class="el" href="md_docs_2setup.html">setup.md</a> is here!</dd></dl>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Building</h1>
-<p><code>build_all.py</code> is the repository-level build entry point. It runs the complete firmware, FIL PGO build and PER integration tests, DAQ workspace, and host-test workflows in order.</p>
+<p><code>build_all.py</code> is the repository-level build entry point. It runs the complete firmware, DAQ workspace, host-test, and FIL build/PER integration test workflows in order.</p>
 <p>From the repository root, build all projects and run tests with: </p><div class="fragment"><div class="line">python3 build_all.py</div>
 </div><!-- fragment --><p>Each component also has a fixed build command. To build and package all firmware boards: </p><div class="fragment"><div class="line">python3 firmware/build_firmware.py</div>
 </div><!-- fragment --><p>To run static analysis over all firmware boards: </p><div class="fragment"><div class="line">python3 firmware/check_firmware.py</div>
