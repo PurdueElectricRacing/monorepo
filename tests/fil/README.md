@@ -45,10 +45,6 @@ python3 generators/generate.py
 
 ## Build and run
 
-Requirements: built PER firmware, Python 3.11+, Make, CMake, and a C++20 Clang
-compiler. The default build tunes for the host CPU; the resulting executable
-targets the build machine.
-
 ```sh
 python3 firmware/build_firmware.py
 python3 tests/fil/run_tests.py --build
