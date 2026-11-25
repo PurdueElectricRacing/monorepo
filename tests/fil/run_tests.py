@@ -5,6 +5,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import shlex
 import subprocess
 import tempfile
 
@@ -26,9 +27,9 @@ BOARDS = (
 SHARED_CAN_BUSES = ("0", "1")
 
 
-def print_section(name: str) -> None:
-    """Print a visible heading before a test phase."""
-    print(f"\n{'=' * 80}\n{name}\n{'=' * 80}", flush=True)
+def run(command: list[str]) -> None:
+    print(f"$ {shlex.join(command)}", flush=True)
+    subprocess.run(command, cwd=ROOT, check=True, timeout=600)
 
 
 def simulate(
@@ -53,7 +54,7 @@ def simulate(
     if trace is not None:
         command.extend(["--trace", str(trace)])
 
-    subprocess.run(command, cwd=ROOT, check=True, timeout=600)
+    run(command)
 
 
 def verify_shared_can_traffic(trace: Path) -> None:
@@ -77,37 +78,29 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.build:
-        print_section("Build FIL")
-        subprocess.run(
-            [
-                "make",
-                "-C",
-                str(FIL_SOURCE),
-                "build",
-                "TESTS=OFF",
-                "DOCS=OFF",
-                f"JOBS={BUILD_JOBS}",
-            ],
-            cwd=ROOT,
-            check=True,
-        )
+        run([
+            "make",
+            "-C",
+            str(FIL_SOURCE),
+            "build",
+            "TESTS=OFF",
+            "DOCS=OFF",
+            f"JOBS={BUILD_JOBS}",
+        ])
 
     fil = args.fil.resolve()
 
-    print_section("Single-board boot tests (10 ms)")
     for board in BOARDS:
         simulate(fil, CONFIGS / "boards" / f"{board}.json", 10)
 
-    print_section("Network CAN smoke test (20 ms)")
     with tempfile.TemporaryDirectory(prefix="per-fil-") as directory:
         trace = Path(directory) / "network.jsonl"
         simulate(fil, CONFIGS / "network.json", 20, network=True, trace=trace)
         verify_shared_can_traffic(trace)
 
-    print_section("Ready-to-drive integration test (6 s)")
     simulate(fil, CONFIGS / "ready_to_drive.json", 6000, network=True)
 
-    print("\nPER FIL tests passed")
+    print("PER FIL tests passed")
 
 
 if __name__ == "__main__":
