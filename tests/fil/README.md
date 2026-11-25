@@ -1,22 +1,36 @@
-# PER firmware-in-the-loop tests
+# PER Firmware-in-the-Loop (FIL) Tests
 
-FIL is pinned at `tests/external/fil` as a Git submodule. Initialize it with:
+FIL is pinned to a release at `tests/external/fil` as a git submodule.
 
-```sh
-git submodule update --init --recursive tests/external/fil
+## Directory layout
+
+| Path | Purpose |
+| --- | --- |
+| `boards/` | Per-board FIL configs pointing at standalone ELFs in `artifacts/firmware/` |
+| `scenarios/` | Maintained test scenarios using logical CAN bus, message, and signal names |
+| `stimuli/` | Generated raw FIL stimuli |
+| `network.json`, `ready_to_drive.json` | Multi-board network configs referencing `boards/` and `stimuli/` |
+| `run_tests.py` | Builds FIL and runs the actual FIL tests |
+
+## Running
+
+Build firmware (which also runs `generators/generate.py`), build FIL, and run the tests:
+
+```bash
+python3 firmware/build_firmware.py
+python3 tests/fil/run_tests.py --build
 ```
 
-These tests execute the six real vehicle boards without attached hardware
-(`g4_testing` is deliberately excluded). Board and network configs use paths
-relative to their JSON files, so they work regardless of the current directory.
-The MCU model comes from FIL; standalone ELF files come from `artifacts/firmware`
-and start at `0x08000000`.
+Once FIL is built, run just the tests:
 
-## Scenarios and generated stimuli
+```bash
+python3 tests/fil/run_tests.py
+python3 tests/fil/run_tests.py --fil /path/to/fil
+```
 
-`tests/fil/scenarios/*.json` holds the maintained test behavior. Each CAN
-entry has a logical bus, a CAN message, and signals with physical values or
-enum choice names:
+## Scenarios
+
+Add or edit JSON files in `scenarios/`. CAN events and expectations take a logical bus, message name, and physical/enum signal values (or `raw: [bytes]`). Omitted signals default to zero:
 
 ```json
 {"type": "can", "bus": "MCAN", "message": "INVA_INFO", "at_ms": 500,
@@ -24,66 +38,9 @@ enum choice names:
  "values": {"AMK_Status_bSystemReady": true, "AMK_Status_bQuitDcOn": true}}
 ```
 
-`raw: [bytes]` supplies the payload bytes instead of named signal values.
-For both CAN events and expectations, signals omitted from `values` leave their
-wire bits at zero.
+Run `python3 generators/generate.py` to regenerate `stimuli/{stem}_stimuli.json`.
 
-The `canpiler` FIL pass resolves each scenario into
-`tests/fil/stimuli/{stem}_stimuli.json` in the raw FIL stimulus format (buses as
-ids, plus ids and packed payloads). Message ids come from canpiler,
-and values are packed with the same scale/offset, enum, sign, and byte-order
-rules as the generated firmware macros.
+## Updating FIL
 
-`tests/fil/network.json` and `tests/fil/ready_to_drive.json` are
-hand-maintained FIL networks. The latter references its generated stimulus,
-which is not committed, so run the canpiler generator once on a fresh checkout
-before `run_tests.py`:
-
-```sh
-python3 generators/generate.py
-```
-
-## Build and run
-
-Requirements: built PER firmware, Python 3.11+, Make, CMake, a C++20 Clang
-compiler, and matching `llvm-profdata`. FIL's upstream tests also need
-GoogleTest (CMake can fetch it). Release builds use IPO where supported and
-host CPU tuning; the resulting executable targets the build machine.
-
-```sh
-python3 firmware/build_firmware.py
-python3 tests/fil/run_tests.py --build
-```
-
-The build invokes FIL's full `make pgo` workflow: instrumented build, one second
-of six-board network training with strict MMIO and full ADC fidelity, profile
-merge, optimized build, and FIL's own CTest suite. Outputs stay in FIL's ignored
-`build-pgo-generate/` and `build-pgo/` directories, as required by its cleanup
-safety guard. Set `PGO_CXX` and
-`LLVM_PROFDATA` in the environment to select tools from the same LLVM release.
-`CMAKE_BUILD_PARALLEL_LEVEL` controls build concurrency.
-
-Run just the PER scenarios using the existing PGO executable:
-
-```sh
-python3 tests/fil/run_tests.py
-# Or use another FIL build:
-python3 tests/fil/run_tests.py --fil /path/to/fil
-```
-
-The runner fails on simulation errors, early stops, or unmet stimulus
-expectations. It checks:
-
-- All six boards start independently and reach 10 ms with strict MMIO.
-- The shared network reaches 20 ms and carries firmware-originated CAN TX/RX.
-- The vehicle reaches 6 seconds with the ready-to-drive stimulus expectations
-  satisfied (initial zero torque commands, later drive commands, and vehicle state).
-
-The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
-scenarios on pull requests targeting `master` and pushes to `master`. Its FIL
-job uses the existing firmware container, installs the PGO tools, and builds
-vehicle firmware before running the tests, independently of host unit tests.
-
-`python3 build_all.py` builds firmware, builds/tests FIL with PGO, then builds
-DAQ and runs the existing host-test workflow. The standalone host-test runner
-remains independent and does not require FIL or prebuilt vehicle firmware.
+CI (`.github/workflows/run_tests.yml`) runs against a pinned prebuilt FIL release binary instead of compiling the submodule.
+When bumping `tests/external/fil`, update the release URL + SHA-256 checksum in `.github/workflows/run_tests.yml` to match.
