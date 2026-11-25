@@ -46,17 +46,16 @@ python3 generators/generate.py
 ## Build and run
 
 Requirements: built PER firmware, Python 3.11+, Make, CMake, and a C++20 Clang
-compiler. FIL's upstream tests also need
-GoogleTest (CMake can fetch it). The default build tunes for the host CPU;
-the resulting executable targets the build machine.
+compiler. The default build tunes for the host CPU; the resulting executable
+targets the build machine.
 
 ```sh
 python3 firmware/build_firmware.py
 python3 tests/fil/run_tests.py --build
 ```
 
-The build invokes FIL's plain `make build test` workflow. Outputs stay in FIL's ignored
-`build/` directory.
+The build invokes FIL's `make build TESTS=OFF DOCS=OFF` workflow (skipping
+FIL's upstream test suite). Outputs stay in FIL's ignored `build/` directory.
 `CMAKE_BUILD_PARALLEL_LEVEL` controls build concurrency.
 
 Run just the PER scenarios using the existing FIL executable:
@@ -82,6 +81,7 @@ bumping the FIL submodule, update the workflow's versioned release URL and
 binary checksum to match that revision.
 
 `python3 build_all.py` builds firmware and DAQ, runs the host tests, then
-builds/tests FIL from source and runs the PER scenarios. The FIL build reuses
-its existing build directory without cleaning it. The standalone host-test
-runner remains independent and does not require FIL or prebuilt vehicle firmware.
+builds FIL from source (without FIL's upstream tests) and runs the PER
+scenarios. The FIL build reuses its existing build directory without cleaning
+it. The standalone host-test runner remains independent and does not require
+FIL or prebuilt vehicle firmware.

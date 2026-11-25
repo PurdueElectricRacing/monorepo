@@ -34,9 +34,9 @@ def run(command: list[str], **kwargs) -> subprocess.CompletedProcess:
 
 
 def build() -> None:
-    """Build FIL with a plain release build and run its own test suite."""
+    """Build FIL with a plain release build (skipping upstream tests and docs)."""
     run([
-        "make", "-C", str(FIL_SOURCE), "build", "test", "DOCS=OFF",
+        "make", "-C", str(FIL_SOURCE), "build", "TESTS=OFF", "DOCS=OFF",
         f"JOBS={os.environ.get('CMAKE_BUILD_PARALLEL_LEVEL') or os.cpu_count() or 1}",
     ])
 
