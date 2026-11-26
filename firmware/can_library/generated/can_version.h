@@ -1,0 +1,13 @@
+#ifndef CAN_LIBRARY_VERSION_H
+#define CAN_LIBRARY_VERSION_H
+
+#define FIRMWARE_GIT_HASH 0x79bbe98U
+#define FIRMWARE_GIT_HASH_STRING "79bbe98"
+
+#if defined(BOOTLOADER_ENABLED)
+#define APPLICATION_BOOTLOADABLE true
+#else
+#define APPLICATION_BOOTLOADABLE false
+#endif
+
+#endif

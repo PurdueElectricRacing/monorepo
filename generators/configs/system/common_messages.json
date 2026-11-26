@@ -72,6 +72,29 @@
             ]
         },
         {
+            "name": "error_counter_val",
+            "description": "TX error counter value for each board",
+            "priority": 4,
+            "period_ms": 5000,
+            "signals": [
+                {
+                    "signal_name": "fdcan1_error_counter",
+                    "data_type": "uint8_t",
+                    "description": "fdcan1 TEC"
+                },
+                {
+                    "signal_name": "fdcan2_error_counter",
+                    "data_type": "uint8_t",
+                    "description": "fdcan2 TEC"
+                },
+                {
+                    "signal_name": "fdcan3_error_counter",
+                    "data_type": "uint8_t",
+                    "description": "fdcan3 TEC"
+                }
+            ]
+        },
+        {
             "name": "can_overflow",
             "description": "count of dropped CAN packets due to queue overflow",
             "priority": 4,

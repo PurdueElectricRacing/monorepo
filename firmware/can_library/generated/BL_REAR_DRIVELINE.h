@@ -1,0 +1,181 @@
+#ifndef BL_REAR_DRIVELINE_H
+#define BL_REAR_DRIVELINE_H
+
+/**
+ * @file BL_REAR_DRIVELINE.h
+ * @brief Auto-generated CAN driver for BL_REAR_DRIVELINE.
+ * @note This file is auto-generated; do not modify manually.
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
+#include <stdint.h>
+#include <string.h>
+
+#include "can_library/can_codec.h"
+#include "can_library/can_common.h"
+#include "can_library/generated/can_types.h"
+#include "can_library/generated/can_version.h"
+#include "can_library/generated/SCAN.h"
+
+// Node CAN configuration
+#if !defined(STM32G474xx)
+#error "CAN_NODE_BL_REAR_DRIVELINE uses peripherals for STM32G474xx"
+#endif
+
+#define USE_FDCAN1
+
+void CAN_enqueue_tx_FDCAN1(CanMsgTypeDef_t *msg);
+
+// Scaling Macros
+
+// Offset Macros
+
+// Data Structures
+typedef struct {
+    bl_rear_driveline_start_data_t bl_rear_driveline_start;
+    bl_rear_driveline_crc_data_t bl_rear_driveline_crc;
+    bl_rear_driveline_jump_data_t bl_rear_driveline_jump;
+    bl_rear_driveline_data_data_t bl_rear_driveline_data;
+} can_data_t;
+
+extern volatile can_data_t can_data;
+
+// Callback Declarations
+
+// RX Dispatcher
+static inline void CAN_rx_dispatcher(uint32_t id, const uint8_t *data, uint8_t len, const FDCAN_GlobalTypeDef *bus) {
+    if (bus == FDCAN1) {
+        switch (id) {
+            case BL_REAR_DRIVELINE_START_MSG_ID: {
+                uint64_t host_data = CAN_load_payload_u64(data, len);
+
+                uint64_t sig_raw_image_size_bytes = CAN_unpack_raw_signal(host_data, 0xFFFFFFFF, 0, BSWAP_NONE);
+                can_data.bl_rear_driveline_start.image_size_bytes = (uint32_t)sig_raw_image_size_bytes;
+
+                can_data.bl_rear_driveline_start.last_rx = xTaskGetTickCount();
+                break;
+            }
+            case BL_REAR_DRIVELINE_CRC_MSG_ID: {
+                uint64_t host_data = CAN_load_payload_u64(data, len);
+
+                uint64_t sig_raw_data = CAN_unpack_raw_signal(host_data, 0xFFFFFFFF, 0, BSWAP_NONE);
+                can_data.bl_rear_driveline_crc.data = (uint32_t)sig_raw_data;
+
+                can_data.bl_rear_driveline_crc.last_rx = xTaskGetTickCount();
+                break;
+            }
+            case BL_REAR_DRIVELINE_JUMP_MSG_ID: {
+                uint64_t host_data = CAN_load_payload_u64(data, len);
+
+                uint64_t sig_raw_data = CAN_unpack_raw_signal(host_data, 0xFFFFFFFF, 0, BSWAP_NONE);
+                can_data.bl_rear_driveline_jump.data = (uint32_t)sig_raw_data;
+
+                can_data.bl_rear_driveline_jump.last_rx = xTaskGetTickCount();
+                break;
+            }
+            case BL_REAR_DRIVELINE_DATA_MSG_ID: {
+                uint64_t host_data = CAN_load_payload_u64(data, len);
+
+                uint64_t sig_raw_index = CAN_unpack_raw_signal(host_data, 0xFFFFFF, 0, BSWAP_NONE);
+                can_data.bl_rear_driveline_data.index = (uint32_t)sig_raw_index;
+                uint64_t sig_raw_data = CAN_unpack_raw_signal(host_data, 0xFFFFFFFF, 24, BSWAP_NONE);
+                can_data.bl_rear_driveline_data.data = (uint32_t)sig_raw_data;
+
+                can_data.bl_rear_driveline_data.last_rx = xTaskGetTickCount();
+                break;
+            }
+            default:
+                break;
+        }
+    }
+}
+
+// Stale Checking
+
+// Data initialization
+static inline void CAN_init_data(void) {
+    memset((void *)&can_data, 0, sizeof(can_data));
+    // Underflow the last_rx timers to ensure messages are stale until first rx
+    // Setup the stale function pointers
+}
+
+// TX Functions
+[[gnu::always_inline]]
+static inline void CAN_SEND_bl_rear_driveline_resp(
+    bootloader_status_t value_status,
+    uint32_t value_detail
+) {
+    CanMsgTypeDef_t outgoing = {
+        .Bus = FDCAN1,
+        .StdId = BL_REAR_DRIVELINE_RESP_MSG_ID,
+        .IDE = false,
+        .DLC = BL_REAR_DRIVELINE_RESP_DLC,
+        .Data = {0}
+    };
+
+    uint64_t payload = 0;
+    uint64_t sig_raw_status = (uint64_t)value_status;
+    payload = CAN_pack_raw_signal(payload, sig_raw_status, 0xFF, 0, BSWAP_NONE);
+    uint64_t sig_raw_detail = (uint64_t)value_detail;
+    payload = CAN_pack_raw_signal(payload, sig_raw_detail, 0xFFFFFFFF, 8, BSWAP_NONE);
+
+    CAN_store_payload_u64(outgoing.Data, payload, BL_REAR_DRIVELINE_RESP_DLC);
+
+    CAN_enqueue_tx_FDCAN1(&outgoing);
+}
+
+[[gnu::always_inline]]
+static inline void CAN_SEND_bl_rear_driveline_info(
+    uint8_t value_protocol_version,
+    uint32_t value_git_hash,
+    bootloader_target_id_t value_target_id,
+    uint8_t value_flags
+) {
+    CanMsgTypeDef_t outgoing = {
+        .Bus = FDCAN1,
+        .StdId = BL_REAR_DRIVELINE_INFO_MSG_ID,
+        .IDE = false,
+        .DLC = BL_REAR_DRIVELINE_INFO_DLC,
+        .Data = {0}
+    };
+
+    uint64_t payload = 0;
+    uint64_t sig_raw_protocol_version = (uint64_t)value_protocol_version;
+    payload = CAN_pack_raw_signal(payload, sig_raw_protocol_version, 0xFF, 0, BSWAP_NONE);
+    uint64_t sig_raw_git_hash = (uint64_t)value_git_hash;
+    payload = CAN_pack_raw_signal(payload, sig_raw_git_hash, 0xFFFFFFFF, 8, BSWAP_NONE);
+    uint64_t sig_raw_target_id = (uint64_t)value_target_id;
+    payload = CAN_pack_raw_signal(payload, sig_raw_target_id, 0xFF, 40, BSWAP_NONE);
+    uint64_t sig_raw_flags = (uint64_t)value_flags;
+    payload = CAN_pack_raw_signal(payload, sig_raw_flags, 0xFF, 48, BSWAP_NONE);
+
+    CAN_store_payload_u64(outgoing.Data, payload, BL_REAR_DRIVELINE_INFO_DLC);
+
+    CAN_enqueue_tx_FDCAN1(&outgoing);
+}
+
+
+// Peripheral initialization (board clocks and GPIO must be configured first)
+static inline void CAN_init_peripherals(void) {
+    PHAL_FDCAN_init(FDCAN1, SCAN_BAUD_RATE);
+}
+
+// Filter configuration
+// CAN filter setup for FDCAN1
+static inline void FDCAN1_init_filters() {
+    static const uint32_t sid_list[] = {
+        BL_REAR_DRIVELINE_START_MSG_ID,
+        BL_REAR_DRIVELINE_CRC_MSG_ID,
+        BL_REAR_DRIVELINE_JUMP_MSG_ID,
+        BL_REAR_DRIVELINE_DATA_MSG_ID
+    };
+
+
+    PHAL_FDCAN_setFilters(
+        FDCAN1,
+        sid_list, 4,
+        NULL, 0
+    );
+}
+
+#endif // BL_REAR_DRIVELINE_H

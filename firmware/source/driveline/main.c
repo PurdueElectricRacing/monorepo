@@ -178,9 +178,14 @@ static_assert(FRONT_DRIVELINE_VERSION_PERIOD_MS == 5000U);
 static_assert(REAR_DRIVELINE_VERSION_PERIOD_MS == 5000U);
 static_assert(FRONT_DRIVELINE_CAN_OVERFLOW_PERIOD_MS == 5000U);
 static_assert(REAR_DRIVELINE_CAN_OVERFLOW_PERIOD_MS == 5000U);
+static_assert(DRIVELINE_BROADCAST_TEC_ERROR_PERIOD_MS == 5000U);
 void report_telemetry_02hz() {
     SEND_VERSION(FIRMWARE_GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
     SEND_CAN_OVERFLOW(can_stats.rx_overflow, can_stats.tx_overflow);
+    uint8_t err1 = PHAL_FDCAN_txErrorCounter(FDCAN1);
+    uint8_t err2 = 0; // not initialized
+    uint8_t err3 = 0; // not initialized
+    CAN_SEND_driveline_broadcast_tec_error(err1, err2, err3);
 }
 
 void shockpots_periodic() {
