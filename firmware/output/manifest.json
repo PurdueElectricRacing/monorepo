@@ -1,0 +1,86 @@
+{
+  "format": "per-firmware-package-v1",
+  "protocol_version": 1,
+  "crc_algorithm": "STM32_CRC32_MPEG2_WORD_LE",
+  "can_bus": "MIXED",
+  "boards": [
+    {
+      "name": "main_module",
+      "binary": "images/main_module.bin",
+      "size_bytes": 28888,
+      "crc32": "0xFAF020CB",
+      "application_address": "0x08008000",
+      "can_bus": "VCAN",
+      "start_id": "0x20",
+      "crc_id": "0x32",
+      "jump_id": "0x38",
+      "data_id": "0x21",
+      "response_id": "0x22"
+    },
+    {
+      "name": "dashboard",
+      "binary": "images/dashboard.bin",
+      "size_bytes": 46964,
+      "crc32": "0xB9771528",
+      "application_address": "0x08008000",
+      "can_bus": "VCAN",
+      "start_id": "0x23",
+      "crc_id": "0x33",
+      "jump_id": "0x39",
+      "data_id": "0x24",
+      "response_id": "0x25"
+    },
+    {
+      "name": "torque_vector",
+      "binary": "images/torque_vector.bin",
+      "size_bytes": 49548,
+      "crc32": "0x88BAF1FC",
+      "application_address": "0x08008000",
+      "can_bus": "VCAN",
+      "start_id": "0x26",
+      "crc_id": "0x34",
+      "jump_id": "0x3A",
+      "data_id": "0x27",
+      "response_id": "0x28"
+    },
+    {
+      "name": "a_box",
+      "binary": "images/a_box.bin",
+      "size_bytes": 33620,
+      "crc32": "0xFC815779",
+      "application_address": "0x08008000",
+      "can_bus": "VCAN",
+      "start_id": "0x29",
+      "crc_id": "0x35",
+      "jump_id": "0x3B",
+      "data_id": "0x2A",
+      "response_id": "0x2B"
+    },
+    {
+      "name": "front_driveline",
+      "binary": "images/front_driveline.bin",
+      "size_bytes": 19060,
+      "crc32": "0x7117E90F",
+      "application_address": "0x08008000",
+      "can_bus": "SCAN",
+      "start_id": "0x2C",
+      "crc_id": "0x36",
+      "jump_id": "0x3C",
+      "data_id": "0x2D",
+      "response_id": "0x2E"
+    },
+    {
+      "name": "rear_driveline",
+      "binary": "images/rear_driveline.bin",
+      "size_bytes": 19060,
+      "crc32": "0x5DC72D97",
+      "application_address": "0x08008000",
+      "can_bus": "SCAN",
+      "start_id": "0x2F",
+      "crc_id": "0x37",
+      "jump_id": "0x3D",
+      "data_id": "0x30",
+      "response_id": "0x31"
+    }
+  ]
+}

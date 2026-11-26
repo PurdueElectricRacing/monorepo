@@ -129,6 +129,10 @@
                 {
                     "message_name": "driveline_diag_name",
                     "common_message": "diag_name"
+                },
+                {
+                    "message_name": "driveline_broadcast_tec_error",
+                    "common_message": "error_counter_val"
                 }
             ],
             "rx": [

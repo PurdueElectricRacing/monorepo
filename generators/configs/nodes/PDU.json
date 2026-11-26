@@ -11,6 +11,10 @@
                 {
                     "message_name": "pdu_version",
                     "common_message": "node_version"
+                },
+                {
+                    "message_name": "pdu_broadcast_tec_error",
+                    "common_message": "error_counter_val"
                 }
             ],
             "rx": [
