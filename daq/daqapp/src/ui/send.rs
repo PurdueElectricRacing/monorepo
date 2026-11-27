@@ -282,6 +282,7 @@ impl SendUi {
                                 key,
                                 is_extended_id: selected_msg.is_extended_id(),
                                 msg_bytes,
+                                is_hil: false,
                             };
 
                             self.selected_msg = None;
@@ -346,6 +347,7 @@ impl SendUi {
                                     key: self.sending_messages[idx].key,
                                     is_extended_id: self.sending_messages[idx].is_extended_id,
                                     msg_bytes,
+                                    is_hil: false,
                                 },
                             ))
                             .unwrap_or_else(|error| log::error!("Failed to submit send: {error}"));
@@ -387,22 +389,28 @@ impl SendUi {
             key,
             error,
             retrying,
+            is_hil,
         } = msg
         {
-            if !retrying {
+            if !retrying && !is_hil {
                 self.sending_messages.retain(|m| m.key != *key);
             }
-            log::error!(
-                "Send bus {} 0x{:03X} failed: {error}",
-                key.bus_id,
-                key.identity
-            );
+            if *is_hil {
+                log::error!("Send HIL message {key} failed: {error}");
+            } else {
+                log::error!(
+                    "Send bus {} 0x{:03X} failed: {error}",
+                    key.bus_id,
+                    key.identity
+                );
+            }
         }
 
         if let daqcore::can_thread::CanThreadEvent::MessageSent {
             key,
             timestamp,
             amount_left,
+            slot_index,
         } = msg
         {
             if let Some(rx_amount_left) = amount_left {
@@ -414,9 +422,13 @@ impl SendUi {
                     }
                 }
             } else {
-                // If amount_left is None, it means the message is done sending,
-                // so we remove it from the list
-                self.sending_messages.retain(|msg| msg.key != *key);
+                // Skip any slot not equal to 0
+                // as they refer to HIL TX messages
+                if *slot_index == 0 {
+                    // If amount_left is None, it means the message is done sending,
+                    // so we remove it from the list
+                    self.sending_messages.retain(|msg| msg.key != *key);
+                }
             }
         }
     }

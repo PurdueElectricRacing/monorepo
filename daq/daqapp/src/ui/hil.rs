@@ -119,7 +119,7 @@ impl Hil {
         let mut stop_requested = false;
 
         ui.add_space(4.0);
-        if self.snapshot.capture_complete {
+        if self.snapshot.capture_complete && all_finished {
             ui.horizontal(|ui| {
                 if ui.button("Exit").clicked() {
                     stop_requested = true;
@@ -141,8 +141,12 @@ impl Hil {
                     // purposes.
                     let end = tests
                         .iter()
-                        .flat_map(|t| &t.in_progress_expects)
-                        .map(|e| e.expect.window[1] as u128)
+                        .flat_map(|t| {
+                            t.in_progress_expects
+                                .iter()
+                                .map(|e| e.expect.window[1] as u128)
+                                .chain(t.tx_expects.iter().map(|e| e.expect.window[1] as u128))
+                        })
                         .max()
                         .unwrap_or(0);
                     ui.label(format!(
@@ -207,22 +211,36 @@ impl Hil {
             return;
         }
 
-        let (mut total_passed, mut total_expects, mut subtests_all_passed) = (0, 0, 0);
+        let (
+            mut total_expects_passed,
+            mut total_expects,
+            mut total_tx_passed,
+            mut total_tx,
+            mut subtests_all_passed,
+        ) = (0, 0, 0, 0, 0);
         for t in tests {
-            let total = t.in_progress_expects.len();
-            let passed = t
+            let test_expects = t.in_progress_expects.len();
+            let test_tx = t.tx_completed.len();
+            let passed_expects = t
                 .in_progress_expects
                 .iter()
                 .filter(|e| matches!(e.result, daqcore::hil::run::ExpectResult::Passed))
                 .count();
-            total_passed += passed;
-            total_expects += total;
-            if passed == total {
+            let passed_tx = t
+                .tx_completed
+                .iter()
+                .filter(|(_, result)| matches!(result, daqcore::hil::run::TxResult::Sent))
+                .count();
+
+            total_expects_passed += passed_expects;
+            total_expects += test_expects;
+            total_tx_passed += passed_tx;
+            total_tx += test_tx;
+            if total_expects_passed == total_expects && total_tx_passed == total_tx {
                 subtests_all_passed += 1;
             }
         }
-
-        let color = if total_passed == total_expects {
+        let color = if total_expects_passed == total_expects && total_tx_passed == total_tx {
             eframe::egui::Color32::GREEN
         } else {
             eframe::egui::Color32::RED
@@ -231,9 +249,11 @@ impl Hil {
         ui.colored_label(
             color,
             format!(
-                "Executed tests: {}/{} expects passed, {}/{} subtests fully passed",
-                total_passed,
+                "Executed tests: {}/{} expects passed, {}/{} TX passed, {}/{} subtests fully passed",
+                total_expects_passed,
                 total_expects,
+                total_tx_passed,
+                total_tx,
                 subtests_all_passed,
                 tests.len()
             ),
@@ -255,6 +275,10 @@ impl Hil {
 
                 ui.add_space(4.0);
                 Self::show_expects_table(ui, test);
+
+                ui.add_space(10.0);
+                ui.label("TX expects");
+                Self::show_tx_expects_table(ui, test);
             });
     }
 
@@ -278,14 +302,28 @@ impl Hil {
             return;
         }
 
-        let total = test.in_progress_expects.len();
-        let passed = test
+        let total_expects = test.in_progress_expects.len();
+        let total_tx = test.tx_completed.len();
+        let passed_expects = test
             .in_progress_expects
             .iter()
             .filter(|e| matches!(e.result, daqcore::hil::run::ExpectResult::Passed))
             .count();
+        let passed_tx = test
+            .tx_completed
+            .iter()
+            .filter(|(_, result)| matches!(result, daqcore::hil::run::TxResult::Sent))
+            .count();
+        let passed_tx_expects = test
+            .tx_expects
+            .iter()
+            .filter(|e| matches!(e.result, daqcore::hil::run::ExpectResult::Passed))
+            .count();
 
-        let color = if passed == total {
+        let color = if passed_expects == total_expects
+            && passed_tx == total_tx
+            && passed_tx_expects == total_tx
+        {
             eframe::egui::Color32::GREEN
         } else {
             eframe::egui::Color32::RED
@@ -293,7 +331,10 @@ impl Hil {
 
         ui.colored_label(
             color,
-            format!("Test finished: {} passed of {} expects", passed, total),
+            format!(
+                "Test finished: {} passed of {} expects | {} sent of {} TX messages | {} received of {} TX messages",
+                passed_expects, total_expects, passed_tx, total_tx, passed_tx_expects, total_tx
+            ),
         );
     }
 
@@ -448,6 +489,157 @@ impl Hil {
             });
     }
 
+    fn show_tx_expects_table(ui: &mut eframe::egui::Ui, test: &daqcore::hil::run::HilRunningTest) {
+        // A replicated version of show_expects_table to display
+        // a separate table for tx expects
+        let mut rows = Vec::new();
+        let mut expanded = Vec::new();
+        for (index, ipe) in test.tx_expects.iter().enumerate() {
+            let id = ui.id().with(("hil_tx_history", index));
+            let other_count = ipe
+                .messages
+                .len()
+                .saturating_sub(usize::from(ipe.selected_message_index.is_some()));
+            let open = other_count > 0
+                && ui
+                    .ctx()
+                    .data_mut(|data| data.get_temp::<bool>(id).unwrap_or(false));
+            expanded.push((id, open));
+            rows.push((index, None));
+            if open {
+                rows.extend(
+                    (0..ipe.messages.len())
+                        .filter(|message| Some(*message) != ipe.selected_message_index)
+                        .map(|message| (index, Some(message))),
+                );
+            }
+        }
+        let line_height =
+            ui.text_style_height(&eframe::egui::TextStyle::Body) + ui.spacing().item_spacing.y;
+        let heights = rows.iter().map(|(index, message)| {
+            let signals = test.tx_expects[*index].expect.signals.len().max(1);
+            let lines = if message.is_none() {
+                // Ensures that each row is always at least 3 lines tall.
+                (signals * 2).max(3)
+            } else {
+                signals
+            };
+            ((lines as f32) * line_height) + 8.0
+        });
+        egui_extras::TableBuilder::new(ui)
+            .id_salt("hil_tx_messages")
+            .cell_layout(eframe::egui::Layout::top_down(eframe::egui::Align::Min))
+            // Message
+            .column(
+                egui_extras::Column::initial(210.0)
+                    .at_least(120.0)
+                    .resizable(true)
+                    .clip(true),
+            )
+            // Time (ms)
+            .column(
+                egui_extras::Column::initial(105.0)
+                    .at_least(75.0)
+                    .resizable(true)
+                    .clip(true),
+            )
+            // Validation
+            .column(
+                egui_extras::Column::initial(155.0)
+                    .at_least(100.0)
+                    .resizable(true)
+                    .clip(true),
+            )
+            // Signals
+            .column(egui_extras::Column::remainder().at_least(150.0).clip(true))
+            .max_scroll_height(400.0)
+            .auto_shrink([false, true])
+            .header(24.0, |mut header| {
+                for label in ["Message", "Time (ms)", "Validation", "Signals"] {
+                    header.col(|ui| {
+                        ui.strong(label);
+                    });
+                }
+            })
+            .body(|body| {
+                body.heterogeneous_rows(heights, |mut row| {
+                    let (expect_index, message_index) = rows[row.index()];
+                    let ipe = &test.tx_expects[expect_index];
+                    let primary = message_index.is_none();
+                    let message = message_index
+                        .map(|i| &ipe.messages[i])
+                        .or_else(|| ipe.selected_message());
+                    let tint = if primary {
+                        // Blue
+                        eframe::egui::Color32::from_rgba_unmultiplied(80, 140, 220, 28)
+                    } else if message.is_some_and(|m| m.is_valid()) {
+                        // Green
+                        eframe::egui::Color32::from_rgba_unmultiplied(60, 180, 120, 24)
+                    } else {
+                        // Red
+                        eframe::egui::Color32::from_rgba_unmultiplied(220, 80, 90, 24)
+                    };
+                    row.col(|ui| {
+                        Self::paint_message_cell(ui, tint);
+                        if primary {
+                            let count = ipe
+                                .messages
+                                .len()
+                                .saturating_sub(usize::from(ipe.selected_message_index.is_some()));
+                            let (id, open) = expanded[expect_index];
+                            let arrow = if open { "v" } else { ">" };
+                            let response = ui.add_enabled(
+                                count > 0,
+                                eframe::egui::Button::new(format!(
+                                    "{arrow} {}",
+                                    ipe.expect.msg_name
+                                ))
+                                .frame(false),
+                            );
+                            if response.clicked() {
+                                ui.ctx().data_mut(|data| data.insert_temp(id, !open));
+                            }
+                            response
+                                .on_hover_text(format!("Show or hide {count} other receptions"));
+                            ui.weak(format!(
+                                "Window: {:.2} - {:.2} ms",
+                                ipe.expect.window[0], ipe.expect.window[1]
+                            ));
+                            ui.weak(format!("{} received", ipe.messages.len()));
+                        }
+                    });
+                    row.col(|ui| {
+                        Self::paint_message_cell(ui, tint);
+                        if let Some(message) = message {
+                            ui.monospace(message.elapsed_ms.to_string());
+                        } else {
+                            ui.weak("-");
+                        }
+                    });
+                    row.col(|ui| {
+                        Self::paint_message_cell(ui, tint);
+                        if primary {
+                            ui.colored_label(expect_color(ipe.result), ipe.result.as_str());
+                        }
+                        if let Some(message) = message {
+                            let (color, label) = if message.is_valid() {
+                                (eframe::egui::Color32::GREEN, "Valid")
+                            } else {
+                                (eframe::egui::Color32::RED, "Invalid")
+                            };
+                            ui.colored_label(color, label);
+                        } else {
+                            ui.weak("No message received");
+                        }
+                    });
+                    row.col(|ui| {
+                        Self::paint_message_cell(ui, tint);
+                        Self::show_tx_message_signals(ui, ipe, message, primary);
+                    });
+                });
+            });
+    }
+
     fn paint_message_cell(ui: &mut eframe::egui::Ui, tint: eframe::egui::Color32) {
         // Extend into the cell spacing so each reception has a continuous tint.
         let rect = ui.max_rect().expand2(ui.spacing().item_spacing * 0.5);
@@ -468,6 +660,52 @@ impl Hil {
             if let Some(message) = message {
                 let raw_value = message.signals.get(name).copied().flatten();
                 let failed = !daqcore::hil::run::signal_in_range(raw_value, *range);
+                let value = raw_value
+                    .map(|value| format!("{value:.2}"))
+                    .unwrap_or_else(|| "missing".to_owned());
+                let detail = format!("{name}: {value} | {}", if failed { "Fail" } else { "Pass" });
+                let color = if failed {
+                    eframe::egui::Color32::RED
+                } else {
+                    eframe::egui::Color32::GREEN
+                };
+                ui.add(
+                    eframe::egui::Label::new(eframe::egui::RichText::new(&detail).color(color))
+                        .truncate(),
+                )
+                .on_hover_text(detail);
+            } else {
+                ui.label(name);
+            }
+            if show_expected {
+                ui.add(
+                    eframe::egui::Label::new(
+                        eframe::egui::RichText::new(format!(
+                            "Expected: [{:.2}, {:.2}]",
+                            range[0], range[1]
+                        ))
+                        .weak(),
+                    )
+                    .truncate(),
+                );
+            }
+        }
+    }
+
+    fn show_tx_message_signals(
+        ui: &mut eframe::egui::Ui,
+        ipe: &daqcore::hil::run::TxExpect,
+        message: Option<&daqcore::hil::run::CapturedMessage>,
+        show_expected: bool,
+    ) {
+        if ipe.expect.signals.is_empty() {
+            ui.weak("Message presence only");
+        }
+        for (name, value) in &ipe.expect.signals {
+            let range = daqcore::hil::run::tx_expects_signal_apply_delta(*value);
+            if let Some(message) = message {
+                let raw_value = message.signals.get(name).copied().flatten();
+                let failed = !daqcore::hil::run::signal_in_range(raw_value, range);
                 let value = raw_value
                     .map(|value| format!("{value:.2}"))
                     .unwrap_or_else(|| "missing".to_owned());
