@@ -1,5 +1,5 @@
-use crate::{can_thread::BusSelection, hil, frame};
 use crate::hil::config::ExecutionMode;
+use crate::{can_thread::BusSelection, frame, hil};
 use std::{path, time};
 
 use crate::{
@@ -158,7 +158,8 @@ impl HilEngine {
         database: Option<&Database>,
         selection: &BusSelection,
     ) -> Result<(Vec<AddSendMessage>, Vec<String>), String> {
-        let Some(database) = database.filter(|database| selection.resolve_buses(database).is_some())
+        let Some(database) =
+            database.filter(|database| selection.resolve_buses(database).is_some())
         else {
             return Err("Decoder has not been loaded properly".to_owned());
         };
@@ -199,7 +200,8 @@ impl HilEngine {
                                     continue;
                                 }
 
-                                match Self::hil_tx_to_send_message(&tx_message, database, selection) {
+                                match Self::hil_tx_to_send_message(&tx_message, database, selection)
+                                {
                                     Ok(message) => {
                                         tx_messages.push(message);
                                         test.tx_completed
@@ -274,13 +276,21 @@ impl HilEngine {
         selection: &BusSelection,
     ) -> Result<AddSendMessage, String> {
         let Some(active_buses) = selection.resolve_buses(database) else {
-            return Err("CAN Bus not selected".to_string())
+            return Err("CAN Bus not selected".to_string());
         };
 
         let message = database
             .messages()
-            .find(|message| active_buses.iter().any(|bus| bus.bus_id() == message.key().bus_id) && message.name() == tx_message.msg_name)
-            .ok_or(format!("Message name not found on CAN bus selection {:?}", selection))?;
+            .find(|message| {
+                active_buses
+                    .iter()
+                    .any(|bus| bus.bus_id() == message.key().bus_id)
+                    && message.name() == tx_message.msg_name
+            })
+            .ok_or(format!(
+                "Message name not found on CAN bus selection {:?}",
+                selection
+            ))?;
 
         let key = message.key();
         let values: Vec<(&str, f64)> = tx_message

@@ -76,9 +76,7 @@ impl SendTable {
         // from Send UI
         if msg.is_hil {
             for i in 1..=u8::MAX {
-                if let std::collections::btree_map::Entry::Vacant(e) =
-                    self.0.entry((msg.key, i))
-                {
+                if let std::collections::btree_map::Entry::Vacant(e) = self.0.entry((msg.key, i)) {
                     e.insert(Scheduled {
                         frame,
                         amount: msg.amount,

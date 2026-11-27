@@ -427,8 +427,7 @@ impl SendUi {
                 if *slot_index == 0 {
                     // If amount_left is None, it means the message is done sending,
                     // so we remove it from the list
-                    self.sending_messages
-                        .retain(|msg| msg.key != *key);
+                    self.sending_messages.retain(|msg| msg.key != *key);
                 }
             }
         }

@@ -19,7 +19,11 @@ pub fn raw_frame_bus(
 ) -> u8 {
     frame
         .bus_id
-        .or_else(|| active_buses(database, selection).first().map(|bus| bus.bus_id()))
+        .or_else(|| {
+            active_buses(database, selection)
+                .first()
+                .map(|bus| bus.bus_id())
+        })
         .unwrap_or(0)
 }
 

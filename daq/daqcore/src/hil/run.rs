@@ -1,5 +1,11 @@
-use crate::{hil, superdbc};
+use crate::{
+    hil::{self, config::TxExpectation},
+    superdbc,
+};
 use std::{path, time};
+
+const TX_EXPECT_WINDOW_DELTA: f64 = 5.0f64;
+const TX_EXPECT_SIGNAL_DELTA: f64 = 0.0001f64;
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub enum ExpectResult {
@@ -19,6 +25,13 @@ pub enum TxResult {
 /// Missing and non-finite values never satisfy an expected signal range.
 pub fn signal_in_range(value: Option<f64>, range: [f64; 2]) -> bool {
     value.is_some_and(|value| value.is_finite() && value >= range[0] && value <= range[1])
+}
+
+pub fn tx_expects_signal_apply_delta(signal: f64) -> [f64; 2] {
+    [
+        signal - TX_EXPECT_SIGNAL_DELTA,
+        signal + TX_EXPECT_SIGNAL_DELTA,
+    ]
 }
 
 /// One reception evaluated against the signals configured for an expectation.
@@ -48,10 +61,23 @@ pub struct InProgressExpect {
 }
 
 #[derive(Clone)]
+pub struct TxExpect {
+    pub expect: hil::config::TxExpectation,
+    pub result: ExpectResult,
+
+    pub messages: Vec<CapturedMessage>,
+
+    // The index of the message to display in the HIL testing UI,
+    // based on the active AcceptPolicy for the expectation.
+    pub selected_message_index: Option<usize>,
+}
+
+#[derive(Clone)]
 pub struct HilRunningTest {
     pub test_info: hil::config::TestInfo,
     pub tx_remaining: Vec<hil::config::TxMessage>,
     pub tx_completed: Vec<(hil::config::TxMessage, TxResult)>,
+    pub tx_expects: Vec<TxExpect>,
     pub in_progress_expects: Vec<InProgressExpect>,
 }
 
@@ -103,10 +129,22 @@ impl HilRunningTest {
         let mut tx_remaining = test.tx;
         tx_remaining.sort_by(|a, b| a.timestamp.total_cmp(&b.timestamp));
 
+        let mut tx_expects = Vec::new();
+
+        for tx in tx_remaining.iter() {
+            tx_expects.push(TxExpect::new(TxExpectation {
+                window: [tx.timestamp, tx.timestamp + TX_EXPECT_WINDOW_DELTA],
+                msg_name: tx.msg_name.clone(),
+                signals: tx.signals.clone(),
+                accept: hil::config::AcceptPolicy::Any,
+            }));
+        }
+
         Self {
             test_info,
             tx_remaining,
             tx_completed: Vec::new(),
+            tx_expects,
             in_progress_expects,
         }
     }
@@ -115,6 +153,26 @@ impl HilRunningTest {
         let ts = elapsed.as_millis();
 
         for expect in &mut self.in_progress_expects {
+            if expect.result.is_finished() {
+                continue;
+            };
+
+            // Check if window for HIL test expired, resolve test state accordingly.
+            if ts > expect.expect.window[1] as u128 {
+                expect.result = match expect.selected_message() {
+                    None => ExpectResult::FailedNoMessage,
+                    Some(message) if message.is_valid() => ExpectResult::Passed,
+                    Some(_) => ExpectResult::FailedValueOutOfRange,
+                };
+
+            // If the test window is not expired, and the current time is after
+            // the window start, we should start checking for matching messages.
+            } else if ts >= expect.expect.window[0] as u128 {
+                expect.result = ExpectResult::InProgress;
+            }
+        }
+
+        for expect in &mut self.tx_expects {
             if expect.result.is_finished() {
                 continue;
             };
@@ -184,6 +242,48 @@ impl HilRunningTest {
                 expect.messages.push(message);
             }
         }
+
+        for expect in &mut self.tx_expects {
+            if ts >= expect.expect.window[0] as u128
+                && ts <= expect.expect.window[1] as u128
+                && expect.matches_message(decoded)
+            {
+                let mut valid = true;
+                let mut signals = indexmap::IndexMap::new();
+
+                for (sig_name, sig_range) in &expect.expect.signals {
+                    let value = decoded.signal(sig_name).map(|signal| signal.physical());
+                    valid &= signal_in_range(value, tx_expects_signal_apply_delta(*sig_range));
+                    signals.insert(sig_name.clone(), value);
+                }
+
+                let message = CapturedMessage {
+                    elapsed_ms: ts,
+                    signals,
+                    valid,
+                };
+                if !expect.result.is_finished() {
+                    expect.selected_message_index = Some(expect.messages.len());
+                    expect.result = match expect.expect.accept {
+                        // Immediately validates the first message that arrives.
+                        hil::config::AcceptPolicy::First => {
+                            if message.is_valid() {
+                                ExpectResult::Passed
+                            } else {
+                                ExpectResult::FailedValueOutOfRange
+                            }
+                        }
+                        hil::config::AcceptPolicy::Any if message.is_valid() => {
+                            ExpectResult::Passed
+                        }
+                        // Expectations with AcceptPolicy::Last are evaluated after
+                        // the window closes.
+                        _ => ExpectResult::InProgress,
+                    };
+                }
+                expect.messages.push(message);
+            }
+        }
     }
 
     pub fn expect_counts(&self) -> (usize, usize, usize) {
@@ -207,6 +307,10 @@ impl HilRunningTest {
         self.in_progress_expects
             .iter()
             .all(|e| elapsed.as_millis() > e.expect.window[1] as u128)
+            && self
+                .tx_expects
+                .iter()
+                .all(|e| elapsed.as_millis() > e.expect.window[1] as u128)
     }
 
     pub fn is_finished(&self) -> bool {
@@ -214,6 +318,7 @@ impl HilRunningTest {
             .iter()
             .all(|e| e.result.is_finished())
             && self.tx_remaining.is_empty()
+            && self.tx_expects.iter().all(|e| e.result.is_finished())
     }
 
     pub fn has_failed(&self) -> bool {
@@ -226,11 +331,44 @@ impl HilRunningTest {
             .tx_completed
             .iter()
             .any(|(_, result)| matches!(result, TxResult::Failed))
+            || self.tx_expects.iter().any(|e| {
+                matches!(
+                    e.result,
+                    ExpectResult::FailedNoMessage | ExpectResult::FailedValueOutOfRange
+                )
+            })
+            || self.tx_expects.iter().any(|e| {
+                matches!(
+                    e.result,
+                    ExpectResult::FailedNoMessage | ExpectResult::FailedValueOutOfRange
+                )
+            })
     }
 }
 
 impl InProgressExpect {
     pub fn new(expect: hil::config::Expectation) -> Self {
+        Self {
+            expect,
+            result: ExpectResult::NotInWindow,
+            messages: Vec::new(),
+            selected_message_index: None,
+        }
+    }
+
+    /// Returns the current message displayed in the UI, or None.
+    pub fn selected_message(&self) -> Option<&CapturedMessage> {
+        self.selected_message_index
+            .and_then(|i| self.messages.get(i))
+    }
+
+    pub fn matches_message(&self, decoded: &superdbc::decode::DecodedMessage) -> bool {
+        self.expect.msg_name == decoded.name()
+    }
+}
+
+impl TxExpect {
+    pub fn new(expect: hil::config::TxExpectation) -> Self {
         Self {
             expect,
             result: ExpectResult::NotInWindow,

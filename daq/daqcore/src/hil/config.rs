@@ -47,6 +47,19 @@ pub struct Expectation {
     pub accept: AcceptPolicy,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TxExpectation {
+    pub window: [f64; 2],
+
+    pub msg_name: String,
+
+    #[serde(default)]
+    pub signals: indexmap::IndexMap<String, f64>,
+
+    #[serde(default)]
+    pub accept: AcceptPolicy,
+}
+
 #[derive(Clone)]
 pub struct PresetInfo {
     pub name: String,

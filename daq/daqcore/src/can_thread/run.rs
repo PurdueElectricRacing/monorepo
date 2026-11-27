@@ -1,5 +1,7 @@
 use crate::{
-    can, can_thread::{self, DatabaseUpdate, tx::AddSendMessage}, driver, hil, superdbc,
+    can,
+    can_thread::{self, DatabaseUpdate, tx::AddSendMessage},
+    driver, hil, superdbc,
 };
 use std::{sync::mpsc, thread, time};
 
@@ -106,7 +108,9 @@ fn run_with_connection(
                                 .into_iter()
                                 .flatten()
                                 .find(|sel| sel.resolve_buses(&loaded_database).is_some())
-                                .or_else(|| can_thread::BusSelection::default_single(&loaded_database))
+                                .or_else(|| {
+                                    can_thread::BusSelection::default_single(&loaded_database)
+                                })
                                 .ok_or_else(|| "SuperDBC contains no selectable buses".to_owned())
                             {
                                 Ok(selection) => selection,
@@ -136,17 +140,22 @@ fn run_with_connection(
                                     result: Err("No SuperDBC database is loaded".to_owned())
                                 });
                                 continue;
-                            } else if let Some(db) = &database {
-                                if selection.resolve_buses(db).is_none() {
-                                    emit!(can_thread::CanThreadEvent::DatabaseSelected {
-                                        request_id,
-                                        result: Err(format!("SuperDBC does not support {:?}", selection))
-                                    });
-                                    continue;
-                                }
+                            } else if let Some(db) = &database
+                                && selection.resolve_buses(db).is_none()
+                            {
+                                emit!(can_thread::CanThreadEvent::DatabaseSelected {
+                                    request_id,
+                                    result: Err(format!(
+                                        "SuperDBC does not support {:?}",
+                                        selection
+                                    ))
+                                });
+                                continue;
                             }
                             selected_selection = *selection;
-                            can_thread::DatabaseUpdate::Bus { selection: *selection }
+                            can_thread::DatabaseUpdate::Bus {
+                                selection: *selection,
+                            }
                         }
                     };
 
@@ -240,10 +249,8 @@ fn run_with_connection(
         }
 
         hil.tick(now);
-        if hil.is_running()
-            {
-            if !hil_finished
-            {
+        if hil.is_running() {
+            if !hil_finished {
                 let mut tx_messages: Vec<AddSendMessage> = Vec::new();
                 match hil.queue_tx(now, database.as_ref(), &selected_selection) {
                     Ok((messages, errors)) => {
@@ -353,7 +360,11 @@ fn run_with_connection(
                 Ok(frames) => {
                     got_frames = !frames.is_empty();
                     for frame in frames {
-                        let raw_bus_id = can_thread::decode::raw_frame_bus(database.as_ref(), selected_selection, &frame);
+                        let raw_bus_id = can_thread::decode::raw_frame_bus(
+                            database.as_ref(),
+                            selected_selection,
+                            &frame,
+                        );
                         // Bus ID is 3 bits so 0-7 supported
                         if raw_bus_id <= 7
                             && let Some(logger) = &mut logger
@@ -370,7 +381,11 @@ fn run_with_connection(
                             emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                         }
 
-                        let Some(bus_id) = can_thread::decode::resolve_frame_bus(database.as_ref(), selected_selection, &frame) else {
+                        let Some(bus_id) = can_thread::decode::resolve_frame_bus(
+                            database.as_ref(),
+                            selected_selection,
+                            &frame,
+                        ) else {
                             continue;
                         };
                         load.record_frame(bus_id, frame.data.len(), time::Instant::now());
@@ -378,7 +393,8 @@ fn run_with_connection(
                         let frame = can_thread::decode::decode(
                             database.as_ref(),
                             frame,
-                            bus_id, crate::time::Time::now(),
+                            bus_id,
+                            crate::time::Time::now(),
                         );
                         if !updating {
                             hil.process_parsed(&frame, time::Instant::now());
