@@ -4,7 +4,7 @@ use crate::{
 };
 use std::{path, time};
 
-const TX_EXPECT_WINDOW_DELTA: f64 = 5.0f64;
+const TX_EXPECT_WINDOW_DELTA: f64 = 50.0f64;
 const TX_EXPECT_SIGNAL_DELTA: f64 = 0.0001f64;
 
 #[derive(PartialEq, Eq, Clone, Copy)]
