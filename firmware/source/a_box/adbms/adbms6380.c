@@ -441,8 +441,7 @@ static bool read_register_group(
     adbms6380_t *dev,
     const uint8_t command[ADBMS6380_COMMAND_RAW_SIZE],
     extract_slot_fn_t extract_fn,
-    size_t cmd_idx,
-    void (*recover_cw_write_fn)(adbms6380_t *dev, adbms6380_dir_t dir)
+    size_t cmd_idx
 ) {
     strbuf_clear(&dev->tx_strbuf);
     prepare_command(&dev->tx_strbuf, command);
@@ -460,11 +459,6 @@ static bool read_register_group(
     if (!dev->break_detected) {
         // Newly detected break: wake the CW segment before reading
         wake_dir(dev, ADBMS6380_DIR_CW, remaining);
-        if (recover_cw_write_fn != nullptr) {
-            recover_cw_write_fn(dev, ADBMS6380_DIR_CW);
-            strbuf_clear(&dev->tx_strbuf);
-            prepare_command(&dev->tx_strbuf, command);
-        }
     }
 
     size_t valid_cw   = read_data_dir_with_retries(dev, ADBMS6380_DIR_CW, remaining);
@@ -530,13 +524,24 @@ bool ADBMS6380_verify_rega(adbms6380_t *dev) {
         dev->chips[i].err_rega_mismatch = true;
     }
 
+    bool was_broken  = dev->break_detected;
     bool all_reached = read_register_group(
         dev,
         ADBMS6380_CMD_RDCFGA,
         extract_rega_verify_slot,
-        0U,
-        write_rega_dir
+        0U
     );
+    if (all_reached && !was_broken && dev->break_detected) {
+        // Break was just discovered, so the CW segment never received WRCFGA; write and re-verify
+        write_rega_dir(dev, ADBMS6380_DIR_CW);
+        all_reached = read_register_group(
+            dev,
+            ADBMS6380_CMD_RDCFGA,
+            extract_rega_verify_slot,
+            0U
+        );
+    }
+
     dev->err_rega_pec = !all_reached;
     if (!all_reached) {
         return false;
@@ -566,13 +571,24 @@ bool ADBMS6380_verify_regb(adbms6380_t *dev) {
         dev->chips[i].err_regb_mismatch = true;
     }
 
+    bool was_broken  = dev->break_detected;
     bool all_reached = read_register_group(
         dev,
         ADBMS6380_CMD_RDCFGB,
         extract_regb_verify_slot,
-        0U,
-        write_regb_dir
+        0U
     );
+    if (all_reached && !was_broken && dev->break_detected) {
+        // Break was just discovered, so the CW segment never received WRCFGB; write and re-verify
+        write_regb_dir(dev, ADBMS6380_DIR_CW);
+        all_reached = read_register_group(
+            dev,
+            ADBMS6380_CMD_RDCFGB,
+            extract_regb_verify_slot,
+            0U
+        );
+    }
+
     dev->err_regb_pec = !all_reached;
     if (!all_reached) {
         return false;
@@ -621,8 +637,7 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev) {
             dev,
             RDCV_CMDS[cmd_idx],
             extract_cell_voltage_slot,
-            cmd_idx,
-            nullptr
+            cmd_idx
         );
         dev->err_cell_voltage_pecs[cmd_idx] = !all_reached;
     }
@@ -634,8 +649,7 @@ void ADBMS6380_read_gpio_voltages(adbms6380_t *dev) {
             dev,
             RDAUX_CMDS[cmd_idx],
             extract_gpio_voltage_slot,
-            cmd_idx,
-            nullptr
+            cmd_idx
         );
         dev->err_gpio_voltage_pecs[cmd_idx] = !all_reached;
     }
