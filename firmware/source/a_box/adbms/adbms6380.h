@@ -55,6 +55,9 @@ static constexpr size_t ADBMS6380_SPI_TX_BUFFER_SIZE =
 static constexpr size_t ADBMS6380_SPI_RX_BUFFER_SIZE =
     ADBMS6380_SINGLE_DATA_PKT_SIZE * ADBMS_CHIP_COUNT;
 
+// Magic index reported over CAN when no isoSPI harness break is present.
+static constexpr uint8_t ADBMS6380_NO_BREAK_INDEX = 0x0FU;
+
 /**
  * @brief Configuration parameters for the CFGA register group.
  */
@@ -126,11 +129,13 @@ typedef struct {
 } adbms6380_chip_t;
 
 /**
- * @brief Daisy-chain ADBMS6380 device driver state, SPI transport, buffers, and error flags.
+ * @brief Daisy-chain ADBMS6380 device driver state, SPI transports, buffers, and error flags.
  */
 typedef struct {
-    /** SPI instance used for ADBMS communication (CS control is manual by ADBMS6380 driver). */
-    SPI_InitConfig_t *spi;
+    /** Counter-clockwise SPI instance (Chip 0 -> Chip N-1, manual CS control). */
+    SPI_InitConfig_t *spi_ccw;
+    /** Clockwise SPI instance (Chip N-1 -> Chip 0, manual CS control). */
+    SPI_InitConfig_t *spi_cw;
     /** Scratch TX buffer wrapper for command/data packets. */
     strbuf_t tx_strbuf;
     /** Per-chip device state and raw/converted voltage and temperature readings. */
@@ -149,23 +154,30 @@ typedef struct {
     bool err_rega_pec;
     /** Set when REGB read has a PEC failure. */
     bool err_regb_pec;
+    /**
+     * Number of contiguous chips serviced in the CCW direction (0..ADBMS_CHIP_COUNT).
+     * The remaining (ADBMS_CHIP_COUNT - ccw_chip_count) chips are serviced in the CW direction.
+     */
+    uint8_t ccw_chip_count;
 } adbms6380_t;
 
 /**
- * @brief Initialize the ADBMS6380 device driver instance, SPI buffers, and CS line.
+ * @brief Initialize the ADBMS6380 device driver instance, SPI buffers, and CS lines.
  *
- * Deasserts CS high, initializes the internal TX strbuf, and clears discharge
+ * Deasserts both CS lines high, initializes the internal TX strbuf, and clears discharge
  * and error flags across all chips.
  *
  * @param dev Non-null pointer to device state to initialize.
- * @param spi Non-null SPI configuration used for ADBMS transactions.
+ * @param spi_ccw Non-null CCW SPI configuration.
+ * @param spi_cw Non-null CW SPI configuration.
  */
-void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi);
+void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw);
 
 /**
  * @brief Wake the daisy-chained set of ADBMS6380 devices.
  *
- * Toggles CS with blocking delays to bring each chip out of sleep.
+ * Toggles CS with blocking delay to bring each chip out of sleep/idle.
+ * If the harness break is already known, wakes only the reachable chips in each direction.
  *
  * @param dev Non-null pointer to device state.
  */
@@ -180,7 +192,8 @@ void ADBMS6380_wake(adbms6380_t *dev);
 void ADBMS6380_write_rega(adbms6380_t *dev, const adbms6380_rega_config_t *cfg);
 
 /**
- * @brief Read back REGA from all chips and compare with cached configuration.
+ * @brief Discover the active CCW/CW split point, read back REGA from all chips,
+ * and compare with cached configuration.
  *
  * Sets per-chip mismatch or PEC flags when the read-back fails or does not
  * match the cached REGA data.

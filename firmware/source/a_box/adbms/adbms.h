@@ -79,12 +79,13 @@ typedef struct {
  * @brief Initialize the ADBMS driver instance and underlying ADBMS6380 device chain.
  *
  * Sets the driver state to CONNECTING, clears discharge and error flags,
- * deasserts CS, and configures the internal SPI TX/RX buffers.
+ * deasserts CS on both SPI ports, and configures the internal SPI TX/RX buffers.
  *
  * @param bms Non-null pointer to driver state to initialize.
- * @param spi Non-null SPI configuration used for ADBMS transactions.
+ * @param spi_ccw Non-null CCW SPI configuration.
+ * @param spi_cw Non-null CW SPI configuration.
  */
-void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi);
+void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw);
 
 /**
  * @brief Periodic service routine for connection, measurements, and balancing.
@@ -198,6 +199,16 @@ static inline bool ADBMS_get_cell_voltage_pec_err(const adbms_bms_t *bms, size_t
 /// Check whether a GPIO voltage read command failed PEC
 static inline bool ADBMS_get_gpio_voltage_pec_err(const adbms_bms_t *bms, size_t cmd_idx) {
     return bms->dev.err_gpio_voltage_pecs[cmd_idx];
+}
+
+/// Check whether an isoSPI harness break is currently detected
+static inline bool ADBMS_is_break_detected(const adbms_bms_t *bms) {
+    return bms->dev.ccw_chip_count < ADBMS_CHIP_COUNT;
+}
+
+/// Get the broken isoSPI link index (0..ADBMS_CHIP_COUNT or ADBMS6380_NO_BREAK_INDEX when no break)
+static inline uint8_t ADBMS_get_break_index(const adbms_bms_t *bms) {
+    return ADBMS_is_break_detected(bms) ? bms->dev.ccw_chip_count : ADBMS6380_NO_BREAK_INDEX;
 }
 
 /// Get the current ADBMS driver state
