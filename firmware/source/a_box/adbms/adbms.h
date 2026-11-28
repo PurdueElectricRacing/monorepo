@@ -82,8 +82,8 @@ typedef struct {
  * deasserts CS on both SPI ports, and configures the internal SPI TX/RX buffers.
  *
  * @param bms Non-null pointer to driver state to initialize.
- * @param spi_ccw Non-null CCW SPI configuration (SPI1).
- * @param spi_cw Non-null CW SPI configuration (SPI2).
+ * @param spi_ccw Non-null CCW SPI configuration.
+ * @param spi_cw Non-null CW SPI configuration.
  */
 void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw);
 
@@ -206,7 +206,7 @@ static inline bool ADBMS_is_break_detected(const adbms_bms_t *bms) {
     return bms->dev.ccw_chip_count < ADBMS_CHIP_COUNT;
 }
 
-/// Get the broken isoSPI link index (0..ADBMS_CHIP_COUNT-1, or ADBMS6380_NO_BREAK_INDEX when intact)
+/// Get the broken isoSPI link index (0..ADBMS_CHIP_COUNT or ADBMS6380_NO_BREAK_INDEX when no break)
 static inline uint8_t ADBMS_get_break_index(const adbms_bms_t *bms) {
     return ADBMS_is_break_detected(bms) ? bms->dev.ccw_chip_count : ADBMS6380_NO_BREAK_INDEX;
 }

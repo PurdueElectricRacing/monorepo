@@ -55,7 +55,7 @@ static constexpr size_t ADBMS6380_SPI_TX_BUFFER_SIZE =
 static constexpr size_t ADBMS6380_SPI_RX_BUFFER_SIZE =
     ADBMS6380_SINGLE_DATA_PKT_SIZE * ADBMS_CHIP_COUNT;
 
-// Sentinel break index reported over CAN when no isoSPI harness break is present.
+// Magic index reported over CAN when no isoSPI harness break is present.
 static constexpr uint8_t ADBMS6380_NO_BREAK_INDEX = 0x0FU;
 
 /**
@@ -132,9 +132,9 @@ typedef struct {
  * @brief Daisy-chain ADBMS6380 device driver state, SPI transports, buffers, and error flags.
  */
 typedef struct {
-    /** Counter-clockwise SPI instance (SPI1: Chip 0 -> Chip N-1, manual CS control). */
+    /** Counter-clockwise SPI instance (Chip 0 -> Chip N-1, manual CS control). */
     SPI_InitConfig_t *spi_ccw;
-    /** Clockwise SPI instance (SPI2: Chip N-1 -> Chip 0, manual CS control). */
+    /** Clockwise SPI instance (Chip N-1 -> Chip 0, manual CS control). */
     SPI_InitConfig_t *spi_cw;
     /** Scratch TX buffer wrapper for command/data packets. */
     strbuf_t tx_strbuf;
@@ -155,8 +155,8 @@ typedef struct {
     /** Set when REGB read has a PEC failure. */
     bool err_regb_pec;
     /**
-     * Number of contiguous chips serviced in the CCW (SPI1) direction (0..ADBMS_CHIP_COUNT).
-     * The remaining (ADBMS_CHIP_COUNT - ccw_chip_count) chips are serviced in the CW (SPI2) direction.
+     * Number of contiguous chips serviced in the CCW direction (0..ADBMS_CHIP_COUNT).
+     * The remaining (ADBMS_CHIP_COUNT - ccw_chip_count) chips are serviced in the CW direction.
      */
     uint8_t ccw_chip_count;
 } adbms6380_t;
@@ -168,15 +168,16 @@ typedef struct {
  * and error flags across all chips.
  *
  * @param dev Non-null pointer to device state to initialize.
- * @param spi_ccw Non-null CCW SPI configuration (SPI1).
- * @param spi_cw Non-null CW SPI configuration (SPI2).
+ * @param spi_ccw Non-null CCW SPI configuration.
+ * @param spi_cw Non-null CW SPI configuration.
  */
 void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw);
 
 /**
  * @brief Wake the daisy-chained set of ADBMS6380 devices.
  *
- * Toggles CS with blocking delays to bring each chip out of sleep.
+ * Toggles CS with blocking delay to bring each chip out of sleep/idle.
+ * If the harness break is already known, wakes only the reachable chips in each direction.
  *
  * @param dev Non-null pointer to device state.
  */

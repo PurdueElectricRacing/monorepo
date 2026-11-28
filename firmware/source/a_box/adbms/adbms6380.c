@@ -313,7 +313,7 @@ static void write_rega_spi(adbms6380_t *dev, SPI_InitConfig_t *spi) {
 
 /**
  * @brief Probe the CCW chain during CONNECTING to count how many contiguous chips
- * are reachable from SPI1, and wake/write the remaining CW segment if a break is found.
+ * are reachable in the CCW direction, and wake/write the remaining CW segment if a break is found.
  */
 static void discover_ccw_chip_count(adbms6380_t *dev) {
     strbuf_clear(&dev->tx_strbuf);
