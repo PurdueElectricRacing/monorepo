@@ -23,16 +23,10 @@
 // Number of attempts to retry a read if a PEC failure is detected before continuing.
 static constexpr size_t ADBMS6380_PEC_FAIL_MAX_RETRIES = 3U;
 
-/**
- * @brief Wake pulse duration per CS toggle in milliseconds.
- *
- * Note: usage of this expects the FreeRTOS tick rate to be 1000 Hz (1 tick = 1 ms).
- */
+ // Wake pulse duration per CS toggle in milliseconds.
 static constexpr uint32_t ADBMS6380_WAKE_DELAY_MS = 1U;
 
-/**
- * @brief Delay in milliseconds when reversing isoSPI port direction (> tBLOCK = 10 us max, < tIDLE = 4.3 ms min).
- */
+// Delay in milliseconds when reversing isoSPI port direction.
 static constexpr uint32_t ADBMS6380_PORT_REVERSE_DELAY_MS = 2U;
 
 // 10kOhm voltage divider on the thermistor input.
