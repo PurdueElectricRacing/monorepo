@@ -233,8 +233,7 @@ static void read_spi_packets(
     adbms6380_t *dev,
     SPI_InitConfig_t *spi,
     uint8_t *rx_dest,
-    size_t packet_count,
-    size_t rx_length_per_chip
+    size_t rx_length
 ) {
     set_cs_low(spi);
     PHAL_SPI_transferBlocking(
@@ -247,7 +246,7 @@ static void read_spi_packets(
         spi,
         nullptr,
         rx_dest,
-        (uint16_t)(packet_count * rx_length_per_chip)
+        (uint16_t)rx_length
     );
     set_cs_high(spi);
 }
@@ -255,10 +254,11 @@ static void read_spi_packets(
 static bool read_response(adbms6380_t *dev, size_t rx_length_per_chip) {
     size_t ccw_count = dev->ccw_chip_count;
     size_t cw_count  = ADBMS_CHIP_COUNT - ccw_count;
+    size_t ccw_bytes = ccw_count * rx_length_per_chip;
 
     // Read CCW chips (0 .. ccw_count - 1)
     if (ccw_count > 0U) {
-        read_spi_packets(dev, dev->spi_ccw, dev->rx_buf, ccw_count, rx_length_per_chip);
+        read_spi_packets(dev, dev->spi_ccw, dev->rx_buf, ccw_bytes);
     }
 
     // Read CW chips (N - 1 .. ccw_count) and reverse them into physical order (ccw_count .. N - 1)
@@ -266,8 +266,8 @@ static bool read_response(adbms6380_t *dev, size_t rx_length_per_chip) {
         if (ccw_count > 0U) {
             RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
         }
-        uint8_t *cw_rx_base = &dev->rx_buf[ccw_count * rx_length_per_chip];
-        read_spi_packets(dev, dev->spi_cw, cw_rx_base, cw_count, rx_length_per_chip);
+        uint8_t *cw_rx_base = &dev->rx_buf[ccw_bytes];
+        read_spi_packets(dev, dev->spi_cw, cw_rx_base, cw_count * rx_length_per_chip);
 
         for (size_t i = 0U; i < cw_count / 2U; i++) {
             uint8_t *low  = &dev->rx_buf[(ccw_count + i) * rx_length_per_chip];
@@ -325,8 +325,7 @@ static void discover_ccw_chip_count(adbms6380_t *dev) {
             dev,
             dev->spi_ccw,
             dev->rx_buf,
-            ADBMS_CHIP_COUNT,
-            ADBMS6380_SINGLE_DATA_PKT_SIZE
+            ADBMS_CHIP_COUNT * ADBMS6380_SINGLE_DATA_PKT_SIZE
         );
 
         valid_ccw = 0U;
