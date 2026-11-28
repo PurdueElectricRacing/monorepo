@@ -68,13 +68,6 @@ static const uint8_t *const RDAUX_CMDS[] = {
 };
 static_assert(sizeof(RDAUX_CMDS) / sizeof(RDAUX_CMDS[0]) == ADBMS6380_RDAUX_CMD_COUNT);
 
-typedef void (*extract_slot_fn_t)(
-    adbms6380_t *dev,
-    const uint8_t *slot_data,
-    size_t chip_idx,
-    size_t cmd_idx
-);
-
 static void set_cs_low(SPI_InitConfig_t *spi) {
     PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, false);
 }
@@ -83,20 +76,7 @@ static void set_cs_high(SPI_InitConfig_t *spi) {
     PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, true);
 }
 
-static SPI_InitConfig_t *get_spi(const adbms6380_t *dev, adbms6380_dir_t dir) {
-    return (dir == ADBMS6380_DIR_CCW) ? dev->spi_ccw : dev->spi_cw;
-}
-
-/**
- * @brief Map a daisy-chain response slot index (0 = closest to active SPI port)
- * to the physical chip index (0 = closest to SPI1 / CCW, N-1 = closest to SPI2 / CW).
- */
-static size_t map_slot_to_chip_idx(adbms6380_dir_t dir, size_t slot_idx) {
-    return (dir == ADBMS6380_DIR_CCW) ? slot_idx : ((ADBMS_CHIP_COUNT - 1U) - slot_idx);
-}
-
-static void wake_dir(adbms6380_t *dev, adbms6380_dir_t dir, size_t pulse_count) {
-    SPI_InitConfig_t *spi = get_spi(dev, dir);
+static void wake_spi(SPI_InitConfig_t *spi, size_t pulse_count) {
     for (size_t i = 0U; i < pulse_count; i++) {
         set_cs_low(spi);
         RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
@@ -105,22 +85,24 @@ static void wake_dir(adbms6380_t *dev, adbms6380_dir_t dir, size_t pulse_count) 
     }
 }
 
-static void transfer_tx_dir(adbms6380_t *dev, adbms6380_dir_t dir) {
-    SPI_InitConfig_t *spi = get_spi(dev, dir);
+static void transfer_tx_spi(adbms6380_t *dev, SPI_InitConfig_t *spi) {
     set_cs_low(spi);
     PHAL_SPI_transferBlocking(spi, dev->tx_strbuf.data, nullptr, (uint16_t)dev->tx_strbuf.length);
     set_cs_high(spi);
 }
 
-static void broadcast_cmd(adbms6380_t *dev) {
-    if (dev->reachable_ccw > 0U) {
-        transfer_tx_dir(dev, ADBMS6380_DIR_CCW);
+static void transfer_tx(adbms6380_t *dev) {
+    size_t ccw_count = dev->ccw_chip_count;
+    size_t cw_count  = ADBMS_CHIP_COUNT - ccw_count;
+
+    if (ccw_count > 0U) {
+        transfer_tx_spi(dev, dev->spi_ccw);
     }
-    if (dev->reachable_cw > 0U) {
-        if (dev->reachable_ccw > 0U) {
+    if (cw_count > 0U) {
+        if (ccw_count > 0U) {
             RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
         }
-        transfer_tx_dir(dev, ADBMS6380_DIR_CW);
+        transfer_tx_spi(dev, dev->spi_cw);
     }
 }
 
@@ -247,17 +229,13 @@ static bool check_data_pec(const uint8_t *rx_bytes, size_t rx_len) {
     return calculated_pec == received_pec;
 }
 
-/**
- * @brief Send the prepared command in dev->tx_strbuf on @p dir, clock back all
- * ADBMS_CHIP_COUNT response slots into dev->rx_buf, and return the count of
- * contiguous slots from slot 0 that pass PEC10.
- */
-static size_t read_response_dir(
+static void read_spi_packets(
     adbms6380_t *dev,
-    adbms6380_dir_t dir,
+    SPI_InitConfig_t *spi,
+    uint8_t *rx_dest,
+    size_t packet_count,
     size_t rx_length_per_chip
 ) {
-    SPI_InitConfig_t *spi = get_spi(dev, dir);
     set_cs_low(spi);
     PHAL_SPI_transferBlocking(
         spi,
@@ -265,220 +243,124 @@ static size_t read_response_dir(
         nullptr,
         (uint16_t)ADBMS6380_COMMAND_PKT_SIZE
     );
-    size_t total_rx_length = ADBMS_CHIP_COUNT * rx_length_per_chip;
-    PHAL_SPI_transferBlocking(spi, nullptr, dev->rx_buf, (uint16_t)total_rx_length);
+    PHAL_SPI_transferBlocking(
+        spi,
+        nullptr,
+        rx_dest,
+        (uint16_t)(packet_count * rx_length_per_chip)
+    );
     set_cs_high(spi);
-
-    size_t valid_prefix = 0U;
-    for (size_t slot_idx = 0U; slot_idx < ADBMS_CHIP_COUNT; slot_idx++) {
-        const uint8_t *slot_data = &dev->rx_buf[slot_idx * rx_length_per_chip];
-        if (!check_data_pec(slot_data, rx_length_per_chip)) {
-            break;
-        }
-        valid_prefix++;
-    }
-
-    return valid_prefix;
 }
 
-/**
- * @brief Read response packets on @p dir with retries until at least @p expected_count
- * contiguous chips pass PEC10 (or retries are exhausted).
- */
-static size_t read_data_dir_with_retries(
-    adbms6380_t *dev,
-    adbms6380_dir_t dir,
-    size_t expected_count
-) {
-    size_t valid_count = 0U;
+static bool read_response(adbms6380_t *dev, size_t rx_length_per_chip) {
+    size_t ccw_count = dev->ccw_chip_count;
+    size_t cw_count  = ADBMS_CHIP_COUNT - ccw_count;
+
+    // Read CCW chips (0 .. ccw_count - 1)
+    if (ccw_count > 0U) {
+        read_spi_packets(dev, dev->spi_ccw, dev->rx_buf, ccw_count, rx_length_per_chip);
+    }
+
+    // Read CW chips (N - 1 .. ccw_count) and reverse them into physical order (ccw_count .. N - 1)
+    if (cw_count > 0U) {
+        if (ccw_count > 0U) {
+            RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
+        }
+        uint8_t *cw_rx_base = &dev->rx_buf[ccw_count * rx_length_per_chip];
+        read_spi_packets(dev, dev->spi_cw, cw_rx_base, cw_count, rx_length_per_chip);
+
+        for (size_t i = 0U; i < cw_count / 2U; i++) {
+            uint8_t *low  = &dev->rx_buf[(ccw_count + i) * rx_length_per_chip];
+            uint8_t *high = &dev->rx_buf[(ADBMS_CHIP_COUNT - 1U - i) * rx_length_per_chip];
+            for (size_t b = 0U; b < rx_length_per_chip; b++) {
+                uint8_t tmp = low[b];
+                low[b]      = high[b];
+                high[b]     = tmp;
+            }
+        }
+    }
+
+    // Check PEC for each chip's data packet
+    for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
+        const uint8_t *chip_data = &dev->rx_buf[chip_idx * rx_length_per_chip];
+        if (!check_data_pec(chip_data, rx_length_per_chip)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+static bool read_data_with_retries(adbms6380_t *dev) {
     for (size_t attempt = 0U; attempt < ADBMS6380_PEC_FAIL_MAX_RETRIES; attempt++) {
-        valid_count = read_response_dir(dev, dir, ADBMS6380_SINGLE_DATA_PKT_SIZE);
-        if (valid_count >= expected_count) {
-            return valid_count;
+        if (read_response(dev, ADBMS6380_SINGLE_DATA_PKT_SIZE)) {
+            return true;
         }
+        // Retry on PEC failure
     }
-    return valid_count;
-}
-
-/**
- * @brief Update isoSPI break tracking state from the measured CCW and CW valid chip counts.
- *
- * @return true if all ADBMS_CHIP_COUNT chips in the chain were reached across CCW + CW;
- *         false if one or more chips are unreachable from both ends.
- */
-static bool update_break_state(adbms6380_t *dev, size_t valid_ccw, size_t valid_cw) {
-    if (valid_ccw == ADBMS_CHIP_COUNT) {
-        dev->break_detected = false;
-        dev->break_index    = ADBMS6380_NO_BREAK_INDEX;
-        dev->reachable_ccw  = (uint8_t)ADBMS_CHIP_COUNT;
-        dev->reachable_cw   = 0U;
-        return true;
-    }
-
-    if (valid_ccw + valid_cw >= ADBMS_CHIP_COUNT) {
-        uint8_t split_idx   = (uint8_t)valid_ccw;
-        dev->break_detected = true;
-        dev->break_index    = split_idx;
-        dev->reachable_ccw  = split_idx;
-        dev->reachable_cw   = (uint8_t)(ADBMS_CHIP_COUNT - split_idx);
-        return true;
-    }
-
-    if (!dev->break_detected) {
-        dev->break_detected = true;
-        dev->break_index    = (uint8_t)valid_ccw;
-        dev->reachable_ccw  = (uint8_t)valid_ccw;
-        dev->reachable_cw   = (uint8_t)valid_cw;
-    }
+    // All retries failed due to PEC errors
     return false;
 }
 
-static void write_rega_dir(adbms6380_t *dev, adbms6380_dir_t dir) {
+static void write_rega_spi(adbms6380_t *dev, SPI_InitConfig_t *spi) {
     strbuf_clear(&dev->tx_strbuf);
     prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGA);
-    for (size_t idx = 0U; idx < ADBMS_CHIP_COUNT; idx++) {
+    for (size_t idx = ADBMS_CHIP_COUNT; idx > 0U; idx--) {
         prepare_data_packet(&dev->tx_strbuf, dev->rega);
     }
-    transfer_tx_dir(dev, dir);
-}
-
-static void write_regb_dir(adbms6380_t *dev, adbms6380_dir_t dir) {
-    strbuf_clear(&dev->tx_strbuf);
-    prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGB);
-    if (dir == ADBMS6380_DIR_CCW) {
-        // CCW (SPI1): last packet sent latches into Chip 0 (closest to SPI1)
-        for (size_t idx = ADBMS_CHIP_COUNT; idx > 0U; idx--) {
-            size_t chip_idx = idx - 1U;
-            prepare_data_packet(&dev->tx_strbuf, dev->chips[chip_idx].regb);
-        }
-    } else {
-        // CW (SPI2): last packet sent latches into Chip N-1 (closest to SPI2)
-        for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
-            prepare_data_packet(&dev->tx_strbuf, dev->chips[chip_idx].regb);
-        }
-    }
-    transfer_tx_dir(dev, dir);
-}
-
-static void extract_rega_verify_slot(
-    adbms6380_t *dev,
-    const uint8_t *slot_data,
-    size_t chip_idx,
-    size_t cmd_idx
-) {
-    (void)cmd_idx;
-    dev->chips[chip_idx].err_rega_mismatch =
-        memcmp(slot_data, dev->rega, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
-}
-
-static void extract_regb_verify_slot(
-    adbms6380_t *dev,
-    const uint8_t *slot_data,
-    size_t chip_idx,
-    size_t cmd_idx
-) {
-    (void)cmd_idx;
-    dev->chips[chip_idx].err_regb_mismatch =
-        memcmp(slot_data, dev->chips[chip_idx].regb, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
-}
-
-static void extract_cell_voltage_slot(
-    adbms6380_t *dev,
-    const uint8_t *slot_data,
-    size_t chip_idx,
-    size_t cmd_idx
-) {
-    // First 5 commands read 3 cells, last reads 1 cell = 16 total
-    size_t cells_read            = (cmd_idx < 5U) ? 3U : 1U;
-    size_t cell_in_chip_idx_base = cmd_idx * 3U;
-
-    for (size_t j = 0U; j < cells_read; j++) {
-        size_t cell_idx = cell_in_chip_idx_base + j;
-        if (cell_idx >= ADBMS6380_CELL_COUNT) {
-            break;
-        }
-        int16_t raw = extract_i16(slot_data, j);
-        dev->chips[chip_idx].cell_voltages[cell_idx] = raw_to_v(raw);
-    }
-}
-
-static void extract_gpio_voltage_slot(
-    adbms6380_t *dev,
-    const uint8_t *slot_data,
-    size_t chip_idx,
-    size_t cmd_idx
-) {
-    // AUXA/B/C: 3 GPIOs each, AUXD: GPIO10
-    size_t gpios_read    = (cmd_idx < 3U) ? 3U : 1U;
-    size_t gpio_idx_base = cmd_idx * 3U;
-
-    for (size_t j = 0U; j < gpios_read; j++) {
-        size_t gpio_idx = gpio_idx_base + j;
-        int16_t raw     = extract_i16(slot_data, j);
-        dev->chips[chip_idx].gpio_voltages[gpio_idx] = raw_to_v(raw);
-    }
-}
-
-static void extract_valid_slots(
-    adbms6380_t *dev,
-    adbms6380_dir_t dir,
-    size_t slot_count,
-    extract_slot_fn_t extract_fn,
-    size_t cmd_idx
-) {
-    for (size_t slot_idx = 0U; slot_idx < slot_count; slot_idx++) {
-        const uint8_t *slot_data = &dev->rx_buf[slot_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
-        size_t chip_idx          = map_slot_to_chip_idx(dir, slot_idx);
-        extract_fn(dev, slot_data, chip_idx, cmd_idx);
-    }
+    transfer_tx_spi(dev, spi);
 }
 
 /**
- * @brief Execute a register-group read command starting in CCW (SPI1) and falling back
- * to CW (SPI2) for any remaining chips when a break is present.
+ * @brief Probe the CCW chain during CONNECTING to count how many contiguous chips
+ * are reachable from SPI1, and wake/write the remaining CW segment if a break is found.
  */
-static bool read_register_group(
-    adbms6380_t *dev,
-    const uint8_t command[ADBMS6380_COMMAND_RAW_SIZE],
-    extract_slot_fn_t extract_fn,
-    size_t cmd_idx
-) {
+static void discover_ccw_chip_count(adbms6380_t *dev) {
     strbuf_clear(&dev->tx_strbuf);
-    prepare_command(&dev->tx_strbuf, command);
+    prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_RDCFGA);
 
-    size_t valid_ccw = read_data_dir_with_retries(dev, ADBMS6380_DIR_CCW, dev->reachable_ccw);
-    extract_valid_slots(dev, ADBMS6380_DIR_CCW, valid_ccw, extract_fn, cmd_idx);
+    size_t valid_ccw = 0U;
+    for (size_t attempt = 0U; attempt < ADBMS6380_PEC_FAIL_MAX_RETRIES; attempt++) {
+        read_spi_packets(
+            dev,
+            dev->spi_ccw,
+            dev->rx_buf,
+            ADBMS_CHIP_COUNT,
+            ADBMS6380_SINGLE_DATA_PKT_SIZE
+        );
 
-    if (valid_ccw == ADBMS_CHIP_COUNT) {
-        return update_break_state(dev, valid_ccw, 0U);
+        valid_ccw = 0U;
+        for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+            const uint8_t *chip_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+            if (!check_data_pec(chip_data, ADBMS6380_SINGLE_DATA_PKT_SIZE)) {
+                break;
+            }
+            valid_ccw++;
+        }
+
+        if (valid_ccw >= dev->ccw_chip_count) {
+            break;
+        }
     }
 
-    size_t remaining = ADBMS_CHIP_COUNT - valid_ccw;
-    RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
-
-    if (!dev->break_detected) {
-        // Newly detected break: wake the CW segment before reading
-        wake_dir(dev, ADBMS6380_DIR_CW, remaining);
+    if (valid_ccw < dev->ccw_chip_count) {
+        // More chips now lie on the CW side of the break: wake and write REGA to CW
+        size_t cw_count = ADBMS_CHIP_COUNT - valid_ccw;
+        RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
+        wake_spi(dev->spi_cw, cw_count);
+        write_rega_spi(dev, dev->spi_cw);
     }
 
-    size_t valid_cw   = read_data_dir_with_retries(dev, ADBMS6380_DIR_CW, remaining);
-    size_t extract_cw = (valid_cw > remaining) ? remaining : valid_cw;
-    extract_valid_slots(dev, ADBMS6380_DIR_CW, extract_cw, extract_fn, cmd_idx);
-
-    return update_break_state(dev, valid_ccw, valid_cw);
+    dev->ccw_chip_count = (uint8_t)valid_ccw;
 }
 
 void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw) {
-    *dev         = (adbms6380_t){0};
-    dev->spi_ccw = spi_ccw;
-    dev->spi_cw  = spi_cw;
+    *dev                = (adbms6380_t){0};
+    dev->spi_ccw        = spi_ccw;
+    dev->spi_cw         = spi_cw;
+    dev->ccw_chip_count = (uint8_t)ADBMS_CHIP_COUNT;
     set_cs_high(dev->spi_ccw);
     set_cs_high(dev->spi_cw);
-
-    dev->break_detected = false;
-    dev->break_index    = ADBMS6380_NO_BREAK_INDEX;
-    dev->reachable_ccw  = (uint8_t)ADBMS_CHIP_COUNT;
-    dev->reachable_cw   = 0U;
 
     dev->tx_strbuf = (strbuf_t){
         .data    = dev->tx_buf,
@@ -488,65 +370,45 @@ void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_
 }
 
 void ADBMS6380_wake(adbms6380_t *dev) {
-    size_t ccw_pulses = dev->reachable_ccw;
-    size_t cw_pulses  = dev->reachable_cw;
-    if (ccw_pulses + cw_pulses < ADBMS_CHIP_COUNT) {
-        ccw_pulses = ADBMS_CHIP_COUNT;
-        cw_pulses  = ADBMS_CHIP_COUNT;
-    }
+    size_t ccw_count = dev->ccw_chip_count;
+    size_t cw_count  = ADBMS_CHIP_COUNT - ccw_count;
 
-    if (ccw_pulses > 0U) {
-        wake_dir(dev, ADBMS6380_DIR_CCW, ccw_pulses);
+    if (ccw_count > 0U) {
+        wake_spi(dev->spi_ccw, ccw_count);
     }
-    if (cw_pulses > 0U) {
-        if (ccw_pulses > 0U) {
+    if (cw_count > 0U) {
+        if (ccw_count > 0U) {
             RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
         }
-        wake_dir(dev, ADBMS6380_DIR_CW, cw_pulses);
+        wake_spi(dev->spi_cw, cw_count);
     }
 }
 
 void ADBMS6380_write_rega(adbms6380_t *dev, const adbms6380_rega_config_t *cfg) {
     pack_cfg_rega(dev->rega, cfg);
-    if (dev->reachable_ccw > 0U) {
-        write_rega_dir(dev, ADBMS6380_DIR_CCW);
-    }
-    if (dev->reachable_cw > 0U) {
-        if (dev->reachable_ccw > 0U) {
-            RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
-        }
-        write_rega_dir(dev, ADBMS6380_DIR_CW);
+    write_rega_spi(dev, dev->spi_ccw);
+    if (dev->ccw_chip_count < ADBMS_CHIP_COUNT) {
+        RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
+        write_rega_spi(dev, dev->spi_cw);
     }
 }
 
 bool ADBMS6380_verify_rega(adbms6380_t *dev) {
-    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
-        dev->chips[i].err_rega_mismatch = true;
-    }
+    discover_ccw_chip_count(dev);
 
-    bool was_broken  = dev->break_detected;
-    bool all_reached = read_register_group(
-        dev,
-        ADBMS6380_CMD_RDCFGA,
-        extract_rega_verify_slot,
-        0U
-    );
-    if (all_reached && !was_broken && dev->break_detected) {
-        // Break was just discovered, so the CW segment never received WRCFGA; write and re-verify
-        write_rega_dir(dev, ADBMS6380_DIR_CW);
-        all_reached = read_register_group(
-            dev,
-            ADBMS6380_CMD_RDCFGA,
-            extract_rega_verify_slot,
-            0U
-        );
-    }
-
-    dev->err_rega_pec = !all_reached;
-    if (!all_reached) {
+    strbuf_clear(&dev->tx_strbuf);
+    prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_RDCFGA);
+    if (!read_data_with_retries(dev)) {
+        dev->err_rega_pec = true;
         return false;
     }
+    dev->err_rega_pec = false;
 
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        const uint8_t *chip_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        dev->chips[i].err_rega_mismatch =
+            memcmp(chip_data, dev->rega, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
+    }
     return !ADBMS6380_has_rega_mismatch(dev);
 }
 
@@ -555,45 +417,46 @@ void ADBMS6380_write_regb(adbms6380_t *dev, const adbms6380_regb_config_t *cfg) 
         pack_cfg_regb(dev->chips[chip_idx].regb, cfg, dev->chips[chip_idx].is_discharging);
     }
 
-    if (dev->reachable_ccw > 0U) {
-        write_regb_dir(dev, ADBMS6380_DIR_CCW);
+    size_t ccw_count = dev->ccw_chip_count;
+    size_t cw_count  = ADBMS_CHIP_COUNT - ccw_count;
+
+    if (ccw_count > 0U) {
+        strbuf_clear(&dev->tx_strbuf);
+        prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGB);
+        for (size_t idx = ccw_count; idx > 0U; idx--) {
+            size_t chip_idx = idx - 1U;
+            prepare_data_packet(&dev->tx_strbuf, dev->chips[chip_idx].regb);
+        }
+        transfer_tx_spi(dev, dev->spi_ccw);
     }
-    if (dev->reachable_cw > 0U) {
-        if (dev->reachable_ccw > 0U) {
+
+    if (cw_count > 0U) {
+        if (ccw_count > 0U) {
             RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
         }
-        write_regb_dir(dev, ADBMS6380_DIR_CW);
+        strbuf_clear(&dev->tx_strbuf);
+        prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGB);
+        for (size_t chip_idx = ccw_count; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
+            prepare_data_packet(&dev->tx_strbuf, dev->chips[chip_idx].regb);
+        }
+        transfer_tx_spi(dev, dev->spi_cw);
     }
 }
 
 bool ADBMS6380_verify_regb(adbms6380_t *dev) {
-    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
-        dev->chips[i].err_regb_mismatch = true;
-    }
-
-    bool was_broken  = dev->break_detected;
-    bool all_reached = read_register_group(
-        dev,
-        ADBMS6380_CMD_RDCFGB,
-        extract_regb_verify_slot,
-        0U
-    );
-    if (all_reached && !was_broken && dev->break_detected) {
-        // Break was just discovered, so the CW segment never received WRCFGB; write and re-verify
-        write_regb_dir(dev, ADBMS6380_DIR_CW);
-        all_reached = read_register_group(
-            dev,
-            ADBMS6380_CMD_RDCFGB,
-            extract_regb_verify_slot,
-            0U
-        );
-    }
-
-    dev->err_regb_pec = !all_reached;
-    if (!all_reached) {
+    strbuf_clear(&dev->tx_strbuf);
+    prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_RDCFGB);
+    if (!read_data_with_retries(dev)) {
+        dev->err_regb_pec = true;
         return false;
     }
+    dev->err_regb_pec = false;
 
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        const uint8_t *chip_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        dev->chips[i].err_regb_mismatch =
+            memcmp(chip_data, dev->chips[i].regb, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
+    }
     return !ADBMS6380_has_regb_mismatch(dev);
 }
 
@@ -620,7 +483,7 @@ void ADBMS6380_start_adcv(adbms6380_t *dev, const adbms6380_adcv_config_t *cfg) 
     uint8_t adcv_cmd[ADBMS6380_COMMAND_RAW_SIZE] = {0};
     encode_adcv(adcv_cmd, cfg);
     prepare_command(&dev->tx_strbuf, adcv_cmd);
-    broadcast_cmd(dev);
+    transfer_tx(dev);
 }
 
 void ADBMS6380_start_adax(adbms6380_t *dev, const adbms6380_adax_config_t *cfg) {
@@ -628,30 +491,65 @@ void ADBMS6380_start_adax(adbms6380_t *dev, const adbms6380_adax_config_t *cfg) 
     uint8_t adax_cmd[ADBMS6380_COMMAND_RAW_SIZE] = {0};
     encode_adax(adax_cmd, cfg);
     prepare_command(&dev->tx_strbuf, adax_cmd);
-    broadcast_cmd(dev);
+    transfer_tx(dev);
 }
 
 void ADBMS6380_read_cell_voltages(adbms6380_t *dev) {
     for (size_t cmd_idx = 0U; cmd_idx < countof(RDCV_CMDS); cmd_idx++) {
-        bool all_reached = read_register_group(
-            dev,
-            RDCV_CMDS[cmd_idx],
-            extract_cell_voltage_slot,
-            cmd_idx
-        );
-        dev->err_cell_voltage_pecs[cmd_idx] = !all_reached;
+        strbuf_clear(&dev->tx_strbuf);
+        prepare_command(&dev->tx_strbuf, RDCV_CMDS[cmd_idx]);
+
+        if (!read_data_with_retries(dev)) {
+            // Skip to the next command, marking that values were not updated for this set of cells
+            dev->err_cell_voltage_pecs[cmd_idx] = true;
+            continue;
+        }
+        dev->err_cell_voltage_pecs[cmd_idx] = false;
+
+        // First 5 commands read 3 cells, last reads 1 cell = 16 total
+        size_t cells_read            = (cmd_idx < 5U) ? 3U : 1U;
+        size_t cell_in_chip_idx_base = cmd_idx * 3U;
+
+        // Data comes back in receive order: chip 0, chip 1, ..., chip N-1
+        for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
+            const uint8_t *chip_data = &dev->rx_buf[chip_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+            for (size_t j = 0U; j < cells_read; j++) {
+                size_t cell_idx = cell_in_chip_idx_base + j;
+                if (cell_idx >= ADBMS6380_CELL_COUNT) {
+                    break; // safety check
+                }
+                int16_t raw = extract_i16(chip_data, j);
+                dev->chips[chip_idx].cell_voltages[cell_idx] = raw_to_v(raw);
+            }
+        }
     }
 }
 
 void ADBMS6380_read_gpio_voltages(adbms6380_t *dev) {
     for (size_t cmd_idx = 0U; cmd_idx < countof(RDAUX_CMDS); cmd_idx++) {
-        bool all_reached = read_register_group(
-            dev,
-            RDAUX_CMDS[cmd_idx],
-            extract_gpio_voltage_slot,
-            cmd_idx
-        );
-        dev->err_gpio_voltage_pecs[cmd_idx] = !all_reached;
+        strbuf_clear(&dev->tx_strbuf);
+        prepare_command(&dev->tx_strbuf, RDAUX_CMDS[cmd_idx]);
+
+        if (!read_data_with_retries(dev)) {
+            // Skip to the next command, marking that values were not updated for this set of GPIOs
+            dev->err_gpio_voltage_pecs[cmd_idx] = true;
+            continue;
+        }
+        dev->err_gpio_voltage_pecs[cmd_idx] = false;
+
+        // AUXA/B/C: 3 GPIOs each, AUXD: GPIO10
+        size_t gpios_read    = (cmd_idx < 3U) ? 3U : 1U;
+        size_t gpio_idx_base = cmd_idx * 3U;
+
+        // Data comes back in receive order: chip 0, chip 1, ..., chip N-1
+        for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
+            const uint8_t *chip_data = &dev->rx_buf[chip_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+            for (size_t j = 0U; j < gpios_read; j++) {
+                size_t gpio_idx = gpio_idx_base + j;
+                int16_t raw     = extract_i16(chip_data, j);
+                dev->chips[chip_idx].gpio_voltages[gpio_idx] = raw_to_v(raw);
+            }
+        }
     }
 }
 

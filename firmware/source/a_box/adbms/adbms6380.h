@@ -55,16 +55,8 @@ static constexpr size_t ADBMS6380_SPI_TX_BUFFER_SIZE =
 static constexpr size_t ADBMS6380_SPI_RX_BUFFER_SIZE =
     ADBMS6380_SINGLE_DATA_PKT_SIZE * ADBMS_CHIP_COUNT;
 
-// Magic index reported over CAN when no isoSPI harness break is present.
+// Sentinel break index reported over CAN when no isoSPI harness break is present.
 static constexpr uint8_t ADBMS6380_NO_BREAK_INDEX = 0x0FU;
-
-/**
- * @brief Communication direction along the reversible isoSPI daisy chain.
- */
-typedef enum : uint8_t {
-    ADBMS6380_DIR_CCW = 0, // SPI1 (Chip 0 -> Chip N-1)
-    ADBMS6380_DIR_CW  = 1, // SPI2 (Chip N-1 -> Chip 0)
-} adbms6380_dir_t;
 
 /**
  * @brief Configuration parameters for the CFGA register group.
@@ -158,37 +150,33 @@ typedef struct {
     bool err_cell_voltage_pecs[ADBMS6380_RDCV_CMD_COUNT];
     /** Per-command PEC error flags for GPIO voltage reads. */
     bool err_gpio_voltage_pecs[ADBMS6380_RDAUX_CMD_COUNT];
-    /** Set when REGA read has an unrecoverable PEC failure. */
+    /** Set when REGA read has a PEC failure. */
     bool err_rega_pec;
-    /** Set when REGB read has an unrecoverable PEC failure. */
+    /** Set when REGB read has a PEC failure. */
     bool err_regb_pec;
-    /** True when a harness break is detected in the isoSPI daisy chain. */
-    bool break_detected;
-    /** Broken isoSPI link index (0..ADBMS_CHIP_COUNT or ADBMS6380_NO_BREAK_INDEX when no break). */
-    uint8_t break_index;
-    /** Number of contiguous chips reachable in the CCW direction. */
-    uint8_t reachable_ccw;
-    /** Number of contiguous chips reachable in the CW direction. */
-    uint8_t reachable_cw;
+    /**
+     * Number of contiguous chips serviced in the CCW (SPI1) direction (0..ADBMS_CHIP_COUNT).
+     * The remaining (ADBMS_CHIP_COUNT - ccw_chip_count) chips are serviced in the CW (SPI2) direction.
+     */
+    uint8_t ccw_chip_count;
 } adbms6380_t;
 
 /**
- * @brief Initialize the ADBMS6380 device driver instance, dual SPI buffers, and CS lines.
+ * @brief Initialize the ADBMS6380 device driver instance, SPI buffers, and CS lines.
  *
- * Deasserts both CS lines high, initializes the internal TX strbuf, and clears discharge,
- * break, and error flags across all chips.
+ * Deasserts both CS lines high, initializes the internal TX strbuf, and clears discharge
+ * and error flags across all chips.
  *
  * @param dev Non-null pointer to device state to initialize.
- * @param spi_ccw Non-null CCW SPI configuration.
- * @param spi_cw Non-null CW SPI configuration.
+ * @param spi_ccw Non-null CCW SPI configuration (SPI1).
+ * @param spi_cw Non-null CW SPI configuration (SPI2).
  */
 void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw);
 
 /**
  * @brief Wake the daisy-chained set of ADBMS6380 devices.
  *
- * Toggles CS with blocking delay to bring each chip out of sleep/idle.
- * If the harness break is already known, wakes only the reachable chips in each direction.
+ * Toggles CS with blocking delays to bring each chip out of sleep.
  *
  * @param dev Non-null pointer to device state.
  */
@@ -203,12 +191,14 @@ void ADBMS6380_wake(adbms6380_t *dev);
 void ADBMS6380_write_rega(adbms6380_t *dev, const adbms6380_rega_config_t *cfg);
 
 /**
- * @brief Read back REGA from all chips and compare with cached configuration.
+ * @brief Discover the active CCW/CW split point, read back REGA from all chips,
+ * and compare with cached configuration.
  *
- * Automatically falls back to dual-direction split mode if a single harness break is encountered.
+ * Sets per-chip mismatch or PEC flags when the read-back fails or does not
+ * match the cached REGA data.
  *
  * @param dev Non-null pointer to device state.
- * @return false on unrecoverable PEC error or when there is a mismatch; true otherwise.
+ * @return false on PEC error or when there is a mismatch; true otherwise.
  */
 bool ADBMS6380_verify_rega(adbms6380_t *dev);
 
@@ -223,11 +213,11 @@ void ADBMS6380_write_regb(adbms6380_t *dev, const adbms6380_regb_config_t *cfg);
 /**
  * @brief Read back REGB from all chips and compare with cached configuration.
  *
- * Automatically falls back to dual-direction split mode if a single harness break is encountered,
- * and clears break state if a previously broken link heals.
+ * Sets per-chip mismatch or PEC flags when the read-back fails or does not
+ * match the cached REGB data.
  *
  * @param dev Non-null pointer to device state.
- * @return false on unrecoverable PEC error or when there is a mismatch; true otherwise.
+ * @return false on PEC error or when there is a mismatch; true otherwise.
  */
 bool ADBMS6380_verify_regb(adbms6380_t *dev);
 
@@ -267,8 +257,9 @@ void ADBMS6380_start_adax(adbms6380_t *dev, const adbms6380_adax_config_t *cfg);
  * @brief Read all cell voltages from each chip.
  *
  * Converts raw values to volts and populates each chip's @ref cell_voltages array.
- * If a single harness break is present, reads the remaining chips from the opposite
- * isoSPI port within the same cycle.
+ * If any command fails with a PEC error after retries, the successfully read
+ * cell voltages are still updated and the corresponding flag in
+ * @ref err_cell_voltage_pecs is set.
  *
  * @param dev Non-null pointer to device state.
  */
@@ -278,8 +269,9 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev);
  * @brief Read all GPIO/aux voltages from each chip.
  *
  * Converts raw values to volts and populates each chip's @ref gpio_voltages array.
- * If a single harness break is present, reads the remaining chips from the opposite
- * isoSPI port within the same cycle.
+ * If any command fails with a PEC error after retries, the successfully read
+ * GPIO voltages are still updated and the corresponding flag in
+ * @ref err_gpio_voltage_pecs is set.
  *
  * @param dev Non-null pointer to device state.
  */

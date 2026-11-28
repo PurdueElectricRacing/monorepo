@@ -203,12 +203,12 @@ static inline bool ADBMS_get_gpio_voltage_pec_err(const adbms_bms_t *bms, size_t
 
 /// Check whether an isoSPI harness break is currently detected
 static inline bool ADBMS_is_break_detected(const adbms_bms_t *bms) {
-    return bms->dev.break_detected;
+    return bms->dev.ccw_chip_count < ADBMS_CHIP_COUNT;
 }
 
-/// Get the broken isoSPI link index (0..ADBMS_CHIP_COUNT or ADBMS6380_NO_BREAK_INDEX when no break)
+/// Get the broken isoSPI link index (0..ADBMS_CHIP_COUNT-1, or ADBMS6380_NO_BREAK_INDEX when intact)
 static inline uint8_t ADBMS_get_break_index(const adbms_bms_t *bms) {
-    return bms->dev.break_index;
+    return ADBMS_is_break_detected(bms) ? bms->dev.ccw_chip_count : ADBMS6380_NO_BREAK_INDEX;
 }
 
 /// Get the current ADBMS driver state
