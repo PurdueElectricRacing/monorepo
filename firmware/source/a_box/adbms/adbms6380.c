@@ -23,7 +23,7 @@
 // Number of attempts to retry a read if a PEC failure is detected before continuing.
 static constexpr size_t ADBMS6380_PEC_FAIL_MAX_RETRIES = 3U;
 
- // Wake pulse duration per CS toggle in milliseconds.
+// Wake pulse duration per CS toggle in milliseconds.
 static constexpr uint32_t ADBMS6380_WAKE_DELAY_MS = 1U;
 
 // Delay in milliseconds when reversing isoSPI port direction.
@@ -305,10 +305,8 @@ static void write_rega_spi(adbms6380_t *dev, SPI_InitConfig_t *spi) {
     transfer_tx_spi(dev, spi);
 }
 
-/**
- * @brief Probe the CCW chain during CONNECTING to count how many contiguous chips
- * are reachable in the CCW direction, and wake/write the remaining CW segment if a break is found.
- */
+// Probe the CCW chain during CONNECTING to count how many contiguous chips
+// are reachable in the CCW direction, and wake/write the remaining CW segment if a break is found.
 static void discover_ccw_chip_count(adbms6380_t *dev) {
     strbuf_clear(&dev->tx_strbuf);
     prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_RDCFGA);
